@@ -11,7 +11,7 @@
     "lint": "yarn workspaces run lint",
     "dev:server": "cd packages/server && yarn start:dev",
     "dev:web": "cd packages/web && yarn dev",
-    "dev:mobile": "cd packages/mobile && yarn dev"
+    "dev:mobile": "cd packages/mobile && yarn start"
   },
   "repository": {
     "type": "git",
