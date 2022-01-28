@@ -13,16 +13,6 @@
     "type": "git",
     "url": "git+https://github.com/Kokopelli84/parkpal.git"
   },
-  "keywords": [
-    "codeworks",
-    "smart",
-    "parking",
-    "bootcamp",
-    "graphql",
-    "nextjs",
-    "nextjs",
-    "react"
-  ],
   "author": "",
   "license": "MIT",
   "bugs": {
@@ -36,5 +26,15 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
-  }
+  },
+  "keywords": [
+    "codeworks",
+    "smart",
+    "parking",
+    "bootcamp",
+    "graphql",
+    "nextjs",
+    "nextjs",
+    "react"
+  ]
 }
