@@ -1,0 +1,28 @@
+{
+  "name": "parkpal",
+  "version": "1.0.0",
+  "description": "Parkpal monorepo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kokopelli84/parkpal.git"
+  },
+  "keywords": [
+    "codeworks",
+    "smart",
+    "parking",
+    "bootcamp",
+    "graphql",
+    "nextjs",
+    "react"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Kokopelli84/parkpal/issues"
+  },
+  "homepage": "https://github.com/Kokopelli84/parkpal#readme"
+}
