@@ -1,14 +1,14 @@
 {
   "name": "@parkpal/mobile",
   "version": "0.0.1",
-  "main": "node_modules/expo/AppEntry.js",
+  "main": "index.ts",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "lint": "eslint . --ext .ts --ext .tsx"
+    "lint": "eslint ./src --ext .ts --ext .tsx"
   },
   "dependencies": {
     "expo": "~44.0.0",
