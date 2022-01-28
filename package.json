@@ -1,10 +1,13 @@
 {
   "name": "parkpal",
-  "version": "1.0.0",
+  "private": true,
+  "version": "0.0.1",
   "description": "Parkpal monorepo",
-  "main": "index.js",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "commit": "cz"
   },
   "repository": {
     "type": "git",
@@ -17,6 +20,7 @@
     "bootcamp",
     "graphql",
     "nextjs",
+    "nextjs",
     "react"
   ],
   "author": "",
@@ -24,5 +28,13 @@
   "bugs": {
     "url": "https://github.com/Kokopelli84/parkpal/issues"
   },
-  "homepage": "https://github.com/Kokopelli84/parkpal#readme"
+  "homepage": "https://github.com/Kokopelli84/parkpal#readme",
+  "devDependencies": {
+    "cz-conventional-changelog": "^3.3.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
 }
