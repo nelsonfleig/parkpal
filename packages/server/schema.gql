@@ -2,19 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Todo {
-  id: ID!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  title: String!
-  completed: Boolean!
-}
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
 type User {
   id: ID!
   createdAt: DateTime!
@@ -23,10 +10,15 @@ type User {
   lastName: String!
   email: String!
   password: String!
-  phone: String!
+  phone: String
   roles: [Role!]!
   bankInfo: String
 }
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
 enum Role {
   USER
@@ -34,8 +26,28 @@ enum Role {
   ADMIN
 }
 
+type AuthResponse {
+  accessToken: String!
+  user: User!
+}
+
+type Todo {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  title: String!
+  completed: Boolean!
+}
+
 type Query {
-  findUsers: [User!]!
+  """Get logged in user"""
+  me: User
+
+  """List all Users"""
+  findAllUsers: [User!]!
+
+  """Find one User"""
+  findOneUser(id: ID!): User!
 
   """List all Todos"""
   findAllTodos: [Todo!]!
@@ -45,6 +57,24 @@ type Query {
 }
 
 type Mutation {
+  """Login user"""
+  login(input: LoginInput!): AuthResponse!
+
+  """Register user"""
+  register(input: RegisterInput!): User!
+
+  """Logout user"""
+  logout: Boolean!
+
+  """Create User"""
+  createUser(input: UserInput!): User!
+
+  """Update User"""
+  updateUser(input: UserInput!, id: ID!): User!
+
+  """Delete User"""
+  deleteUser(id: ID!): User!
+
   """Create Todo"""
   createTodo(input: TodoInput!): Todo!
 
@@ -53,6 +83,25 @@ type Mutation {
 
   """Delete Todo"""
   deleteTodo(id: ID!): Todo!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input RegisterInput {
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+}
+
+input UserInput {
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
 }
 
 input TodoInput {
