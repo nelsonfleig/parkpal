@@ -5,6 +5,8 @@ import { GraphQLError, GraphQLFormattedError } from 'graphql';
 import { AuthModule } from 'src/auth/auth.module';
 import { Ctx } from 'src/common/types/context.type';
 import { ExampleModule } from 'src/example/example.module';
+import { ParkingSpotModule } from 'src/parking-spot/parking-spot.module';
+import { ReservationModule } from 'src/reservation/reservation.module';
 import { UserModule } from 'src/user/user.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -35,7 +37,10 @@ import { AppService } from './app.service';
       },
     }),
     AuthModule,
+
     UserModule,
+    ReservationModule,
+    ParkingSpotModule,
     ExampleModule,
   ],
   controllers: [AppController],

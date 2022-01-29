@@ -13,5 +13,6 @@ module.exports = {
     '@typescript-eslint/no-use-before-define': 'off',
     'react/style-prop-object': 'off',
     '@next/next/no-html-link-for-pages': 'off',
+    'import/no-extraneous-dependencies': 'off',
   },
 };
