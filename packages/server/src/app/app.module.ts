@@ -3,6 +3,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLError, GraphQLFormattedError } from 'graphql';
 import { ExampleModule } from 'src/example/example.module';
+import { UserModule } from 'src/user/user.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -28,6 +29,7 @@ import { AppService } from './app.service';
         return graphQLFormattedError;
       },
     }),
+    UserModule,
     ExampleModule,
   ],
   controllers: [AppController],
