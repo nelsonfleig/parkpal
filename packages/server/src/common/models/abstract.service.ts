@@ -40,6 +40,6 @@ export abstract class AbstractService<T> {
     if (res.affected) {
       return true;
     }
-    throw new Error('Not found');
+    throw new GraphQLError('Not found');
   }
 }
