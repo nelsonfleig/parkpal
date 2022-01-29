@@ -36,14 +36,23 @@ enum Role {
 
 type Query {
   findUsers: [User!]!
-  findTodos: [Todo!]!
-  findOneTodo(id: ID!): [Todo!]!
+
+  """List all Todos"""
+  findAllTodos: [Todo!]!
+
+  """Find one Todo"""
+  findOneTodo(id: ID!): Todo!
 }
 
 type Mutation {
+  """Create Todo"""
   createTodo(input: TodoInput!): Todo!
+
+  """Update Todo"""
   updateTodo(input: TodoInput!, id: ID!): Todo!
-  deleteTodo(id: ID!): Boolean!
+
+  """Delete Todo"""
+  deleteTodo(id: ID!): Todo!
 }
 
 input TodoInput {
