@@ -15,6 +15,35 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type Complain {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  description: String!
+  pictureUrl: String!
+  user: User!
+  complain: ParkingSpot!
+}
+
+type Reservation {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  reservedDate: String!
+  duration: Float!
+  amount: Float!
+  stripeChargeId: String
+  status: [ReservationStatus!]!
+  user: User!
+  parkingSpot: ParkingSpot!
+}
+
+enum ReservationStatus {
+  RESERVED
+  ONGOING
+  FINISHED
+}
+
 type User {
   id: ID!
   createdAt: DateTime!
@@ -24,14 +53,31 @@ type User {
   email: String!
   password: String!
   phone: String!
+  pictureUrl: String!
   roles: [Role!]!
+  reservations: [Reservation!]
+  complains: [Complain!]
   bankInfo: String
+  parkingSpots: [ParkingSpot!]
 }
 
 enum Role {
   USER
   RENTER
   ADMIN
+}
+
+type ParkingSpot {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  latitude: Float!
+  longitude: Float!
+  price: Float!
+  picture_url: String!
+  user: User!
+  reservations: [Reservation!]!
+  complains: User!
 }
 
 type Query {
