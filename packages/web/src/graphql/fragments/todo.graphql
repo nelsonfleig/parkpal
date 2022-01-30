@@ -1,0 +1,5 @@
+fragment TodoExcerpt on Todo {
+  id
+  title
+  completed
+}
