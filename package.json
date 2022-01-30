@@ -49,5 +49,8 @@
     "nextjs",
     "nextjs",
     "react"
+  ],
+  "assets": [
+    "fonts"
   ]
 }
