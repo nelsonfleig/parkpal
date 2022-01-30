@@ -29,8 +29,8 @@ export class User extends AbstractEntity {
   @Column({ nullable: true })
   phone: string;
 
-  @Field()
-  @Column()
+  @Field({ nullable: true })
+  @Column({ nullable: true })
   pictureUrl: string;
 
   @Field(() => [Role])
