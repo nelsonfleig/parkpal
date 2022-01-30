@@ -21,5 +21,5 @@ export class Complain extends AbstractEntity {
 
   @Field(() => ParkingSpot)
   @ManyToOne(() => ParkingSpot, (parkingSpot) => parkingSpot.complains)
-  complain: ParkingSpot;
+  parkingSpot: ParkingSpot;
 }

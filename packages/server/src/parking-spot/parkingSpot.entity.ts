@@ -35,7 +35,7 @@ export class ParkingSpot extends AbstractEntity {
   reservations: Reservation[];
 
   @Field(() => User)
-  @OneToMany(() => Complain, (complain) => complain.complain, {
+  @OneToMany(() => Complain, (complain) => complain.parkingSpot, {
     nullable: true,
   })
   complains: Complain[];
