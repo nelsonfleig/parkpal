@@ -2,6 +2,7 @@ import { Field, ObjectType } from '@nestjs/graphql';
 import { Role } from 'src/common/constants/role.enum';
 import { AbstractEntity } from 'src/common/models/abstract.entity';
 import { Complain } from 'src/complain/complain.entity';
+import { Todo } from 'src/example/todo.entity';
 import { ParkingSpot } from 'src/parking-spot/parkingSpot.entity';
 import { Reservation } from 'src/reservation/reservation.entity';
 import { Column, Entity, OneToMany } from 'typeorm';
@@ -58,4 +59,9 @@ export class User extends AbstractEntity {
     nullable: true,
   })
   parkingSpots: ParkingSpot[];
+
+  ////////////// TEST FIELD FOR DATA LOADER  /////////////////
+  @Field(() => [Todo], { nullable: true })
+  @OneToMany(() => Todo, (todos) => todos.user, { nullable: true })
+  todos: Todo[];
 }
