@@ -46,7 +46,7 @@ type Complain {
   description: String!
   pictureUrl: String!
   user: User!
-  complain: ParkingSpot!
+  parkingSpot: ParkingSpot!
 }
 
 type Todo {
