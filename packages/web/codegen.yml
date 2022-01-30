@@ -1,0 +1,17 @@
+overwrite: true
+schema: 'http://localhost:5000/graphql'
+documents: 'src/graphql/**/*.graphql'
+
+generates:
+  src/graphql/__generated__/index.tsx:
+    config:
+      reactApolloVersion: 3
+      withHooks: true
+    plugins:
+      - add:
+          content: '// THIS IS A GENERATED FILE, use `yarn codegen` to regenerate'
+      - add:
+          content: '/* eslint-disable */'
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-react-apollo'

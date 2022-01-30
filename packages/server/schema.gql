@@ -82,7 +82,7 @@ type Todo {
   createdAt: DateTime!
   updatedAt: DateTime!
   title: String!
-  completed: Boolean!
+  completed: Boolean
 }
 
 type Query {

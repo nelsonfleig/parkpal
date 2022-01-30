@@ -9,7 +9,7 @@ export class Todo extends AbstractEntity {
   @Column()
   title: string;
 
-  @Field()
-  @Column()
+  @Field({ nullable: true })
+  @Column({ default: false })
   completed: boolean;
 }
