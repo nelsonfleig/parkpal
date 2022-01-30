@@ -25,7 +25,7 @@ export class AuthMiddleware implements NestMiddleware {
         req.user = decodedUser;
       }
     } catch (e) {
-      throw new AuthenticationError('Please register on login');
+      throw new AuthenticationError('Please register or login');
     }
     next();
   }
