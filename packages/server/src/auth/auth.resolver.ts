@@ -30,10 +30,8 @@ export class AuthResolver {
 
   @Roles(Role.USER)
   @Query(() => User, { description: 'Get logged in user', nullable: true })
-  me(@CurrentUser() userJwt: UserJwt, @Context() context: Ctx) {
-    console.log('USER FROM @CurrentUser', userJwt);
-    console.log('USER FROM CONTEXT', context.req.user);
-    return this.userService.findOne({ id: userJwt.id });
+  me(@CurrentUser() { id }: UserJwt) {
+    return this.userService.findOne({ id });
   }
 
   @Mutation(() => Boolean, { description: 'Logout user' })
