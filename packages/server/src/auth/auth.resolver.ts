@@ -4,15 +4,14 @@ import { Ctx } from 'src/common/types/context.type';
 import { UserJwt } from 'src/common/types/user-jwt.type';
 import { User } from 'src/user/user.entity';
 import { UserService } from 'src/user/user.service';
-import { CurrentUser } from './auth.decorator';
+import { CurrentUser } from './decorators/current-user.decorator';
 import { AuthService } from './auth.service';
-import { Roles } from './roles.decorator';
+import { Roles } from './decorators/roles.decorator';
 import { AuthResponse } from './types/auth.response';
 import { LoginInput } from './types/login.input';
 import { RegisterInput } from './types/register.input';
 
 @Resolver()
-//@UseGuards(GqlAuthGuard, RolesGuard)
 export class AuthResolver {
   constructor(
     protected authService: AuthService,
@@ -29,7 +28,6 @@ export class AuthResolver {
     return this.authService.register(input);
   }
 
-  //@UseGuards(GqlAuthGuard, RolesGuard)
   @Roles(Role.USER)
   @Query(() => User, { description: 'Get logged in user', nullable: true })
   me(@CurrentUser() userJwt: UserJwt, @Context() context: Ctx) {
