@@ -3,7 +3,7 @@ import { useFonts } from 'expo-font';
 
 import { Provider as PaperProvider } from 'react-native-paper';
 import theme from './styles/theme';
-import Welcome from './src/screens/welcome/welcome';
+import { Welcome } from './src/screens';
 
 export default function App() {
   const [loaded] = useFonts({

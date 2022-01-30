@@ -3,7 +3,7 @@ import { Button } from 'react-native-paper';
 import styles from './welcomeStyles';
 import logo from '../../../assets/images/Logo.png';
 
-const Welcome = () => (
+export const Welcome = () => (
   <View style={styles.container}>
     <Image source={logo} style={styles.image} />
     <View>
@@ -15,4 +15,4 @@ const Welcome = () => (
   </View>
 );
 
-export default Welcome;
+// export default Welcome;
