@@ -1,13 +1,9 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { AbstractEntity } from 'src/common/models/abstract.entity';
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
-import { User } from 'src/user/user.entity';
-import { Reservation } from 'src/reservation/reservation.entity';
 import { Complain } from 'src/complain/complain.entity';
-import {
-  TypeormLoaderExtension,
-  TypeormLoaderMiddleware,
-} from '@webundsoehne/nestjs-graphql-typeorm-dataloader';
+import { Reservation } from 'src/reservation/reservation.entity';
+import { User } from 'src/user/user.entity';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 
 @ObjectType()
 @Entity('parkingSpots')

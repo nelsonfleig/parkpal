@@ -2,29 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Todo {
-  id: ID!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  title: String!
-  completed: Boolean!
-}
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
-type Complain {
-  id: ID!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  description: String!
-  pictureUrl: String!
-  user: User!
-  complain: ParkingSpot!
-}
-
 type Reservation {
   id: ID!
   createdAt: DateTime!
@@ -38,33 +15,15 @@ type Reservation {
   parkingSpot: ParkingSpot!
 }
 
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 enum ReservationStatus {
   RESERVED
   ONGOING
   FINISHED
-}
-
-type User {
-  id: ID!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  firstName: String!
-  lastName: String!
-  email: String!
-  password: String!
-  phone: String!
-  pictureUrl: String!
-  roles: [Role!]!
-  reservations: [Reservation!]
-  complains: [Complain!]
-  bankInfo: String
-  parkingSpots: [ParkingSpot!]
-}
-
-enum Role {
-  USER
-  RENTER
-  ADMIN
 }
 
 type ParkingSpot {
@@ -80,17 +39,89 @@ type ParkingSpot {
   complains: User!
 }
 
+type Complain {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  description: String!
+  pictureUrl: String!
+  user: User!
+  complain: ParkingSpot!
+}
+
+type User {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+  phone: String
+  pictureUrl: String
+  roles: [Role!]!
+  reservations: [Reservation!]
+  complains: [Complain!]
+  bankInfo: String
+  parkingSpots: [ParkingSpot!]
+}
+
+enum Role {
+  USER
+  RENTER
+  ADMIN
+}
+
+type AuthResponse {
+  accessToken: String!
+  user: User!
+}
+
+type Todo {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  title: String!
+  completed: Boolean!
+}
+
 type Query {
-  findUsers: [User!]!
+  """Get logged in user"""
+  me: User
+
+  """List all Users"""
+  findAllUsers: [User!]!
+
+  """Find one User"""
+  findOneUser(id: ID!): User!
 
   """List all Todos"""
   findAllTodos: [Todo!]!
 
   """Find one Todo"""
   findOneTodo(id: ID!): Todo!
+  protect: String!
 }
 
 type Mutation {
+  """Login user"""
+  login(input: LoginInput!): AuthResponse!
+
+  """Register user"""
+  register(input: RegisterInput!): User!
+
+  """Logout user"""
+  logout: Boolean!
+
+  """Create User"""
+  createUser(input: UserInput!): User!
+
+  """Update User"""
+  updateUser(input: UserInput!, id: ID!): User!
+
+  """Delete User"""
+  deleteUser(id: ID!): User!
+
   """Create Todo"""
   createTodo(input: TodoInput!): Todo!
 
@@ -99,6 +130,25 @@ type Mutation {
 
   """Delete Todo"""
   deleteTodo(id: ID!): Todo!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input RegisterInput {
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
+}
+
+input UserInput {
+  firstName: String!
+  lastName: String!
+  email: String!
+  password: String!
 }
 
 input TodoInput {
