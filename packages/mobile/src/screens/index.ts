@@ -1,2 +1,2 @@
-export * from './welcome/welcome';
-export * from './login/login';
+export * from './Welcome/welcome';
+export * from './Login/login';

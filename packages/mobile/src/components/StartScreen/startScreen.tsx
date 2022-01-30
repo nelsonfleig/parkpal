@@ -10,6 +10,6 @@ type StartScreenProps = {
 export const StartScreen = ({ children }: StartScreenProps) => (
   <View style={styles.container}>
     <Image source={Logo} style={styles.image} />
-    {children}
+    <View>{children}</View>
   </View>
 );
