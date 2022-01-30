@@ -1,13 +1,9 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { AbstractEntity } from 'src/common/models/abstract.entity';
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { ReservationStatus } from 'src/common/constants/reservationStatus.enum';
-import { User } from 'src/user/user.entity';
+import { AbstractEntity } from 'src/common/models/abstract.entity';
 import { ParkingSpot } from 'src/parking-spot/parkingSpot.entity';
-import {
-  TypeormLoaderExtension,
-  TypeormLoaderMiddleware,
-} from '@webundsoehne/nestjs-graphql-typeorm-dataloader';
+import { User } from 'src/user/user.entity';
+import { Column, Entity, ManyToOne } from 'typeorm';
 
 @ObjectType()
 @Entity('reservations')

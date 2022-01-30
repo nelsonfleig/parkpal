@@ -1,7 +1,18 @@
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
 import { GraphQLModule } from '@nestjs/graphql';
+import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLError, GraphQLFormattedError } from 'graphql';
+import { AuthModule } from 'src/auth/auth.module';
+import { AuthMiddleware } from 'src/auth/middleware/auth.middleware';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { Ctx } from 'src/common/types/context.type';
 import { ExampleModule } from 'src/example/example.module';
 import { ParkingSpotModule } from 'src/parking-spot/parking-spot.module';
 import { ReservationModule } from 'src/reservation/reservation.module';
@@ -23,6 +34,9 @@ import { AppService } from './app.service';
     }),
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema.gql',
+      playground: true,
+      cors: { origin: true, credentials: true },
+      context: ({ req, res }: Ctx) => ({ req, res }),
       formatError: (error: GraphQLError) => {
         const graphQLFormattedError: GraphQLFormattedError = {
           message:
@@ -31,13 +45,30 @@ import { AppService } from './app.service';
         return graphQLFormattedError;
       },
     }),
-
+    JwtModule.register({
+      secret: 'supersecret',
+      signOptions: { expiresIn: '60s' },
+    }),
+    AuthModule,
     UserModule,
     ReservationModule,
     ParkingSpotModule,
     ExampleModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
+  ],
+  exports: [JwtModule],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AuthMiddleware)
+      .forRoutes({ path: '*', method: RequestMethod.ALL });
+  }
+}
