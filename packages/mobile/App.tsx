@@ -1,9 +1,9 @@
 /* eslint-disable global-require */
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import { Provider as PaperProvider, Button } from 'react-native-paper';
 import { useFonts } from 'expo-font';
+
+import { Provider as PaperProvider } from 'react-native-paper';
 import theme from './styles/theme';
+import Welcome from './src/screens/welcome/welcome';
 
 export default function App() {
   const [loaded] = useFonts({
@@ -17,20 +17,7 @@ export default function App() {
 
   return (
     <PaperProvider theme={theme}>
-      <View style={styles.container}>
-        <Text>Open up App.tsx to start working on your app!</Text>
-        <Button icon="camera">Press Me</Button>
-        <StatusBar style="auto" />
-      </View>
+      <Welcome />
     </PaperProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
