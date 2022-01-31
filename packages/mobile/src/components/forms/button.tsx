@@ -2,7 +2,7 @@ import { Button } from 'react-native-paper';
 import { ReactNode } from 'react';
 import styles from './styles';
 
-type WhiteButtonProps = {
+type CustomButtonProps = {
   press: () => void;
   bg: string;
   color: string;
@@ -18,7 +18,7 @@ export const CustomButton = ({
   children,
   loading = false,
   disabled = false,
-}: WhiteButtonProps) => (
+}: CustomButtonProps) => (
   <Button
     style={{ ...styles.button, backgroundColor: bg }}
     color={color}

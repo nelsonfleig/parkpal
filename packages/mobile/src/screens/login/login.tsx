@@ -6,9 +6,13 @@ import styles from './loginStyles';
 import { CustomButton } from '../../components/Forms/button';
 import { FormikInput } from '../../components/Forms/formikInput';
 import { loginSchema } from '../../models/login.form';
+import { WelcomeProps } from '../../../types/rootStack';
 
-export const LoginScreen = () => {
+export const LoginScreen = ({ navigation }: WelcomeProps) => {
   const { colors } = useTheme();
+  const home = () => {
+    navigation.navigate('Home');
+  };
 
   return (
     <StartScreen>
@@ -16,7 +20,7 @@ export const LoginScreen = () => {
         <Formik
           initialValues={{ email: '', password: '' }}
           validationSchema={loginSchema}
-          onSubmit={() => {}}>
+          onSubmit={home}>
           {({ handleSubmit, isSubmitting, isValid }) => (
             <View>
               <FormikInput name="email" label="Email" />
