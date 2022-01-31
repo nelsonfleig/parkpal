@@ -7,5 +7,6 @@ import { ReservationService } from './reservation.service';
 @Module({
   imports: [TypeOrmModule.forFeature([Reservation])],
   providers: [ReservationResolver, ReservationService],
+  exports: [ReservationService],
 })
 export class ReservationModule {}

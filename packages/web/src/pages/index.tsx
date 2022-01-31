@@ -3,7 +3,6 @@ import { styled } from '@mui/system';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
-import StyledButtons from '../components/testingButton';
 import { Todos } from '../components/todos';
 import styles from '../styles/Home.module.css';
 
@@ -21,7 +20,6 @@ const Home: NextPage = () => (
       </h1>
 
       <Todos />
-      <StyledButtons />
       <div className={styles.grid}>
         <a href="https://nextjs.org/docs" className={styles.card}>
           <h2>Documentation &rarr;</h2>
