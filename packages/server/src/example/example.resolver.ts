@@ -56,9 +56,9 @@ export class ExampleResolver extends AbstractResolver(Todo, TodoInput) {
     @Loader(UserLoader) userLoader: DataLoader<number, User>
   ) {
     return userLoader.load(todo.userId);
-
     // With N+1 Problem
-    // const { user } = todo;
-    // return this.userService.findOne({ id: user.id });
+    // console.log(todo);
+    // const { userId } = todo;
+    // return this.userService.findOne({ id: userId });
   }
 }
