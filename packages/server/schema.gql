@@ -56,6 +56,7 @@ type Todo {
   title: String!
   completed: Boolean
   user: User!
+  userId: Float!
 }
 
 type User {
