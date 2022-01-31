@@ -22,14 +22,3 @@ export const AnotherButton = styled(withTheme(Button))((props) => ({
     backgroundColor: props.theme.palette.secondary.light,
   },
 }));
-
-const StyledButtons = () => {
-  return (
-    <div>
-      <StyledButton>First Button</StyledButton>
-      <AnotherButton>Another Button</AnotherButton>
-    </div>
-  );
-};
-
-export default StyledButtons;
