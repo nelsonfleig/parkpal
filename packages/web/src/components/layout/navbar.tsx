@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -8,6 +8,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { NextComponentType } from 'next';
 import Image from 'next/image';
 import { Avatar, Paper } from '@mui/material';
+import { useAuth } from '../../hooks/useAuth';
+import { useRouter } from 'next/router';
 
 const StyledBurger = styled(MenuIcon)((props) => ({
   color: 'inherit',
@@ -40,27 +42,38 @@ const StyledAvatar = styled(Avatar)(() => ({
   backgroundColor: randomColor(),
 }));
 
-export const NavBar: NextComponentType = () => (
-  <Box>
-    <AppBar position="static" sx={{ backgroundColor: '#fff' }}>
-      <Toolbar>
-        <StyledBurger />
+export const NavBar: NextComponentType = () => {
+  const { isAuthenticated, loading } = useAuth();
+  const router = useRouter();
 
-        <Box sx={{ flexGrow: 1 }}>
-          <Image src="/result.svg" alt="ParkPal Logo" width={280} height={66} />
-        </Box>
-        <StyledProfilePaper>
-          <StyledAvatar alt="Avatar Picture" src="/static/images/avatar/1.jpg" />
-          <Box>
-            <Typography sx={{ color: 'black' }} variant="h6">
-              <h4>Ivan Wojczestwinsky</h4>
-            </Typography>
-            <Typography sx={{ color: 'gray' }} variant="body1">
-              Renter
-            </Typography>
+  useEffect(() => {
+    if (!loading && !isAuthenticated) {
+      router.push('/');
+    }
+  }, [isAuthenticated]);
+
+  return (
+    <Box>
+      <AppBar position="static" sx={{ backgroundColor: '#fff' }}>
+        <Toolbar>
+          <StyledBurger />
+
+          <Box sx={{ flexGrow: 1 }}>
+            <Image src="/result.svg" alt="ParkPal Logo" width={280} height={66} />
           </Box>
-        </StyledProfilePaper>
-      </Toolbar>
-    </AppBar>
-  </Box>
-);
+          <StyledProfilePaper>
+            <StyledAvatar alt="Avatar Picture" src="/static/images/avatar/1.jpg" />
+            <Box>
+              <Typography sx={{ color: 'black' }} variant="h6">
+                <h4>Ivan Wojczestwinsky</h4>
+              </Typography>
+              <Typography sx={{ color: 'gray' }} variant="body1">
+                Renter
+              </Typography>
+            </Box>
+          </StyledProfilePaper>
+        </Toolbar>
+      </AppBar>
+    </Box>
+  );
+};
