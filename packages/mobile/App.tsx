@@ -1,11 +1,15 @@
 /* eslint-disable global-require */
 import { useFonts } from 'expo-font';
-
 import { Provider as PaperProvider } from 'react-native-paper';
-import theme from './styles/theme';
-import Welcome from './src/screens/welcome/welcome';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import theme from './src/styles/theme';
+import { RootStackParams } from './types/rootStack';
+
+import { WelcomeScreen, LoginScreen } from './src/screens';
 
 export default function App() {
+  const RootStack = createNativeStackNavigator<RootStackParams>();
   const [loaded] = useFonts({
     InterRegular: require('./assets/fonts/Inter-Regular.ttf'),
     InterMedium: require('./assets/fonts/Inter-Medium.ttf'),
@@ -17,7 +21,15 @@ export default function App() {
 
   return (
     <PaperProvider theme={theme}>
-      <Welcome />
+      <NavigationContainer>
+        <RootStack.Navigator
+          screenOptions={{
+            headerShown: false,
+          }}>
+          <RootStack.Screen name="Welcome" component={WelcomeScreen} />
+          <RootStack.Screen name="Sign In Page" component={LoginScreen} />
+        </RootStack.Navigator>
+      </NavigationContainer>
     </PaperProvider>
   );
 }

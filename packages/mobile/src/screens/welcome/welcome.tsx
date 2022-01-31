@@ -1,18 +1,32 @@
-import { View, Image } from 'react-native';
-import { Button } from 'react-native-paper';
-import styles from './welcomeStyles';
-import logo from '../../../assets/images/Logo.png';
+import { View } from 'react-native';
+import { useTheme } from 'react-native-paper';
+import { WelcomeProps } from '../../../types/rootStack';
+import { CustomButton } from '../../components/forms/button';
+import { StartScreen } from '../../components/StartScreen/startScreen';
 
-const Welcome = () => (
-  <View style={styles.container}>
-    <Image source={logo} style={styles.image} />
-    <View>
+export const WelcomeScreen = ({ navigation }: WelcomeProps) => {
+  const { colors } = useTheme();
+  const signInPage = () => {
+    navigation.navigate('Sign In Page');
+  };
+  const register = () => {
+    navigation.navigate('Register');
+  };
+
+  return (
+    <StartScreen>
       <View>
-        <Button style={styles.button}>Sign In</Button>
-        <Button style={styles.button}>Sign Up</Button>
+        <View>
+          <CustomButton press={signInPage} bg="#fff" color={colors.primary}>
+            Sign In
+          </CustomButton>
+          <CustomButton press={register} bg="#fff" color={colors.primary}>
+            Sign Up
+          </CustomButton>
+        </View>
       </View>
-    </View>
-  </View>
-);
+    </StartScreen>
+  );
+};
 
-export default Welcome;
+// export default Welcome;

@@ -14,5 +14,6 @@ module.exports = {
     'react/style-prop-object': 'off',
     '@next/next/no-html-link-for-pages': 'off',
     'import/no-extraneous-dependencies': 'off',
+    'import/prefer-default-export': 'off',
   },
 };
