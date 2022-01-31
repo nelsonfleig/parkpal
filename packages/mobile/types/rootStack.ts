@@ -5,6 +5,7 @@ export type RootStackParams = {
   Login: undefined;
   Register: undefined;
   'Sign In Page': undefined;
+  Home: undefined;
 };
 
 export type WelcomeProps = NativeStackScreenProps<RootStackParams>;
