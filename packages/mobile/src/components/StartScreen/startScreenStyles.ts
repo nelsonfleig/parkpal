@@ -5,14 +5,12 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: theme.colors.primary,
     flex: 1,
-    justifyContent: 'space-evenly',
+    justifyContent: 'center',
     alignItems: 'center',
   },
   image: {
     width: 252,
     height: 70,
-    position: 'absolute',
-    top: 100,
   },
 });
 
