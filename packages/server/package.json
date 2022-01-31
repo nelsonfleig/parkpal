@@ -13,7 +13,6 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
-    "lint-staged:lint": "eslint --fix --file",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" ",
     "test": "jest",
     "test:watch": "jest --watch",
