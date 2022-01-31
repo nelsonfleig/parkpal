@@ -1,19 +1,26 @@
+import { LocationGeocodedLocation } from 'expo-location';
 import React, { useEffect, useState } from 'react';
-import { Text } from 'react-native';
-import MapView from 'react-native-maps';
-import MapViewDirections from 'react-native-maps-directions';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View } from 'react-native';
+import MapView, { Circle, Marker } from 'react-native-maps';
+// import MapViewDirections from 'react-native-maps-directions';
 
-import { API_DIRECTIONS_KEY } from '@env';
+// import { API_DIRECTIONS_KEY } from '@env';
 import { mapViewStyles } from './mapViewStyles';
 
-export const MapComponent = ({ latitude, longitude }: { latitude: number; longitude: number }) => {
+type MapComponentProps = {
+  latitude: number;
+  longitude: number;
+  destination: LocationGeocodedLocation | null;
+};
+
+export const MapComponent = ({ latitude, longitude, destination }: MapComponentProps) => {
   const [origin, setOrigin] = useState({ latitude, longitude });
-  const [destination] = useState({ latitude: 41.39912511303243, longitude: 2.1943598288348753 });
+  const [mapDest, setMapDest] = useState(null as LocationGeocodedLocation | null);
 
   useEffect(() => {
     setOrigin({ latitude, longitude });
-  }, [latitude, longitude]);
+    setMapDest(destination);
+  }, [latitude, longitude, destination]);
 
   return (
     <MapView
@@ -22,12 +29,32 @@ export const MapComponent = ({ latitude, longitude }: { latitude: number; longit
       initialRegion={{
         latitude,
         longitude,
-        latitudeDelta: 0.001,
+        latitudeDelta: 0.01,
         longitudeDelta: 0.01,
       }}
       showsUserLocation
       followsUserLocation
-      showsMyLocationButton>
+      showsMyLocationButton
+      region={
+        mapDest
+          ? {
+              latitude: mapDest.latitude,
+              longitude: mapDest.longitude,
+              latitudeDelta: 0.01,
+              longitudeDelta: 0.01,
+            }
+          : undefined
+      }>
+      {mapDest && (
+        <View>
+          <Marker coordinate={{ latitude: mapDest.latitude, longitude: mapDest.longitude }} />
+          <Circle
+            center={{ latitude: mapDest.latitude, longitude: mapDest.longitude }}
+            radius={300}
+            fillColor="rgba(126, 113, 233, 0.3)"
+          />
+        </View>
+      )}
       {/* <MapViewDirections
           origin={origin}
           destination={destination}
