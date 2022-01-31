@@ -10,9 +10,9 @@ type StartScreenProps = {
 
 export const StartScreen = ({ children }: StartScreenProps) => (
   <SafeAreaView style={styles.container}>
-    <View>
+    <View style={styles.logo}>
       <Image source={Logo} style={styles.image} />
-      <View>{children}</View>
     </View>
+    <View>{children}</View>
   </SafeAreaView>
 );
