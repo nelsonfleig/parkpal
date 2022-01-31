@@ -4,9 +4,9 @@ const buildEslintCommand = (packagePath) => (filenames) => {
   const str = `cd ${path.join(
     process.cwd(),
     packagePath
-  )} && yarn lint-staged:lint --fix --file ${filenames
-    .map((f) => path.relative(process.cwd(), f))
-    .join(' --file ')}`;
+  )} && yarn lint-staged:lint --fix --file ${filenames.join(' ')}`;
+  // .map((f) => path.relative(process.cwd(), f))
+  // .join(' --file ')}`;
   console.log(str);
   return str;
 };
