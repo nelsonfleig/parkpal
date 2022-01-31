@@ -1,8 +1,8 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { Landing } from '../homeIndex';
+import { LandingScreen } from '../homeIndex';
 
-export const Home = () => {
+export const HomeScreen = () => {
   const HomeStack = createNativeStackNavigator();
 
   return (
@@ -10,7 +10,7 @@ export const Home = () => {
       screenOptions={{
         headerShown: false,
       }}>
-      <HomeStack.Screen name="Landing" component={Landing} />
+      <HomeStack.Screen name="Landing" component={LandingScreen} />
     </HomeStack.Navigator>
   );
 };

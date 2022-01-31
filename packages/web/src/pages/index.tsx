@@ -1,7 +1,6 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
-import StyledButtons from '../components/testingButton';
 import { Todos } from '../components/todos';
 import { useMeQuery } from '../graphql/__generated__';
 import styles from '../styles/Home.module.css';
@@ -17,8 +16,12 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>{loading ? 'LOADING...' : data.me?.email}</h1>
+      <Todos />
+      <div className={styles.grid}>
+        <a href="https://nextjs.org/docs" className={styles.card}>
+          <h2>Documentation &rarr;</h2>
+          <p>Find in-depth information about Next.js features and API.</p>
+        </a>
 
         <Todos />
         <StyledButtons />

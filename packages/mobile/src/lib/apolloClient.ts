@@ -4,7 +4,7 @@ import { setContext } from '@apollo/client/link/context';
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 
 const httpLink = createUploadLink({
-  uri: 'http://localhost:5000/graphql',
+  uri: 'http://192.168.1.200:5000/graphql',
   credentials: 'include',
 });
 

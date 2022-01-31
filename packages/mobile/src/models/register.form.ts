@@ -8,6 +8,6 @@ export const registerSchema = Yup.object({
     .min(3, 'Too Short!')
     .max(50, 'Too Long!')
     .required('Required'),
-  phone: Yup.number().required('Required').positive().integer().min(11, 'Too short!'),
+
   password: Yup.string().required('Required').min(6, 'Too short!'),
 });

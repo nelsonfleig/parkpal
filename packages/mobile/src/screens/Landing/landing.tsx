@@ -7,7 +7,7 @@ import * as Location from 'expo-location';
 import { landingStyles } from './landingStyles';
 import { MapComponent } from '../../components/MapView/mapView';
 
-export const Landing = () => {
+export const LandingScreen = () => {
   const [location, setLocation] = useState(null as LocationObject | null);
 
   useEffect(() => {
