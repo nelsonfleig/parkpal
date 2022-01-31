@@ -2,9 +2,10 @@ import Typography from '@mui/material/Typography';
 import { Form, Formik } from 'formik';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+// To check linting
+import React, { useEffect, ButtonHTMLAttributes } from 'react';
 import { toast } from 'react-toastify';
-import { AuthFormWrapper, PageTitle, HomeLayout, AuthBottomText } from '../components/common';
+import { HomeLayout, PageTitle, AuthFormWrapper, AuthBottomText } from '../components/common';
 import { FormikSubmit } from '../components/formik/formik-submit';
 import { FormikText } from '../components/formik/formik-text';
 import { useLoginMutation } from '../graphql/__generated__';
@@ -18,7 +19,7 @@ const Login = () => {
 
   useEffect(() => {
     if (isAuthenticated) router.push('/dashboard');
-  }, [isAuthenticated]);
+  }, [isAuthenticated, router]);
 
   return (
     <HomeLayout>
@@ -37,7 +38,6 @@ const Login = () => {
           validationSchema={loginSchema}
           onSubmit={async (values, { setSubmitting }) => {
             try {
-              console.log(values);
               await login({
                 variables: {
                   input: values,
