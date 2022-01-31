@@ -7,5 +7,6 @@ import { ParkingSpot } from './parkingSpot.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([ParkingSpot])],
   providers: [ParkingSpotService, ParkingSpotResolver],
+  exports: [ParkingSpotService],
 })
 export class ParkingSpotModule {}

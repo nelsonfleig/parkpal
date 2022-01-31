@@ -7,5 +7,6 @@ import { ComplainService } from './complain.service';
 @Module({
   imports: [TypeOrmModule.forFeature([Complain])],
   providers: [ComplainResolver, ComplainService],
+  exports: [ComplainService],
 })
 export class ComplainModule {}
