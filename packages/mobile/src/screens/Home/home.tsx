@@ -1,5 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Landing } from '../Landing/landing';
+
+import { Landing } from '../homeIndex';
 
 export const Home = () => {
   const HomeStack = createNativeStackNavigator();
