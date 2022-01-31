@@ -37,6 +37,12 @@ const StyledCalendar = styled(CalendarTodayIcon)((props) => ({
   },
 }));
 
+const StyledBtn = styled(Button)(() => ({
+  color: 'inherit',
+  height: '50px',
+  width: '50px',
+}));
+
 export const DashboardSidebar: NextComponentType = () => {
   const [isShown, setIsShown] = useState('/logo.svg');
 
@@ -55,6 +61,7 @@ export const DashboardSidebar: NextComponentType = () => {
           <Image src={isShown} alt="ParkPal Logo" width={60} height={60} />
         </div>
       </Link>
+      <StyledBtn />
     </StyledSidebar>
   );
 };
