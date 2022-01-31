@@ -1,13 +1,12 @@
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { WelcomeProps } from '../../../types/rootStack';
 import { CustomButton } from '../../components/Forms/button';
 import { StartScreen } from '../../components/StartScreen/startScreen';
-import { useGetTodosQuery } from '../../graphql/__generated__';
 
 export const WelcomeScreen = ({ navigation }: WelcomeProps) => {
   const { colors } = useTheme();
-  const { data, loading, error } = useGetTodosQuery();
+
   const signInPage = () => {
     navigation.navigate('Sign In Page');
   };
