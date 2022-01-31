@@ -1,49 +1,45 @@
-import Typography from '@mui/material/Typography';
+import { Link, Typography } from '@mui/material';
 import { Form, Formik } from 'formik';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { toast } from 'react-toastify';
 import { AuthFormWrapper, PageTitle, HomeLayout, AuthBottomText } from '../components/common';
 import { FormikSubmit } from '../components/formik/formik-submit';
 import { FormikText } from '../components/formik/formik-text';
-import { useLoginMutation } from '../graphql/__generated__';
-import { useAuth } from '../hooks/useAuth';
-import { loginSchema } from '../models/login.form';
+import { useRegisterMutation } from '../graphql/__generated__';
+import { registerSchema } from '../models/register.form';
 
-const Login = () => {
-  const [login] = useLoginMutation();
-  const { isAuthenticated } = useAuth();
+const Register = () => {
+  const [register] = useRegisterMutation();
   const router = useRouter();
-
-  useEffect(() => {
-    if (isAuthenticated) router.push('/dashboard');
-  }, [isAuthenticated]);
 
   return (
     <HomeLayout>
-      <PageTitle variant="h1" textAlign="center" mt="80px">
+      <PageTitle variant="h2" color="white" textAlign="center" mt="80px">
         ParkPal <span>| Renters</span>
       </PageTitle>
       <AuthFormWrapper elevation={3}>
         <Typography variant="h4" textAlign="center">
-          Login
+          Register
         </Typography>
         <Formik
           initialValues={{
+            firstName: '',
+            lastName: '',
             email: '',
             password: '',
+            confirmPassword: '',
           }}
-          validationSchema={loginSchema}
-          onSubmit={async (values, { setSubmitting }) => {
+          validationSchema={registerSchema}
+          onSubmit={async ({ confirmPassword, ...values }, { setSubmitting }) => {
             try {
-              console.log(values);
-              await login({
+              await register({
                 variables: {
                   input: values,
                 },
               });
-              router.push('/dashboard');
+              toast.success("You've created an account. Please sign in.");
+              router.push('/');
             } catch (error) {
               if (error instanceof Error) {
                 toast.error(error.message);
@@ -54,15 +50,23 @@ const Login = () => {
           }}>
           {({ isValid, isSubmitting }) => (
             <Form>
+              <FormikText name="firstName" label="First Name" fullWidth />
+              <FormikText name="lastName" label="Last Name" fullWidth />
               <FormikText name="email" label="Email" fullWidth />
               <FormikText name="password" label="Password" type="password" fullWidth />
+              <FormikText
+                name="confirmPassword"
+                label="Confirm Password"
+                type="password"
+                fullWidth
+              />
               <FormikSubmit loading={isSubmitting} disabled={!isValid || isSubmitting}>
-                Sign in
+                Register
               </FormikSubmit>
               <AuthBottomText variant="body1">
-                Don't have an account?{' '}
-                <Link href="/register">
-                  <a>Register here</a>
+                Already have an account?{' '}
+                <Link href="/">
+                  <a>Sign in here</a>
                 </Link>
                 .
               </AuthBottomText>
@@ -74,4 +78,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

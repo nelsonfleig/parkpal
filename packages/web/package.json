@@ -24,6 +24,7 @@
     "next-transpile-modules": "^9.0.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "react-toastify": "^8.1.0",
     "styled-components": "^5.3.3",
     "yup": "^0.32.11"
   },
@@ -37,6 +38,7 @@
     "@types/lodash": "^4.14.178",
     "@types/node": "17.0.13",
     "@types/react": "17.0.38",
+    "@types/react-toastify": "^4.1.0",
     "@types/styled-components": "^5.1.21",
     "@types/yup": "^0.29.13",
     "@typescript-eslint/parser": "^5.10.1",

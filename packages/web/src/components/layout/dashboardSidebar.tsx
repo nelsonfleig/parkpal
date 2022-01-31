@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { NextComponentType } from 'next';
 import React, { useState } from 'react';
@@ -37,12 +37,6 @@ const StyledCalendar = styled(CalendarTodayIcon)((props) => ({
   },
 }));
 
-const StyledBtn = styled(Button)(() => ({
-  color: 'inherit',
-  height: '50px',
-  width: '50px',
-}));
-
 export const DashboardSidebar: NextComponentType = () => {
   const [isShown, setIsShown] = useState('/logo.svg');
 
@@ -61,7 +55,6 @@ export const DashboardSidebar: NextComponentType = () => {
           <Image src={isShown} alt="ParkPal Logo" width={60} height={60} />
         </div>
       </Link>
-      <StyledBtn />
     </StyledSidebar>
   );
 };
