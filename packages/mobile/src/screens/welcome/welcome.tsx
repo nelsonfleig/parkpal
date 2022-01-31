@@ -9,7 +9,7 @@ export const WelcomeScreen = ({ navigation }: WelcomeProps) => {
   const { colors } = useTheme();
 
   const signInPage = () => {
-    navigation.navigate('Sign In Page');
+    navigation.navigate('Login');
   };
   const register = () => {
     navigation.navigate('Register');

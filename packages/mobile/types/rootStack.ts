@@ -4,7 +4,6 @@ export type RootStackParams = {
   Welcome: undefined;
   Login: undefined;
   Register: undefined;
-  'Sign In Page': undefined;
   Home: undefined;
 };
 
