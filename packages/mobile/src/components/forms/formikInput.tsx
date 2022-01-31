@@ -6,7 +6,7 @@ import styles from './styles';
 type FormikInputProps = FieldHookConfig<string> & {
   name: string;
   label: string;
-  secureTextEntry: boolean;
+  secureTextEntry?: boolean;
 };
 
 export const FormikInput = ({ label, ...props }: FormikInputProps) => {

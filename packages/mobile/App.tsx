@@ -30,7 +30,7 @@ export default function App() {
               headerShown: false,
             }}>
             <RootStack.Screen name="Welcome" component={WelcomeScreen} />
-            <RootStack.Screen name="Sign In Page" component={LoginScreen} />
+            <RootStack.Screen name="Login" component={LoginScreen} />
             <RootStack.Screen name="Register" component={RegisterScreen} />
             <RootStack.Screen name="Home" component={HomeScreen} />
           </RootStack.Navigator>
