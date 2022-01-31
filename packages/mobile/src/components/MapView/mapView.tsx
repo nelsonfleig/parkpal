@@ -16,27 +16,25 @@ export const MapComponent = ({ latitude, longitude }: { latitude: number; longit
   }, [latitude, longitude]);
 
   return (
-    <SafeAreaView>
-      <Text>{origin.latitude}</Text>
-      <MapView
-        provider="google"
-        style={mapViewStyles.map}
-        initialRegion={{
-          latitude,
-          longitude,
-          latitudeDelta: 0.001,
-          longitudeDelta: 0.01,
-        }}
-        showsUserLocation
-        followsUserLocation>
-        <MapViewDirections
+    <MapView
+      provider="google"
+      style={mapViewStyles.map}
+      initialRegion={{
+        latitude,
+        longitude,
+        latitudeDelta: 0.001,
+        longitudeDelta: 0.01,
+      }}
+      showsUserLocation
+      followsUserLocation
+      showsMyLocationButton>
+      {/* <MapViewDirections
           origin={origin}
           destination={destination}
           apikey={API_DIRECTIONS_KEY} // insert your API Key here
           strokeWidth={10}
           strokeColor="#111111"
-        />
-      </MapView>
-    </SafeAreaView>
+        /> */}
+    </MapView>
   );
 };
