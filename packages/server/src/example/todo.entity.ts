@@ -18,6 +18,8 @@ export class Todo extends AbstractEntity {
   @ManyToOne(() => User, (user: User) => user.todos)
   user: User;
 
+  @Field()
   @RelationId((todo: Todo) => todo.user) // you need to specify target relation on a ManyToOne
+  @Column()
   userId: number;
 }
