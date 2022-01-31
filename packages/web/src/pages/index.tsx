@@ -2,7 +2,7 @@ import Typography from '@mui/material/Typography';
 import { Form, Formik } from 'formik';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-// To check linting dddd
+// To check linting ddddddd
 import React, { useEffect, ButtonHTMLAttributes } from 'react';
 import { toast } from 'react-toastify';
 import { HomeLayout, PageTitle, AuthFormWrapper, AuthBottomText } from '../components/common';
