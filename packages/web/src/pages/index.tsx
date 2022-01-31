@@ -18,6 +18,7 @@ const Login = () => {
   const router = useRouter();
 
   useEffect(() => {
+    console.log('hi');
     if (isAuthenticated) router.push('/dashboard');
   }, [isAuthenticated, router]);
 
