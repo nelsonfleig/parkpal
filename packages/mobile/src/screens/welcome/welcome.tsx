@@ -1,5 +1,6 @@
 import { View } from 'react-native';
 import { useTheme } from 'react-native-paper';
+
 import { WelcomeProps } from '../../../types/rootStack';
 import { CustomButton } from '../../components/Forms/button';
 import { StartScreen } from '../../components/StartScreen/startScreen';
