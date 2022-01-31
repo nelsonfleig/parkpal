@@ -7,7 +7,7 @@ import { ApolloProvider } from '@apollo/client';
 import apolloClient from './src/lib/apolloClient';
 import theme from './src/styles/theme';
 import { RootStackParams } from './types/rootStack';
-import { WelcomeScreen, LoginScreen, RegisterScreen } from './src/screens';
+import { WelcomeScreen, LoginScreen, RegisterScreen, Home } from './src/screens';
 
 export default function App() {
   const RootStack = createNativeStackNavigator<RootStackParams>();
@@ -19,7 +19,7 @@ export default function App() {
   });
 
   if (!loaded) return null;
-
+  // CHANGE ORDER OF HOME
   return (
     <ApolloProvider client={apolloClient}>
       <PaperProvider theme={theme}>

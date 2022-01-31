@@ -31,5 +31,3 @@ export const WelcomeScreen = ({ navigation }: WelcomeProps) => {
     </StartScreen>
   );
 };
-
-// export default Welcome;
