@@ -9,10 +9,12 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "lint": "eslint ./src --ext .ts --ext .tsx",
-    "postinstall": "expo-yarn-workspaces postinstall"
+    "postinstall": "expo-yarn-workspaces postinstall",
+    "codegen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
     "@apollo/client": "^3.5.8",
+    "@react-native-async-storage/async-storage": "^1.15.17",
     "@react-navigation/native": "^6.0.7",
     "@react-navigation/native-stack": "^6.3.0",
     "apollo-upload-client": "^17.0.0",

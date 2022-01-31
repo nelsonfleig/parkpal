@@ -3,9 +3,10 @@ import { useFonts } from 'expo-font';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { ApolloProvider } from '@apollo/client';
+import apolloClient from './src/lib/apolloClient';
 import theme from './src/styles/theme';
 import { RootStackParams } from './types/rootStack';
-
 import { WelcomeScreen, LoginScreen } from './src/screens';
 
 export default function App() {
@@ -20,16 +21,18 @@ export default function App() {
   if (!loaded) return null;
 
   return (
-    <PaperProvider theme={theme}>
-      <NavigationContainer>
-        <RootStack.Navigator
-          screenOptions={{
-            headerShown: false,
-          }}>
-          <RootStack.Screen name="Welcome" component={WelcomeScreen} />
-          <RootStack.Screen name="Sign In Page" component={LoginScreen} />
-        </RootStack.Navigator>
-      </NavigationContainer>
-    </PaperProvider>
+    <ApolloProvider client={apolloClient}>
+      <PaperProvider theme={theme}>
+        <NavigationContainer>
+          <RootStack.Navigator
+            screenOptions={{
+              headerShown: false,
+            }}>
+            <RootStack.Screen name="Welcome" component={WelcomeScreen} />
+            <RootStack.Screen name="Sign In Page" component={LoginScreen} />
+          </RootStack.Navigator>
+        </NavigationContainer>
+      </PaperProvider>
+    </ApolloProvider>
   );
 }

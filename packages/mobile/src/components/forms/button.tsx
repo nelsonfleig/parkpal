@@ -16,8 +16,8 @@ export const CustomButton = ({
   bg,
   color,
   children,
-  loading,
-  disabled,
+  loading = false,
+  disabled = false,
 }: WhiteButtonProps) => (
   <Button
     style={{ ...styles.button, backgroundColor: bg }}
