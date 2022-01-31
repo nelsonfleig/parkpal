@@ -3,7 +3,7 @@ import { Formik } from 'formik';
 import { View } from 'react-native';
 import { StartScreen } from '../../components/StartScreen/startScreen';
 import styles from './loginStyles';
-import { CustomButton } from '../../components/forms/button';
+import { CustomButton } from '../../components/Forms/button';
 
 export const LoginScreen = () => {
   const { colors } = useTheme();

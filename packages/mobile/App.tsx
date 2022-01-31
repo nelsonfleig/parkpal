@@ -6,7 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import theme from './src/styles/theme';
 import { RootStackParams } from './types/rootStack';
 
-import { WelcomeScreen, LoginScreen } from './src/screens';
+import { WelcomeScreen, LoginScreen, Home } from './src/screens';
 
 export default function App() {
   const RootStack = createNativeStackNavigator<RootStackParams>();
@@ -18,7 +18,7 @@ export default function App() {
   });
 
   if (!loaded) return null;
-
+  // CHANGE ORDER OF HOME
   return (
     <PaperProvider theme={theme}>
       <NavigationContainer>
@@ -26,6 +26,7 @@ export default function App() {
           screenOptions={{
             headerShown: false,
           }}>
+          <RootStack.Screen name="Home" component={Home} />
           <RootStack.Screen name="Welcome" component={WelcomeScreen} />
           <RootStack.Screen name="Sign In Page" component={LoginScreen} />
         </RootStack.Navigator>
