@@ -17,6 +17,7 @@ module.exports = {
   rules: {
     'no-underscore-dangle': 'off',
     'import/prefer-default-export': 'off',
-    'eslint-import-resolver-typescript': { extensions: ['.ts', '.tsx', '.d.ts'] },
+    'jsx-a11y/anchor-is-valid': 'off',
+    'react/no-unescaped-entities': 'off',
   },
 };

@@ -13,7 +13,8 @@
     "infra:down": "docker-compose down",
     "dev:server": "cd packages/server && yarn start:dev",
     "dev:web": "cd packages/web && yarn dev",
-    "dev:mobile": "cd packages/mobile && yarn start"
+    "dev:mobile": "cd packages/mobile && yarn start",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -33,6 +34,7 @@
     "eslint-config-airbnb-typescript": "^16.1.0",
     "eslint-plugin-next": "^0.0.0",
     "eslint-plugin-prettier": "^4.0.0",
+    "husky": "^7.0.0",
     "prettier": "^2.5.1"
   },
   "config": {
@@ -52,5 +54,6 @@
   ],
   "assets": [
     "fonts"
-  ]
+  ],
+  "dependencies": {}
 }
