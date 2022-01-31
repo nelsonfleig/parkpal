@@ -8,10 +8,11 @@ import { APP_GUARD } from '@nestjs/core';
 import { GraphQLModule } from '@nestjs/graphql';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { GraphQLError, GraphQLFormattedError } from 'graphql';
+import { DataloaderModule } from '@tracworx/nestjs-dataloader';
 import { AuthModule } from 'src/auth/auth.module';
-import { AuthMiddleware } from 'src/auth/middleware/auth.middleware';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { AuthMiddleware } from 'src/auth/middleware/auth.middleware';
+import { dataloaders } from 'src/common/dataloaders';
 import { Ctx } from 'src/common/types/context.type';
 import { ExampleModule } from 'src/example/example.module';
 import { ParkingSpotModule } from 'src/parking-spot/parking-spot.module';
@@ -32,18 +33,19 @@ import { AppService } from './app.service';
       entities: [__dirname + '../../**/*.entity.{ts,js}'],
       synchronize: true,
     }),
+    DataloaderModule,
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema.gql',
       playground: true,
       cors: { origin: true, credentials: true },
       context: ({ req, res }: Ctx) => ({ req, res }),
-      formatError: (error: GraphQLError) => {
-        const graphQLFormattedError: GraphQLFormattedError = {
-          message:
-            error.extensions?.exception?.response?.message || error.message,
-        };
-        return graphQLFormattedError;
-      },
+      // formatError: (error: GraphQLError) => {
+      //   const graphQLFormattedError: GraphQLFormattedError = {
+      //     message:
+      //       error.extensions?.exception?.response?.message || error.message,
+      //   };
+      //   return graphQLFormattedError;
+      // },
     }),
     JwtModule.register({
       secret: 'supersecret',
@@ -58,6 +60,7 @@ import { AppService } from './app.service';
   controllers: [AppController],
   providers: [
     AppService,
+    ...dataloaders,
     {
       provide: APP_GUARD,
       useClass: RolesGuard,

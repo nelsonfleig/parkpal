@@ -46,7 +46,16 @@ type Complain {
   description: String!
   pictureUrl: String!
   user: User!
-  complain: ParkingSpot!
+  parkingSpot: ParkingSpot!
+}
+
+type Todo {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  title: String!
+  completed: Boolean
+  user: User!
 }
 
 type User {
@@ -64,6 +73,7 @@ type User {
   complains: [Complain!]
   bankInfo: String
   parkingSpots: [ParkingSpot!]
+  todos: [Todo!]
 }
 
 enum Role {
@@ -75,14 +85,6 @@ enum Role {
 type AuthResponse {
   accessToken: String!
   user: User!
-}
-
-type Todo {
-  id: ID!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  title: String!
-  completed: Boolean
 }
 
 type Query {
@@ -122,7 +124,7 @@ type Mutation {
   """Delete User"""
   deleteUser(id: ID!): User!
 
-  """Create Todo"""
+  """Custom Create Todo"""
   createTodo(input: TodoInput!): Todo!
 
   """Update Todo"""
