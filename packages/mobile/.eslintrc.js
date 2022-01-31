@@ -15,5 +15,6 @@ module.exports = {
     '@next/next/no-html-link-for-pages': 'off',
     'import/no-extraneous-dependencies': 'off',
     'import/prefer-default-export': 'off',
+    'react/require-default-props': 'off',
   },
 };

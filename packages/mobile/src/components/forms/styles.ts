@@ -9,6 +9,12 @@ const styles = StyleSheet.create({
     paddingRight: 20,
     fontWeight: 'normal',
   },
+
+  input: {
+    width: 200,
+    backgroundColor: '#fff',
+    marginBottom: 10,
+  },
 });
 
 export default styles;
