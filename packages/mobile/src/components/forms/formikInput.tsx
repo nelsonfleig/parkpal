@@ -6,6 +6,7 @@ import styles from './styles';
 type FormikInputProps = FieldHookConfig<string> & {
   name: string;
   label: string;
+  secureTextEntry: boolean;
 };
 
 export const FormikInput = ({ label, ...props }: FormikInputProps) => {
@@ -22,6 +23,7 @@ export const FormikInput = ({ label, ...props }: FormikInputProps) => {
         autoComplete="email"
         label={label}
         error={meta.touched && !!meta.error}
+        secureTextEntry={props.secureTextEntry}
       />
       {meta.touched && !!meta.error && <Text>{meta.error}</Text>}
     </>
