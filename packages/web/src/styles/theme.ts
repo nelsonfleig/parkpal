@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme } from '@mui/material';
 
 const theme = createTheme({
   typography: {
@@ -11,6 +11,14 @@ const theme = createTheme({
       color: '#263238',
     },
     h3: {
+      fontWeight: 600,
+      color: '#263238',
+    },
+    h4: {
+      fontWeight: 600,
+      color: '#263238',
+    },
+    h5: {
       fontWeight: 600,
       color: '#263238',
     },

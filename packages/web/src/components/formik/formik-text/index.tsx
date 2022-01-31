@@ -11,6 +11,7 @@ export const FormikText = (props: TextFieldProps & FieldHookConfig<string>) => {
       {...field}
       {...props}
       margin="normal"
+      size="medium"
       error={meta.touched && !!meta.error}
       helperText={meta.touched && meta.error}
     />

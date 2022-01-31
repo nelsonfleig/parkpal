@@ -1,9 +1,10 @@
-import { Button } from '@mui/material';
+import { Button, CircularProgress } from '@mui/material';
 import React from 'react';
 import styled from 'styled-components';
 
 const SubmitButton = styled(Button)`
-  margin-top: 100px;
+  margin-top: 20px;
+  padding: 12px !important;
 `;
 
 type FormikSubmitProps = {
@@ -13,14 +14,7 @@ type FormikSubmitProps = {
 };
 
 export const FormikSubmit = ({ children, disabled, loading }: FormikSubmitProps) => (
-  <SubmitButton
-    size="large"
-    type="submit"
-    variant="contained"
-    fullWidth
-    disabled={disabled}
-    // loading={loading}
-  >
-    {children}
+  <SubmitButton type="submit" size="small" variant="contained" fullWidth disabled={disabled}>
+    {loading ? <CircularProgress color="secondary" size={30} /> : children}
   </SubmitButton>
 );
