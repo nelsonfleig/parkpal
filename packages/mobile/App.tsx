@@ -7,7 +7,7 @@ import { ApolloProvider } from '@apollo/client';
 import apolloClient from './src/lib/apolloClient';
 import theme from './src/styles/theme';
 import { RootStackParams } from './types/rootStack';
-import { WelcomeScreen, LoginScreen, RegisterScreen, Home } from './src/screens';
+import { WelcomeScreen, LoginScreen, RegisterScreen, HomeScreen } from './src/screens';
 
 export default function App() {
   const RootStack = createNativeStackNavigator<RootStackParams>();
@@ -28,6 +28,7 @@ export default function App() {
             screenOptions={{
               headerShown: false,
             }}>
+            <RootStack.Screen name="Home" component={HomeScreen} />
             <RootStack.Screen name="Welcome" component={WelcomeScreen} />
             <RootStack.Screen name="Sign In Page" component={LoginScreen} />
             <RootStack.Screen name="Register" component={RegisterScreen} />
