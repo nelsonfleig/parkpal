@@ -10,11 +10,14 @@ module.exports = {
       jsx: true,
     },
     ecmaVersion: 2021,
+    tsconfigRootDir: __dirname,
     sourceType: 'module',
     project: ['./tsconfig.json'],
   },
   rules: {
     'no-underscore-dangle': 'off',
     'import/prefer-default-export': 'off',
+    'jsx-a11y/anchor-is-valid': 'off',
+    'react/no-unescaped-entities': 'off',
   },
 };

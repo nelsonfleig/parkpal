@@ -4,6 +4,7 @@ import { Provider as PaperProvider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ApolloProvider } from '@apollo/client';
+import Toast from 'react-native-toast-message';
 import apolloClient from './src/lib/apolloClient';
 import theme from './src/styles/theme';
 import { RootStackParams } from './types/rootStack';
@@ -30,10 +31,12 @@ export default function App() {
             }}>
             <RootStack.Screen name="Home" component={HomeScreen} />
             <RootStack.Screen name="Welcome" component={WelcomeScreen} />
-            <RootStack.Screen name="Sign In Page" component={LoginScreen} />
+            <RootStack.Screen name="Login" component={LoginScreen} />
             <RootStack.Screen name="Register" component={RegisterScreen} />
+            <RootStack.Screen name="Home" component={HomeScreen} />
           </RootStack.Navigator>
         </NavigationContainer>
+        <Toast />
       </PaperProvider>
     </ApolloProvider>
   );
