@@ -34,6 +34,10 @@ const styles = StyleSheet.create({
     right: 5,
     top: 5,
   },
+
+  menuItem: {
+    color: 'red',
+  },
 });
 
 export default styles;
