@@ -3,10 +3,12 @@ import React from 'react';
 import { DashboardSidebar } from '../../components/layout/dashboardSidebar';
 import { NavBar } from '../../components/layout/navbar';
 
-const dashboard: NextPage = () => (
+const nyParkingSpaces: NextPage = () => (
+  // const { data, loading } =  ();
+
   <div>
     <NavBar />
     <DashboardSidebar />
   </div>
 );
-export default dashboard;
+export default nyParkingSpaces;
