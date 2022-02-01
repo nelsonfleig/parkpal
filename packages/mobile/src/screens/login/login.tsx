@@ -1,4 +1,3 @@
-import { useTheme } from 'react-native-paper';
 import { Formik } from 'formik';
 import { View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -12,7 +11,6 @@ import { useLoginMutation } from '../../graphql/__generated__';
 import { errorToast } from '../../components';
 
 export const LoginScreen = ({ navigation }: WelcomeProps) => {
-  const { colors } = useTheme();
   const [login] = useLoginMutation();
 
   return (
@@ -38,8 +36,7 @@ export const LoginScreen = ({ navigation }: WelcomeProps) => {
               <FormikInput name="password" label="Password" value="password" secureTextEntry />
               <CustomButton
                 press={handleSubmit}
-                bg="#fff"
-                color={colors.primary}
+                type="welcome"
                 loading={isSubmitting}
                 disabled={!isValid || isSubmitting}>
                 Log In
