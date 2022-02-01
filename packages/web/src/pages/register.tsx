@@ -3,9 +3,10 @@ import { Form, Formik } from 'formik';
 import { useRouter } from 'next/router';
 import React from 'react';
 import { toast } from 'react-toastify';
-import { AuthFormWrapper, PageTitle, HomeLayout, AuthBottomText } from '../components/common';
+import { AuthBottomText, AuthFormWrapper } from '../components/common';
 import { FormikSubmit } from '../components/formik/formik-submit';
 import { FormikText } from '../components/formik/formik-text';
+import { AuthLayout } from '../components/layout/auth-layout';
 import { useRegisterMutation } from '../graphql/__generated__';
 import { registerSchema } from '../models/register.form';
 
@@ -14,12 +15,9 @@ const Register = () => {
   const router = useRouter();
 
   return (
-    <HomeLayout>
-      <PageTitle variant="h2" color="white" textAlign="center" mt="80px">
-        ParkPal <span>| Renters</span>
-      </PageTitle>
+    <AuthLayout>
       <AuthFormWrapper elevation={3}>
-        <Typography variant="h4" textAlign="center">
+        <Typography variant="h4" textAlign="center" gutterBottom>
           Register
         </Typography>
         <Formik
@@ -74,7 +72,7 @@ const Register = () => {
           )}
         </Formik>
       </AuthFormWrapper>
-    </HomeLayout>
+    </AuthLayout>
   );
 };
 
