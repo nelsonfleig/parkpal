@@ -10,6 +10,7 @@ import { Roles } from './decorators/roles.decorator';
 import { AuthResponse } from './types/auth.response';
 import { LoginInput } from './types/login.input';
 import { RegisterInput } from './types/register.input';
+import { ProfileInput } from 'src/user/types/profile.input';
 
 @Resolver()
 export class AuthResolver {
@@ -37,5 +38,22 @@ export class AuthResolver {
   @Mutation(() => Boolean, { description: 'Logout user' })
   logout(@Context() context: Ctx) {
     return this.authService.logout(context);
+  }
+
+  /**
+   * Upgrade a User to Renter if he submits his profile information
+   *
+   * Also allow a Renter to change his profile info
+   */
+  @Roles(Role.USER, Role.RENTER)
+  @Mutation(() => User, { description: 'Logout user' })
+  updateProfile(
+    @CurrentUser() user: UserJwt,
+    @Args('input') input: ProfileInput
+  ) {
+    return this.userService.update(user.id, {
+      ...input,
+      roles: [Role.USER, Role.RENTER],
+    });
   }
 }

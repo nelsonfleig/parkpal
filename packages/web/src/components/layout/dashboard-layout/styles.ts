@@ -16,8 +16,8 @@ export const DashboardContent = styled.div`
 
 export const DashboardBody = styled.main`
   flex-grow: 1;
-  background: blue;
   min-height: 100%;
   height: 100%;
   overflow-y: auto;
+  padding: 10px;
 `;
