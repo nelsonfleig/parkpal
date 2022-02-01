@@ -2,31 +2,22 @@ import Typography from '@mui/material/Typography';
 import { Form, Formik } from 'formik';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { toast } from 'react-toastify';
-import { HomeLayout, PageTitle, AuthFormWrapper, AuthBottomText } from '../components/common';
+import { AuthBottomText, AuthFormWrapper } from '../components/common';
 import { FormikSubmit } from '../components/formik/formik-submit';
 import { FormikText } from '../components/formik/formik-text';
+import { AuthLayout } from '../components/layout/auth-layout';
 import { useLoginMutation } from '../graphql/__generated__';
-import { useAuth } from '../hooks/useAuth';
 import { loginSchema } from '../models/login.form';
 
 const Login = () => {
   const [login] = useLoginMutation();
-  const { isAuthenticated } = useAuth();
   const router = useRouter();
-
-  useEffect(() => {
-    if (isAuthenticated) router.push('/dashboard');
-  }, [isAuthenticated, router]);
-
   return (
-    <HomeLayout>
-      <PageTitle variant="h1" textAlign="center" mt="80px">
-        ParkPal <span>| Renters</span>
-      </PageTitle>
+    <AuthLayout>
       <AuthFormWrapper elevation={3}>
-        <Typography variant="h4" textAlign="center">
+        <Typography variant="h4" textAlign="center" gutterBottom>
           Login
         </Typography>
         <Formik
@@ -69,7 +60,7 @@ const Login = () => {
           )}
         </Formik>
       </AuthFormWrapper>
-    </HomeLayout>
+    </AuthLayout>
   );
 };
 

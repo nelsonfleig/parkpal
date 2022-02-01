@@ -1,12 +1,13 @@
 import { NextPage } from 'next';
 import React from 'react';
-import { DashboardSidebar } from '../../components/layout/dashboardSidebar';
-import { NavBar } from '../../components/layout/navbar';
+import { DashboardLayout } from '../../components/layout/dashboard-layout/dashboard-layout';
+import {} from '../../graphql/__generated__';
 
-const dashboard: NextPage = () => (
-  <div>
-    <NavBar />
-    <DashboardSidebar />
-  </div>
+const DashboardHome: NextPage = () => (
+  // const { data, loading } =  ();
+
+  <DashboardLayout>
+    <h1>HELLO FROM LAYOUT</h1>
+  </DashboardLayout>
 );
-export default dashboard;
+export default DashboardHome;
