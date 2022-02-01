@@ -1,11 +1,10 @@
 import { NextPage } from 'next';
-import { DashboardSidebar } from '../../components/layout/dashboardSidebar';
-import { NavBar } from '../../components/layout/navbar';
+import { DashboardLayout } from '../../components/layout/dashboard-layout/dashboard-layout';
+import { DashboardProfile } from '../../components/layout/dashboardProfile';
 
 const profile: NextPage = () => (
-  <div>
-    <NavBar />
-    <DashboardSidebar />
-  </div>
+  <DashboardLayout>
+    <DashboardProfile />
+  </DashboardLayout>
 );
 export default profile;

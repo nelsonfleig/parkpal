@@ -9,23 +9,21 @@ type DashboardLayoutProps = {
   children: React.ReactNode;
 };
 
-export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
-  const { isAuthenticated, loading } = useAuth();
-  const router = useRouter();
+export const DashboardLayout = ({ children }: DashboardLayoutProps) => (
+  // const { isAuthenticated, loading } = useAuth();
+  // const router = useRouter();
 
-  useEffect(() => {
-    if (!loading && !isAuthenticated) {
-      router.push('/');
-    }
-  }, [isAuthenticated, loading, router]);
+  // useEffect(() => {
+  //   if (!loading && !isAuthenticated) {
+  //     router.push('/');
+  //   }
+  // }, [isAuthenticated, loading, router]);
 
-  return (
-    <DashboardWrapper>
-      <NavBar />
-      <DashboardContent>
-        <DashboardSidebar />
-        <DashboardBody>{children}</DashboardBody>
-      </DashboardContent>
-    </DashboardWrapper>
-  );
-};
+  <DashboardWrapper>
+    <NavBar />
+    <DashboardContent>
+      <DashboardSidebar />
+      <DashboardBody>{children}</DashboardBody>
+    </DashboardContent>
+  </DashboardWrapper>
+);
