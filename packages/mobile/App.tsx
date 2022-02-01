@@ -35,6 +35,7 @@ export default function App() {
             <RootStack.Screen name="Home" component={HomeScreen} />
           </RootStack.Navigator>
         </NavigationContainer>
+
         <Toast />
       </PaperProvider>
     </ApolloProvider>
