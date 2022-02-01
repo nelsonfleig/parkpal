@@ -16,7 +16,7 @@ export const HomeScreen = () => {
   return (
     <HomeStack.Navigator barStyle={{ backgroundColor: '#fff' }} activeColor={colors.primary}>
       <HomeStack.Screen
-        name="Home"
+        name="Landing"
         component={LandingScreen}
         options={{
           tabBarLabel: 'Home',

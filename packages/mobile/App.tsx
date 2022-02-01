@@ -29,10 +29,10 @@ export default function App() {
             screenOptions={{
               headerShown: false,
             }}>
-            <RootStack.Screen name="Home" component={HomeScreen} />
             <RootStack.Screen name="Welcome" component={WelcomeScreen} />
             <RootStack.Screen name="Login" component={LoginScreen} />
             <RootStack.Screen name="Register" component={RegisterScreen} />
+            <RootStack.Screen name="Home" component={HomeScreen} />
           </RootStack.Navigator>
         </NavigationContainer>
 
