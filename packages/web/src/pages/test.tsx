@@ -1,6 +1,7 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
+import { DashboardInformation } from '../components/layout/dashboardInformation';
 import { Todos } from '../components/todos';
 import styles from '../styles/Home.module.css';
 
@@ -12,6 +13,7 @@ const Home: NextPage = () => (
       <link rel="icon" href="/favicon.ico" />
     </Head>
 
+    <DashboardInformation />
     <main className={styles.main}>
       <Todos />
       <div className={styles.grid}>
