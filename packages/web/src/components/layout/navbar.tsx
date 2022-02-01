@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react';
-import { styled } from '@mui/material/styles';
+import MenuIcon from '@mui/icons-material/Menu';
+import { Avatar, Paper } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
+import { styled } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import MenuIcon from '@mui/icons-material/Menu';
 import { NextComponentType } from 'next';
 import Image from 'next/image';
-import { Avatar, Paper } from '@mui/material';
-import { useAuth } from '../../hooks/useAuth';
 import { useRouter } from 'next/router';
+import React, { useEffect } from 'react';
+import { useAuth } from '../../hooks/useAuth';
 
 const StyledBurger = styled(MenuIcon)((props) => ({
   color: 'inherit',
@@ -50,7 +50,7 @@ export const NavBar: NextComponentType = () => {
     if (!loading && !isAuthenticated) {
       router.push('/');
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, loading, router]);
 
   return (
     <Box>

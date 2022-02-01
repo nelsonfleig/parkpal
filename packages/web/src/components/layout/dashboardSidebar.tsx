@@ -1,11 +1,11 @@
-import { Box, Button } from '@mui/material';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import HomeIcon from '@mui/icons-material/Home';
+import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { NextComponentType } from 'next';
-import React, { useState } from 'react';
-import HomeIcon from '@mui/icons-material/Home';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
+import React, { useState } from 'react';
 
 const StyledSidebar = styled(Box)((props) => ({
   color: '#fff',
