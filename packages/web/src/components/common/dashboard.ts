@@ -32,6 +32,7 @@ export const StyledProfileBox = styled(Box)(() => ({
   flexWrap: 'wrap',
   height: 'calc(100vh - 88px)',
   gap: '30px',
+  padding: '3rem 1rem 3rem  3rem',
 }));
 
 export const GraphStyle = {

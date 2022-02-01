@@ -42,7 +42,7 @@ export const DashboardSidebar: NextComponentType = () => {
 
   return (
     <StyledSidebar>
-      <Link href="/home" passHref>
+      <Link href="/dashboard" passHref>
         <StyledHomeIcon />
       </Link>
       <Link href="/calendar" passHref>
