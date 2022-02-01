@@ -8,12 +8,12 @@ type ParkingSpotsProps = {
 };
 
 export const ParkingSpots = ({ parkingSpots }: ParkingSpotsProps) => {
-  const markers =
-    parkingSpots &&
-    parkingSpots.map((spot) => (
-      <Marker coordinate={{ latitude: spot.latitude, longitude: spot.longitude }} key={spot.id}>
-        <Image source={SpotIcon} style={{ width: 50, height: 50 }} />
-      </Marker>
-    ));
+  const markers = parkingSpots
+    ? parkingSpots.map((spot) => (
+        <Marker coordinate={{ latitude: spot.latitude, longitude: spot.longitude }} key={spot.id}>
+          <Image source={SpotIcon} style={{ width: 50, height: 50 }} />
+        </Marker>
+      ))
+    : null;
   return <View>{markers}</View>;
 };

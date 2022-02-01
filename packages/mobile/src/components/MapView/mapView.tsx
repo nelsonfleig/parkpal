@@ -8,9 +8,9 @@ import { View } from 'react-native';
 import { mapViewStyles } from './mapViewStyles';
 
 import { DestinationMarker } from '../DestinationMarker/destinationMarker';
-import { ParkingSpots } from '../ParkingSpots/parkingSpots';
-import { mockParkingSpots } from '../../mockParkings';
+import { mockParkingSpots, ParkingSpotType } from '../../mockParkings';
 import { getDistKm } from '../../helpers/linearDistance';
+import { ParkingSpots } from '../ParkingSpots/parkingSpots';
 
 type MapComponentProps = {
   latitude: number;
@@ -19,21 +19,23 @@ type MapComponentProps = {
 };
 
 export const MapComponent = ({ latitude, longitude, destination }: MapComponentProps) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   // const [origin, setOrigin] = useState({ latitude, longitude });
   const [mapDest, setMapDest] = useState(null as LocationGeocodedLocation | null);
+  const [markers, setMarkers] = useState([] as ParkingSpotType[] | null);
 
   useEffect(() => {
     // setOrigin({ latitude, longitude });
     setMapDest(destination);
+    const spotsInZone =
+      destination &&
+      mockParkingSpots.filter(
+        (spot) =>
+          getDistKm(destination.latitude, destination.longitude, spot.latitude, spot.longitude) <
+          0.3
+      );
+    setMarkers(spotsInZone);
   }, [latitude, longitude, destination]);
 
-  const spotsInZone =
-    destination &&
-    mockParkingSpots.filter(
-      (spot) =>
-        getDistKm(destination.latitude, destination.longitude, spot.latitude, spot.longitude) < 0.3
-    );
   return (
     <MapView
       provider="google"
@@ -65,7 +67,7 @@ export const MapComponent = ({ latitude, longitude, destination }: MapComponentP
       {mapDest && (
         <View>
           <DestinationMarker mapDest={mapDest} />
-          <ParkingSpots parkingSpots={spotsInZone} />
+          <ParkingSpots parkingSpots={markers} />
         </View>
       )}
 
