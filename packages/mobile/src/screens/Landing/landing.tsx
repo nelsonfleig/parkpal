@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import { LocationGeocodedLocation, LocationObject } from 'expo-location';
 import * as Location from 'expo-location';
 
@@ -12,7 +12,14 @@ export const LandingScreen = () => {
   const [destination, setDestination] = useState(null as LocationGeocodedLocation | null);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const onChangeSearch = (query: string) => setSearchQuery(query);
+  const onChangeSearch = (query: string) => {
+    if (query === '') {
+      setDestination(null);
+      setSearchQuery('');
+    } else {
+      setSearchQuery(query);
+    }
+  };
 
   useEffect(() => {
     (async () => {
@@ -35,20 +42,22 @@ export const LandingScreen = () => {
   }, []);
 
   return (
-    <View style={landingStyles.container}>
+    <ScrollView style={landingStyles.container}>
       <Searchbar
         autoComplete
         placeholder="Enter a destination"
         iconColor="#7145D6"
         theme={{ colors: { text: 'black' } }}
         style={{ position: 'absolute', top: 60, right: 20, left: 20, zIndex: 3 }}
+        autoCapitalize="words"
         onChangeText={onChangeSearch}
         value={searchQuery}
         onSubmitEditing={async () => {
-          const temp = await Location.geocodeAsync(searchQuery);
-          // eslint-disable-next-line no-console
-          console.log(temp[0]);
-          setDestination(temp[0]);
+          // When we submit the direction, we transform it to coordinates
+          const temp = searchQuery ? await Location.geocodeAsync(searchQuery) : null;
+          if (temp) {
+            setDestination(temp[0]);
+          }
         }}
       />
       <View>
@@ -62,6 +71,6 @@ export const LandingScreen = () => {
           <Text>Warm lentils alert! You have to enable the location to use ParkPal.</Text>
         )}
       </View>
-    </View>
+    </ScrollView>
   );
 };

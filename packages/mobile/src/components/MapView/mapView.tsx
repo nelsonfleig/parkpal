@@ -1,11 +1,11 @@
 import { LocationGeocodedLocation } from 'expo-location';
-import MapView, { Circle, Marker } from 'react-native-maps';
-import { View } from 'react-native';
+import MapView from 'react-native-maps';
 import { useEffect, useState } from 'react';
 // import MapViewDirections from 'react-native-maps-directions';
 
 // import { API_DIRECTIONS_KEY } from '@env';
 import { mapViewStyles } from './mapViewStyles';
+import { DestinationMarker } from '../DestinationMarker/destinationMarker';
 
 type MapComponentProps = {
   latitude: number;
@@ -44,18 +44,14 @@ export const MapComponent = ({ latitude, longitude, destination }: MapComponentP
               latitudeDelta: 0.01,
               longitudeDelta: 0.01,
             }
-          : undefined
+          : {
+              latitude,
+              longitude,
+              latitudeDelta: 0.01,
+              longitudeDelta: 0.01,
+            }
       }>
-      {mapDest && (
-        <View>
-          <Marker coordinate={{ latitude: mapDest.latitude, longitude: mapDest.longitude }} />
-          <Circle
-            center={{ latitude: mapDest.latitude, longitude: mapDest.longitude }}
-            radius={300}
-            fillColor="rgba(126, 113, 233, 0.3)"
-          />
-        </View>
-      )}
+      {mapDest && <DestinationMarker mapDest={mapDest} />}
       {/* <MapViewDirections
           origin={origin}
           destination={destination}
