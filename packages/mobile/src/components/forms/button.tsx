@@ -29,6 +29,10 @@ export const CustomButton = ({
     if (type === 'booking') {
       return styles.bookingButton;
     }
+
+    if (type === 'main') {
+      return styles.mainButton;
+    }
     return null;
   };
   return (
