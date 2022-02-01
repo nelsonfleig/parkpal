@@ -4,8 +4,11 @@ import { useEffect, useState } from 'react';
 // import MapViewDirections from 'react-native-maps-directions';
 
 // import { API_DIRECTIONS_KEY } from '@env';
+import { View } from 'react-native';
 import { mapViewStyles } from './mapViewStyles';
 import { DestinationMarker } from '../DestinationMarker/destinationMarker';
+import { ParkingSpots } from '../ParkingSpots/parkingSpots';
+import { mockParkingSpots } from '../../mockParkings';
 
 type MapComponentProps = {
   latitude: number;
@@ -51,7 +54,13 @@ export const MapComponent = ({ latitude, longitude, destination }: MapComponentP
               longitudeDelta: 0.01,
             }
       }>
-      {mapDest && <DestinationMarker mapDest={mapDest} />}
+      {mapDest && (
+        <View>
+          <DestinationMarker mapDest={mapDest} />
+          <ParkingSpots parkingSpots={mockParkingSpots} />
+        </View>
+      )}
+
       {/* <MapViewDirections
           origin={origin}
           destination={destination}
