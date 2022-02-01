@@ -1,13 +1,10 @@
 import { View } from 'react-native';
-import { useTheme } from 'react-native-paper';
 
 import { WelcomeProps } from '../../../types/rootStack';
 import { CustomButton } from '../../components/Forms/button';
 import { StartScreen } from '../../components/StartScreen/startScreen';
 
 export const WelcomeScreen = ({ navigation }: WelcomeProps) => {
-  const { colors } = useTheme();
-
   const signInPage = () => {
     navigation.navigate('Login');
   };
@@ -19,11 +16,11 @@ export const WelcomeScreen = ({ navigation }: WelcomeProps) => {
     <StartScreen>
       <View>
         <View>
-          <CustomButton press={signInPage} bg="#fff" color={colors.primary}>
+          <CustomButton press={signInPage} type="welcome">
             Sign In
           </CustomButton>
 
-          <CustomButton press={register} bg="#fff" color={colors.primary}>
+          <CustomButton press={register} type="welcome">
             Sign Up
           </CustomButton>
         </View>

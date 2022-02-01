@@ -1,6 +1,5 @@
 import { View } from 'react-native';
 import { Formik } from 'formik';
-import { useTheme } from 'react-native-paper';
 
 import { FormikInput } from '../../components/Forms/formikInput';
 import { StartScreen } from '../../components/StartScreen/startScreen';
@@ -11,7 +10,6 @@ import { WelcomeProps } from '../../../types/rootStack';
 import { sucessToast, errorToast } from '../../components';
 
 export const RegisterScreen = ({ navigation }: WelcomeProps) => {
-  const { colors } = useTheme();
   const [register] = useRegisterMutation();
   return (
     <StartScreen>
@@ -37,10 +35,9 @@ export const RegisterScreen = ({ navigation }: WelcomeProps) => {
             <FormikInput name="password" label="Password" secureTextEntry />
             <CustomButton
               press={handleSubmit}
-              color={colors.primary}
-              bg="#fff"
               loading={isSubmitting}
-              disabled={!isValid || isSubmitting}>
+              disabled={!isValid || isSubmitting}
+              type="welcome">
               Register
             </CustomButton>
           </View>

@@ -3,7 +3,7 @@ import { StyleSheet, Dimensions } from 'react-native';
 const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-  button: {
+  welcomeButton: {
     marginTop: 5,
     paddingTop: 15,
     paddingBottom: 15,
@@ -12,7 +12,14 @@ const styles = StyleSheet.create({
     fontWeight: 'normal',
     width: width * 0.65,
     marginBottom: 15,
-    fontSize: 100,
+    backgroundColor: '#fff',
+  },
+
+  bookingButton: {
+    width: 150,
+    padding: 0,
+    backgroundColor: 'transparent',
+    borderColor: '#fff',
   },
 
   input: {
