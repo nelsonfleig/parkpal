@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import React, { FC } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
@@ -25,8 +25,8 @@ export const DashboardInformation: FC = () => (
         3
       </Typography>
     </StyledPaper>
-    <div style={{ width: '100%' }}>
+    <Box style={{ width: '100%' }}>
       <HighchartsReact highcharts={Highcharts} options={GraphStyle} />
-    </div>
+    </Box>
   </StyledBox>
 );
