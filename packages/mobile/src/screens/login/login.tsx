@@ -2,6 +2,7 @@ import { useTheme } from 'react-native-paper';
 import { Formik } from 'formik';
 import { View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import React from 'react';
 import { StartScreen } from '../../components/StartScreen/startScreen';
 import styles from './loginStyles';
 import { CustomButton } from '../../components/Forms/button';

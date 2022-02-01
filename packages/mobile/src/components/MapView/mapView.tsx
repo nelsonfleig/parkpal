@@ -14,6 +14,7 @@ type MapComponentProps = {
 };
 
 export const MapComponent = ({ latitude, longitude, destination }: MapComponentProps) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [origin, setOrigin] = useState({ latitude, longitude });
   const [mapDest, setMapDest] = useState(null as LocationGeocodedLocation | null);
 

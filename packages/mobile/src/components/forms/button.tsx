@@ -1,5 +1,5 @@
 import { Button } from 'react-native-paper';
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import styles from './styles';
 
 type CustomButtonProps = {

@@ -1,5 +1,5 @@
+import React, { ReactNode } from 'react';
 import { ScrollView, View, Image, KeyboardAvoidingView, Platform, Dimensions } from 'react-native';
-import { ReactNode } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Logo from '../../../assets/images/Logo.png';
 import styles from './startScreenStyles';

@@ -1,6 +1,7 @@
 import { View } from 'react-native';
 import { Formik } from 'formik';
 import { useTheme } from 'react-native-paper';
+import React from 'react';
 
 import { FormikInput } from '../../components/Forms/formikInput';
 import { StartScreen } from '../../components/StartScreen/startScreen';

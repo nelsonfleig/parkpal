@@ -46,6 +46,7 @@ export const LandingScreen = () => {
         value={searchQuery}
         onSubmitEditing={async () => {
           const temp = await Location.geocodeAsync(searchQuery);
+          // eslint-disable-next-line no-console
           console.log(temp[0]);
           setDestination(temp[0]);
         }}

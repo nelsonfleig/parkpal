@@ -1,6 +1,7 @@
 import { FieldHookConfig, useField } from 'formik';
 import { TextInput } from 'react-native-paper';
 import { Text } from 'react-native';
+import React from 'react';
 import styles from './styles';
 
 type FormikInputProps = FieldHookConfig<string> & {
