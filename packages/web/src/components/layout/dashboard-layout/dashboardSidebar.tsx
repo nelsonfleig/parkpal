@@ -30,18 +30,22 @@ export const DashboardSidebar: NextComponentType = () => {
 
   return (
     <StyledSidebar>
-      <Link href="/dashboard" passHref>
-        <StyledHomeIcon />
+      <Link href="/home" passHref>
+        <a>
+          <StyledHomeIcon />
+        </a>
       </Link>
       <Link href="/calendar" passHref>
-        <StyledCalendar />
+        <a>
+          <StyledCalendar />
+        </a>
       </Link>
-      <Link href="/myParkingSpots" passHref>
-        <div
+      <Link href="/dashboard/parking-spots" passHref>
+        <a
           onMouseEnter={() => setIsShown('/logoPurple.svg')}
           onMouseLeave={() => setIsShown('/logo.svg')}>
           <Image src={isShown} alt="ParkPal Logo" width={60} height={60} />
-        </div>
+        </a>
       </Link>
     </StyledSidebar>
   );

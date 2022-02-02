@@ -99,7 +99,7 @@ export const DashboardProfile: FC = () => {
           <Formik
             initialValues={{}}
             onSubmit={async () => {
-              console.log('yep');
+              // console.log('yep');
             }}>
             {({ isValid, isSubmitting }) => (
               <Form>
@@ -120,7 +120,7 @@ export const DashboardProfile: FC = () => {
           <Formik
             initialValues={{}}
             onSubmit={async () => {
-              console.log('yep');
+              // console.log('yep');
             }}>
             {({ isValid, isSubmitting }) => (
               <Form>

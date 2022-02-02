@@ -1,4 +1,4 @@
-import { Button, CircularProgress } from '@mui/material';
+import { Button, ButtonProps, CircularProgress } from '@mui/material';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -7,9 +7,7 @@ const SubmitButton = styled(Button)`
   padding: 12px !important;
 `;
 
-export type FormikSubmitProps = {
-  children: React.ReactNode;
-  disabled: boolean;
+type FormikSubmitProps = ButtonProps & {
   loading: boolean;
 };
 
