@@ -1,4 +1,4 @@
-import { View, Image } from 'react-native';
+import { View, Image, Keyboard } from 'react-native';
 import { Marker } from 'react-native-maps';
 import { ParkingSpotType } from '../../mockParkings';
 import SpotIcon from '../../../assets/images/Spot-icon.png';
@@ -14,7 +14,10 @@ export const ParkingSpots = ({ parkingSpots }: ParkingSpotsProps) => {
         <Marker
           coordinate={{ latitude: spot.latitude, longitude: spot.longitude }}
           key={spot.id}
-          onPress={() => panelReference.current?.show(500)}>
+          onPress={() => {
+            Keyboard.dismiss();
+            panelReference.current?.show(500);
+          }}>
           <Image source={SpotIcon} style={{ width: 50, height: 50 }} />
         </Marker>
       ))

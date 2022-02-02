@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text } from 'react-native';
 import { LocationGeocodedLocation, LocationObject } from 'expo-location';
 import * as Location from 'expo-location';
 
@@ -44,33 +44,35 @@ export const LandingScreen = () => {
 
   return (
     <View style={landingStyles.container}>
-      <Searchbar
-        autoComplete
-        placeholder="Enter a destination"
-        iconColor="#7145D6"
-        theme={{ colors: { text: 'black' } }}
-        style={{ position: 'absolute', top: 60, right: 20, left: 20, zIndex: 3 }}
-        autoCapitalize="words"
-        onChangeText={onChangeSearch}
-        value={searchQuery}
-        onSubmitEditing={async () => {
-          // When we submit the direction, we transform it to coordinates
-          const temp = searchQuery ? await Location.geocodeAsync(searchQuery) : null;
-          if (temp) {
-            setDestination(temp[0]);
-          }
-        }}
-      />
       <View>
-        {location ? (
-          <MapComponent
-            latitude={location.coords.latitude}
-            longitude={location.coords.longitude}
-            destination={destination}
-          />
-        ) : (
-          <Text>Warm lentils alert! You have to enable the location to use ParkPal.</Text>
-        )}
+        <Searchbar
+          autoComplete
+          placeholder="Enter a destination"
+          iconColor="#7145D6"
+          theme={{ colors: { text: 'black' } }}
+          style={{ position: 'absolute', top: 60, right: 20, left: 20, zIndex: 3 }}
+          autoCapitalize="words"
+          onChangeText={onChangeSearch}
+          value={searchQuery}
+          onSubmitEditing={async () => {
+            // When we submit the direction, we transform it to coordinates
+            const temp = searchQuery ? await Location.geocodeAsync(searchQuery) : null;
+            if (temp) {
+              setDestination(temp[0]);
+            }
+          }}
+        />
+        <View>
+          {location ? (
+            <MapComponent
+              latitude={location.coords.latitude}
+              longitude={location.coords.longitude}
+              destination={destination}
+            />
+          ) : (
+            <Text>Warm lentils alert! You have to enable the location to use ParkPal.</Text>
+          )}
+        </View>
       </View>
       <BookingPopup />
     </View>

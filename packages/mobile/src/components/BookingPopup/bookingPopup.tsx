@@ -5,8 +5,9 @@ import { View, Image, ScrollView } from 'react-native';
 import { Text } from 'react-native-paper';
 import React, { useState } from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
+import CalendarComponent from '../Calendar/calendar';
+
 import styles from './bookingPopupStyles';
 import profile from '../../../assets/images/profile.png';
 import { CustomButton } from '../Forms/button';
@@ -14,13 +15,7 @@ import { CustomButton } from '../Forms/button';
 export const panelReference = React.createRef<any>();
 
 export const BookingPopup = () => {
-  const [date, setDate] = useState(new Date(Date.now()));
   const [scrollEnabled, setScrollEnabled] = useState();
-
-  const onChange = (event: Event, selectedDate: number) => {
-    const currentDate = selectedDate || date;
-    setDate(currentDate as Date);
-  };
 
   const enableScroll = () => setScrollEnabled(true);
   const disableScroll = () => {
@@ -62,25 +57,8 @@ export const BookingPopup = () => {
           </View>
           <View style={styles.calendar}>
             <MaterialCommunityIcons name="calendar" size={40} color="#7145D6" style={styles.icon} />
-            <DateTimePicker
-              value={date}
-              mode="date"
-              is24Hour
-              display="default"
-              onChange={onChange}
-              minimumDate={new Date(Date.now())}
-              style={styles.date}
-            />
-            <DateTimePicker
-              value={date}
-              mode="time"
-              is24Hour
-              display="default"
-              onChange={onChange}
-              minimumDate={new Date(Date.now())}
-              style={styles.time}
-              minuteInterval={30}
-            />
+
+            <CalendarComponent disabledDayIndexes={[1, 2, 3]} />
           </View>
           <ScrollView contentContainerStyle={styles.slider} scrollEnabled={scrollEnabled}>
             <MaterialCommunityIcons
@@ -89,6 +67,7 @@ export const BookingPopup = () => {
               size={40}
               color="#7145D6"
             />
+
             <MultiSlider
               onValuesChangeStart={disableScroll}
               onValuesChangeFinish={enableScroll}
@@ -100,6 +79,7 @@ export const BookingPopup = () => {
               enableLabel
             />
           </ScrollView>
+
           <CustomButton press={() => {}} color="white" type="main">
             Book
           </CustomButton>
