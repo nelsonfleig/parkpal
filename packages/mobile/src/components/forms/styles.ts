@@ -22,6 +22,12 @@ const styles = StyleSheet.create({
     borderColor: '#fff',
   },
 
+  mainButton: {
+    backgroundColor: '#0A2540',
+    padding: 10,
+    marginTop: 35,
+  },
+
   input: {
     width: width * 0.65,
     backgroundColor: '#fff',

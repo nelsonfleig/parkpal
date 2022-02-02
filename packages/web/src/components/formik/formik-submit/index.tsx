@@ -16,3 +16,15 @@ export const FormikSubmit = ({ children, disabled, loading }: FormikSubmitProps)
     {loading ? <CircularProgress color="secondary" size={30} /> : children}
   </SubmitButton>
 );
+
+const SubmitProfileButton = styled(Button)`
+  margin-top: 10px;
+  padding: 6px !important;
+  background-color: #0a2540 !important;
+`;
+
+export const FormikSubmitProfile = ({ children, disabled, loading }: FormikSubmitProps) => (
+  <SubmitProfileButton type="submit" variant="contained" fullWidth disabled={disabled}>
+    {loading ? <CircularProgress /> : children}
+  </SubmitProfileButton>
+);
