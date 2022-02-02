@@ -15,6 +15,7 @@
   "dependencies": {
     "@apollo/client": "^3.5.8",
     "@react-native-async-storage/async-storage": "^1.15.17",
+    "@react-native-community/datetimepicker": "4.0.0",
     "@react-navigation/material-bottom-tabs": "^6.1.0",
     "@react-navigation/native": "^6.0.7",
     "@react-navigation/native-stack": "^6.3.0",
@@ -30,12 +31,13 @@
     "react-native": "0.64.3",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-maps": "0.29.4",
-    "react-native-paper": "^4.11.2",
+    "react-native-paper": "^4.8.1",
     "react-native-safe-area-context": "3.3.2",
     "react-native-screens": "~3.10.1",
     "react-native-toast-message": "^2.1.1",
     "react-native-vector-icons": "^9.0.0",
     "react-native-web": "0.17.1",
+    "rn-sliding-up-panel": "^2.4.5",
     "yup": "^0.32.11"
   },
   "devDependencies": {

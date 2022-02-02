@@ -1,9 +1,7 @@
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { useTheme } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
-import { BookingsScreen } from '../screens/Bookings/bookings';
-import { LandingScreen } from '../screens/homeIndex';
+import { LandingScreen, BookingsScreen } from '../screens/homeIndex';
 
 const iconOptions = (icon: string, color?: string) => (
   <MaterialCommunityIcons name={icon} color={color} size={26} />
