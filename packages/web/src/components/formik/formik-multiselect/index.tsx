@@ -2,7 +2,7 @@ import { Autocomplete, TextField, TextFieldProps } from '@mui/material';
 import { FieldHookConfig, useField, useFormikContext } from 'formik';
 import React from 'react';
 
-type FormikMultiSelectProps = TextFieldProps & FieldHookConfig<string>;
+type FormikMultiSelectProps = TextFieldProps & FieldHookConfig<{ name: string; value: number }[]>;
 
 export const FormikMultiSelect = (props: FormikMultiSelectProps) => {
   const [field, meta] = useField(props);
