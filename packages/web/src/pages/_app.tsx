@@ -5,11 +5,13 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import React, { useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { ThemeProvider } from 'styled-components';
+import { Provider as StoreProvider } from 'react-redux';
 import { useApollo } from '../lib/apolloClient';
 import '../styles/globals.css';
-import 'react-toastify/dist/ReactToastify.css';
 import theme from '../styles/theme';
+import { store } from '../redux';
 
 function MyApp({ Component, pageProps = {} }: AppProps) {
   const apolloClient = useApollo(pageProps);
@@ -26,25 +28,27 @@ function MyApp({ Component, pageProps = {} }: AppProps) {
 
   return (
     <ApolloProvider client={apolloClient}>
-      <StyledEngineProvider injectFirst>
-        <MuiThemeProvider theme={theme}>
-          <ThemeProvider theme={theme}>
-            <Head>
-              <meta charSet="utf-8" />
-              {/* Use minimum-scale=1 to enable GPU rasterization */}
-              <meta
-                name="viewport"
-                content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"
-              />
-              {/* PWA primary color */}
-              <meta name="theme-color" content={theme.palette.primary.main} />
-            </Head>
-            <CssBaseline />
-            <ToastContainer />
-            <Component {...pageProps} />
-          </ThemeProvider>
-        </MuiThemeProvider>
-      </StyledEngineProvider>
+      <StoreProvider store={store}>
+        <StyledEngineProvider injectFirst>
+          <MuiThemeProvider theme={theme}>
+            <ThemeProvider theme={theme}>
+              <Head>
+                <meta charSet="utf-8" />
+                {/* Use minimum-scale=1 to enable GPU rasterization */}
+                <meta
+                  name="viewport"
+                  content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no"
+                />
+                {/* PWA primary color */}
+                <meta name="theme-color" content={theme.palette.primary.main} />
+              </Head>
+              <CssBaseline />
+              <ToastContainer />
+              <Component {...pageProps} />
+            </ThemeProvider>
+          </MuiThemeProvider>
+        </StyledEngineProvider>
+      </StoreProvider>
     </ApolloProvider>
   );
 }

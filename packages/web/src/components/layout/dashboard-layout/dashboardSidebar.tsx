@@ -30,12 +30,12 @@ export const DashboardSidebar: NextComponentType = () => {
 
   return (
     <StyledSidebar>
-      <Link href="/home" passHref>
+      <Link href="/dashboard" passHref>
         <a>
           <StyledHomeIcon />
         </a>
       </Link>
-      <Link href="/calendar" passHref>
+      <Link href="/dashboard/calendar" passHref>
         <a>
           <StyledCalendar />
         </a>

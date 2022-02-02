@@ -30,13 +30,17 @@ type ParkingSpot {
   id: ID!
   createdAt: DateTime!
   updatedAt: DateTime!
-  latitude: Float!
-  longitude: Float!
+  lat: Float!
+  lng: Float!
   price: Float!
-  picture_url: String!
+  picture_url: String
+  daysAvailable: [Float!]!
+  startHour: Float!
+  endHour: Float!
   user: User!
-  reservations: [Reservation!]!
-  complains: User!
+  userId: Float!
+  reservations: [Reservation!]
+  complains: User
 }
 
 type Complain {
@@ -104,6 +108,12 @@ type Query {
   """Find one Todo"""
   findOneTodo(id: ID!): Todo!
   protect: String!
+
+  """Find all ParkingSpots"""
+  findAllParkingSpots: [ParkingSpot!]!
+
+  """Find one ParkingSpot"""
+  findOneParkingSpot(id: ID!): ParkingSpot!
 }
 
 type Mutation {
@@ -136,6 +146,15 @@ type Mutation {
 
   """Delete Todo"""
   deleteTodo(id: ID!): Todo!
+
+  """Create ParkingSpot"""
+  createParkingSpot(input: ParkingSpotInput!): ParkingSpot!
+
+  """Update ParkingSpot"""
+  updateParkingSpot(input: ParkingSpotInput!, id: ID!): ParkingSpot!
+
+  """Delete ParkingSpot"""
+  deleteParkingSpot(id: ID!): ParkingSpot!
 }
 
 input LoginInput {
@@ -167,4 +186,13 @@ input UserInput {
 input TodoInput {
   title: String
   completed: Boolean
+}
+
+input ParkingSpotInput {
+  price: Float
+  lat: Float
+  lng: Float
+  daysAvailable: [Float!]!
+  startHour: Float!
+  endHour: Float!
 }
