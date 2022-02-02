@@ -17,12 +17,7 @@ import { FormikSubmitProfile } from '../formik/formik-submit';
 
 export const DashboardProfile: FC = () => {
   const [openSensitive, setOpenSensitive] = React.useState(false);
-  const handleOpenSensitive = () => setOpenSensitive(true);
-  const handleCloseSensitive = () => setOpenSensitive(false);
-
   const [openInfo, setOpenInfo] = React.useState(false);
-  const handleOpenInfo = () => setOpenInfo(true);
-  const handleCloseInfo = () => setOpenInfo(false);
 
   return (
     <StyledProfileBox>
@@ -36,7 +31,7 @@ export const DashboardProfile: FC = () => {
           <Box sx={{ position: 'relative' }}>
             <AccountCircleIcon color="primary" fontSize="large" sx={{ marginBottom: '1rem' }} />
             <InfoText>
-              <EditPen onClick={handleOpenInfo} />
+              <EditPen onClick={() => setOpenInfo(true)} />
               <Typography variant="h6" fontWeight="700">
                 First Name:
               </Typography>
@@ -72,7 +67,7 @@ export const DashboardProfile: FC = () => {
           <Box sx={{ position: 'relative' }}>
             <LockIcon color="primary" fontSize="large" sx={{ marginBottom: '1rem' }} />
             <InfoText>
-              <EditPen onClick={handleOpenSensitive} />
+              <EditPen onClick={() => setOpenSensitive(true)} />
               <Typography variant="h6" fontWeight="700">
                 Password:
               </Typography>
@@ -93,7 +88,7 @@ export const DashboardProfile: FC = () => {
       </Box>
       <Modal
         open={openSensitive}
-        onClose={handleCloseSensitive}
+        onClose={() => setOpenSensitive(false)}
         aria-labelledby="modal-modal-title">
         <CenteredPaper>
           <Formik
@@ -115,7 +110,7 @@ export const DashboardProfile: FC = () => {
           </Formik>
         </CenteredPaper>
       </Modal>
-      <Modal open={openInfo} onClose={handleCloseInfo} aria-labelledby="modal-modal-title">
+      <Modal open={openInfo} onClose={() => setOpenInfo(false)} aria-labelledby="modal-modal-title">
         <CenteredPaper>
           <Formik
             initialValues={{}}

@@ -39,7 +39,7 @@ export const NavBar: NextComponentType = () => {
             <StyledAvatar alt="Avatar Picture" src="/static/images/avatar/1.jpg" />
             <Box>
               <Typography sx={{ color: 'black' }} variant="h6">
-                <h4>Ivan Wojczestwinsky</h4>
+                <h4>Vladimír Farkašovský</h4>
               </Typography>
               <Typography sx={{ color: 'gray' }} variant="body1">
                 Renter
