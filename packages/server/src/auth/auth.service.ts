@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserInputError } from 'apollo-server-express';
-import argon2 from 'argon2';
+// import argon2 from 'argon2';
+import md5 from 'md5';
 import { Ctx } from 'src/common/types/context.type';
 import { User } from 'src/user/user.entity';
 import { UserService } from 'src/user/user.service';
@@ -24,7 +25,9 @@ export class AuthService {
     }
 
     // validate password
-    const passwordIsValid = await argon2.verify(user.password, password);
+    // const fwe = await argon2.verify(user.password, password);
+
+    const passwordIsValid = md5(password) === user.password;
 
     if (!passwordIsValid) {
       throw new UserInputError(errorMsg);

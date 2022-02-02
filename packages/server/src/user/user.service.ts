@@ -3,8 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { AbstractService } from 'src/common/models/abstract.service';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
-import argon2 from 'argon2';
+// import argon2 from 'argon2';
 import { UserInput } from './types/user.input';
+import md5 from 'md5';
 
 @Injectable()
 export class UserService extends AbstractService<User> {
@@ -13,10 +14,10 @@ export class UserService extends AbstractService<User> {
   }
 
   async create(input: UserInput): Promise<User> {
-    const hashedPassword = await argon2.hash(input.password);
+    // const hashedPassword = await argon2.hash(input.password);
     return super.create({
       ...input,
-      password: hashedPassword,
+      password: md5(input.password),
     });
   }
 }
