@@ -55,7 +55,7 @@ export class User extends AbstractEntity {
   bankInfo: string;
 
   @Field(() => [ParkingSpot], { nullable: true })
-  @OneToMany(() => ParkingSpot, (ParkingSpot) => ParkingSpot.id, {
+  @OneToMany(() => ParkingSpot, (parkingSpots) => parkingSpots.user, {
     nullable: true,
   })
   parkingSpots: ParkingSpot[];
