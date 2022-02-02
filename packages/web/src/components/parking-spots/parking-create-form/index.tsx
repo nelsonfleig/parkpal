@@ -12,10 +12,10 @@ import { FormikTime } from '../../formik/formik-time';
 import { ParkingSpotFormWrapper } from './style';
 
 interface MyFormValues {
-  price: string | number;
+  price: number | string;
   startHour: string;
   endHour: string;
-  daysAvailable: any[];
+  daysAvailable: { name: string; value: number }[];
 }
 
 const initialValues: MyFormValues = {
@@ -53,8 +53,8 @@ export const ParkingCreateForm = () => {
                   ...values,
                   ...marker,
                   price: Number(values.price),
-                  startHour: Number(startHour),
-                  endHour: Number(endHour),
+                  startHour,
+                  endHour,
                   daysAvailable: values.daysAvailable.map((day) => day.value),
                 },
               },
@@ -82,7 +82,7 @@ export const ParkingCreateForm = () => {
             />
             <FormikTime label="Start hour" name="startHour" margin="normal" />
             <FormikTime label="End hour" name="endHour" margin="normal" />
-            <FormikMultiSelect name="daysAvailable" margin="normal" />
+            <FormikMultiSelect label="Days available" name="daysAvailable" margin="normal" />
             <FormikSubmit disabled={!isValid || isSubmitting} loading={isSubmitting}>
               Create
             </FormikSubmit>
