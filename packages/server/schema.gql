@@ -34,6 +34,9 @@ type ParkingSpot {
   lng: Float!
   price: Float!
   picture_url: String
+  daysAvailable: [Float!]!
+  startHour: Float!
+  endHour: Float!
   user: User!
   userId: Float!
   reservations: [Reservation!]
@@ -189,4 +192,7 @@ input ParkingSpotInput {
   price: Float
   lat: Float
   lng: Float
+  daysAvailable: [Float!]!
+  startHour: Float!
+  endHour: Float!
 }
