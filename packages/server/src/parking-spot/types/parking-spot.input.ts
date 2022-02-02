@@ -10,4 +10,13 @@ export class ParkingSpotInput {
 
   @Field({ nullable: true })
   lng: number;
+
+  @Field(() => [Number])
+  daysAvailable: number[];
+
+  @Field()
+  startHour: number;
+
+  @Field()
+  endHour: number;
 }

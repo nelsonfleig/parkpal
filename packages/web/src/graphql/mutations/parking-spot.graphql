@@ -1,0 +1,5 @@
+mutation CreateParkingSpot($input: ParkingSpotInput!) {
+  createParkingSpot(input: $input) {
+    ...ParkingSpotDetails
+  }
+}

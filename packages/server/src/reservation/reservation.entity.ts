@@ -1,7 +1,7 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { ReservationStatus } from 'src/common/constants/reservationStatus.enum';
 import { AbstractEntity } from 'src/common/models/abstract.entity';
-import { ParkingSpot } from 'src/parking-spot/parkingSpot.entity';
+import { ParkingSpot } from 'src/parking-spot/parking-spot.entity';
 import { User } from 'src/user/user.entity';
 import { Column, Entity, ManyToOne } from 'typeorm';
 

@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { LatLngExpression } from 'leaflet';
 
-export interface CounterState {
+export interface MarkerState {
   marker: LatLngExpression;
 }
 
-const initialState: CounterState = {
+const initialState: MarkerState = {
   marker: null,
 };
 
