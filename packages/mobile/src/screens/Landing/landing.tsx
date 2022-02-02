@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text } from 'react-native';
 import { LocationGeocodedLocation, LocationObject } from 'expo-location';
 import * as Location from 'expo-location';
 
@@ -43,7 +43,7 @@ export const LandingScreen = () => {
   }, []);
 
   return (
-    <ScrollView style={landingStyles.container}>
+    <View style={landingStyles.container}>
       <Searchbar
         autoComplete
         placeholder="Enter a destination"
@@ -73,6 +73,6 @@ export const LandingScreen = () => {
         )}
       </View>
       <BookingPopup />
-    </ScrollView>
+    </View>
   );
 };
