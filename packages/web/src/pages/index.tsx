@@ -44,8 +44,15 @@ const Login = () => {
           }}>
           {({ isValid, isSubmitting }) => (
             <Form>
-              <FormikText name="email" label="Email" fullWidth />
-              <FormikText name="password" label="Password" type="password" fullWidth />
+              <FormikText name="email" label="Email" fullWidth size="medium" margin="dense" />
+              <FormikText
+                name="password"
+                label="Password"
+                type="password"
+                size="medium"
+                margin="dense"
+                fullWidth
+              />
               <FormikSubmit loading={isSubmitting} disabled={!isValid || isSubmitting}>
                 Sign in
               </FormikSubmit>
