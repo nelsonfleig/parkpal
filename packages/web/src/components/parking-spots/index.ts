@@ -1,3 +1,4 @@
+import { Button } from '@mui/material';
 import styled from 'styled-components';
 
 export * from './parking-create-form';
@@ -11,4 +12,8 @@ export const ParkingSpotWrapper = styled.div`
 export const ParkingInfoColumn = styled.div`
   width: 324px;
   padding: 0 24px;
+`;
+
+export const ParkingToggleButton = styled(Button)`
+  margin-bottom: 20px;
 `;

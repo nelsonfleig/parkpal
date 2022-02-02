@@ -26,6 +26,15 @@ export class ParkingSpotResolver extends AbstractResolver(
   }
 
   @Roles(Role.RENTER)
+  @Query(() => [ParkingSpot], {
+    name: 'findMyParkingSpots',
+    description: "Find logged in user's ParkingSpots",
+  })
+  findMyParkingSpots(@CurrentUser() user: UserJwt) {
+    return this.parkingSpotService.find({ userId: user.id });
+  }
+
+  @Roles(Role.RENTER)
   @Mutation(() => ParkingSpot, {
     name: 'createParkingSpot',
     description: 'Create ParkingSpot',

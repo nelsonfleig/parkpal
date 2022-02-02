@@ -114,6 +114,9 @@ type Query {
 
   """Find one ParkingSpot"""
   findOneParkingSpot(id: ID!): ParkingSpot!
+
+  """Find logged in user's ParkingSpots"""
+  findMyParkingSpots: [ParkingSpot!]!
 }
 
 type Mutation {
