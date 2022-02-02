@@ -1,7 +1,9 @@
 import React from 'react';
 import { icon } from 'leaflet';
-import { Marker, Popup, TileLayer } from 'react-leaflet';
-import { useMarkerPos } from '../../hooks/useMarkerPos';
+import { Marker, Popup, TileLayer, useMapEvents } from 'react-leaflet';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../redux';
+import { setMarker } from '../../redux/marker/markerSlice';
 
 const ICON = icon({
   iconUrl: '/images/marker.png',
@@ -9,7 +11,18 @@ const ICON = icon({
 });
 
 export const MapElements = () => {
-  const markerPos = useMarkerPos();
+  // const markerPos = useMarkerPos();
+
+  const marker = useSelector((state: RootState) => state.marker);
+  const dispatch = useDispatch();
+
+  useMapEvents({
+    click: (e) => {
+      // setMarkerPos(e.latlng);
+      const { lat, lng } = e.latlng;
+      dispatch(setMarker({ lat, lng }));
+    },
+  });
 
   return (
     <>
@@ -18,8 +31,8 @@ export const MapElements = () => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       {/* <Circle center={coords} radius={10} /> */}
-      {markerPos && (
-        <Marker icon={ICON} position={markerPos}>
+      {marker && (
+        <Marker icon={ICON} position={marker}>
           <Popup>
             A pretty CSS3 popup. <br /> Easily customizable.
           </Popup>

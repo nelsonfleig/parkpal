@@ -9,6 +9,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataloaderModule } from '@tracworx/nestjs-dataloader';
+import { GraphQLError, GraphQLFormattedError } from 'graphql';
 import { AuthModule } from 'src/auth/auth.module';
 import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { AuthMiddleware } from 'src/auth/middleware/auth.middleware';
@@ -39,13 +40,13 @@ import { AppService } from './app.service';
       playground: true,
       cors: { origin: true, credentials: true },
       context: ({ req, res }: Ctx) => ({ req, res }),
-      // formatError: (error: GraphQLError) => {
-      //   const graphQLFormattedError: GraphQLFormattedError = {
-      //     message:
-      //       error.extensions?.exception?.response?.message || error.message,
-      //   };
-      //   return graphQLFormattedError;
-      // },
+      formatError: (error: GraphQLError) => {
+        const graphQLFormattedError: GraphQLFormattedError = {
+          message:
+            error.extensions?.exception?.response?.message || error.message,
+        };
+        return graphQLFormattedError;
+      },
     }),
     JwtModule.register({
       secret: 'supersecret',

@@ -38,8 +38,8 @@ export const NavBar: NextComponentType = () => {
           <StyledProfilePaper onClick={handleClick}>
             <StyledAvatar alt="Avatar Picture" src="/static/images/avatar/1.jpg" />
             <Box>
-              <Typography sx={{ color: 'black' }} variant="h6">
-                <h4>Vladimír Farkašovský</h4>
+              <Typography sx={{ color: 'black', fontWeight: '600' }} variant="h6">
+                Ivan Wojczestwinsky
               </Typography>
               <Typography sx={{ color: 'gray' }} variant="body1">
                 Renter

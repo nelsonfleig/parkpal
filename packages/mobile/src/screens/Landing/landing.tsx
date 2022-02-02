@@ -1,23 +1,23 @@
 import { useEffect, useState } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text } from 'react-native';
 import { LocationGeocodedLocation, LocationObject } from 'expo-location';
 import * as Location from 'expo-location';
 
 import { Searchbar } from 'react-native-paper';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { landingStyles } from './landingStyles';
-import { MapComponent } from '../../components/MapView/mapView';
+import { MapComponent, mapRef } from '../../components/MapView/mapView';
+import { BookingPopup } from '../../components/BookingPopup/bookingPopup';
 
 export const LandingScreen = () => {
-  const [location, setLocation] = useState(null as LocationObject | null);
-  const [destination, setDestination] = useState(null as LocationGeocodedLocation | null);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [location, setLocation] = useState(null as LocationObject | null); // Here we get the user's current location
+  const [searchQuery, setSearchQuery] = useState(''); // We set the query on the searchbar
+  const [destination, setDestination] = useState(null as LocationGeocodedLocation | null); // Here we set the destination chosen by the user with the prev query
 
   const onChangeSearch = (query: string) => {
+    setSearchQuery(query);
     if (query === '') {
-      setDestination(null);
-      setSearchQuery('');
-    } else {
-      setSearchQuery(query);
+      setDestination(null); // Needed to remove the markers when we delete the text
     }
   };
 
@@ -33,8 +33,6 @@ export const LandingScreen = () => {
           distanceInterval: 100,
         },
         (locObj) => {
-          // eslint-disable-next-line no-console
-          console.log(locObj);
           setLocation(locObj);
         }
       );
@@ -42,7 +40,7 @@ export const LandingScreen = () => {
   }, []);
 
   return (
-    <ScrollView style={landingStyles.container}>
+    <View style={landingStyles.container}>
       <Searchbar
         autoComplete
         placeholder="Enter a destination"
@@ -54,9 +52,23 @@ export const LandingScreen = () => {
         value={searchQuery}
         onSubmitEditing={async () => {
           // When we submit the direction, we transform it to coordinates
-          const temp = searchQuery ? await Location.geocodeAsync(searchQuery) : null;
-          if (temp) {
-            setDestination(temp[0]);
+          const locationQuery = searchQuery ? await Location.geocodeAsync(searchQuery) : null;
+          if (locationQuery) {
+            setDestination(null); // We first remove all the markers from the map
+            mapRef.current?.animateCamera(
+              {
+                center: {
+                  latitude: locationQuery[0].latitude, // We select the first object of the array
+                  longitude: locationQuery[0].longitude,
+                },
+                heading: 0,
+                zoom: 16,
+                pitch: 0,
+                altitude: 0,
+              },
+              { duration: 1000 }
+            );
+            setDestination(locationQuery[0]); // We set new markers in the map
           }
         }}
       />
@@ -68,9 +80,12 @@ export const LandingScreen = () => {
             destination={destination}
           />
         ) : (
-          <Text>Warm lentils alert! You have to enable the location to use ParkPal.</Text>
+          <SafeAreaView>
+            <Text>Warm lentils alert! You have to enable the location to use ParkPal.</Text>
+          </SafeAreaView>
         )}
       </View>
-    </ScrollView>
+      <BookingPopup />
+    </View>
   );
 };

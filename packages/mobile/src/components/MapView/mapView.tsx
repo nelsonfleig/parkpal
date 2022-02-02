@@ -1,6 +1,6 @@
 import { LocationGeocodedLocation } from 'expo-location';
 import MapView from 'react-native-maps';
-import { useEffect, useState } from 'react';
+import { createRef, useEffect, useState } from 'react';
 // import MapViewDirections from 'react-native-maps-directions';
 
 // import { API_DIRECTIONS_KEY } from '@env';
@@ -17,6 +17,8 @@ type MapComponentProps = {
   longitude: number;
   destination: LocationGeocodedLocation | null;
 };
+
+export const mapRef = createRef<MapView>();
 
 export const MapComponent = ({ latitude, longitude, destination }: MapComponentProps) => {
   // const [origin, setOrigin] = useState({ latitude, longitude });
@@ -38,32 +40,20 @@ export const MapComponent = ({ latitude, longitude, destination }: MapComponentP
 
   return (
     <MapView
+      ref={mapRef}
+      showsScale
       provider="google"
       style={mapViewStyles.map}
-      initialRegion={{
-        latitude,
-        longitude,
-        latitudeDelta: 0.01,
-        longitudeDelta: 0.01,
-      }}
       showsUserLocation
       followsUserLocation
       showsMyLocationButton
-      region={
-        mapDest
-          ? {
-              latitude: mapDest.latitude,
-              longitude: mapDest.longitude,
-              latitudeDelta: 0.01,
-              longitudeDelta: 0.01,
-            }
-          : {
-              latitude,
-              longitude,
-              latitudeDelta: 0.01,
-              longitudeDelta: 0.01,
-            }
-      }>
+      initialCamera={{
+        center: { latitude, longitude },
+        heading: 0,
+        zoom: 16,
+        pitch: 0,
+        altitude: 0,
+      }}>
       {mapDest && (
         <View>
           <DestinationMarker mapDest={mapDest} />
