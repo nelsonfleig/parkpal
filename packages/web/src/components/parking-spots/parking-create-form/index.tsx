@@ -13,15 +13,15 @@ import { ParkingSpotFormWrapper } from './style';
 
 interface MyFormValues {
   price: string | number;
-  startHour: string | number;
-  endHour: string | number;
+  startHour: string;
+  endHour: string;
   daysAvailable: any[];
 }
 
 const initialValues: MyFormValues = {
   price: '',
-  startHour: '',
-  endHour: '',
+  startHour: null,
+  endHour: null,
   daysAvailable: [],
 };
 

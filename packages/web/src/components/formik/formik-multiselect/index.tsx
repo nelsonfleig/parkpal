@@ -26,6 +26,7 @@ export const FormikMultiSelect = (props: FormikMultiSelectProps) => {
       getOptionLabel={(day) => day.name}
       isOptionEqualToValue={(option, value) => option.value === value.value}
       filterSelectedOptions
+      value={field.value}
       onChange={(_, value) => {
         const { name } = props;
         setFieldValue(
@@ -38,6 +39,7 @@ export const FormikMultiSelect = (props: FormikMultiSelectProps) => {
       }}
       renderInput={(params) => {
         const { size, label, margin } = props;
+
         return (
           <TextField
             {...params}

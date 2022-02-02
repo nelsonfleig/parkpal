@@ -10,6 +10,7 @@ type FormikTimeProps = TextFieldProps & FieldHookConfig<string>;
 export const FormikTime = (props: FormikTimeProps) => {
   const [field, meta] = useField(props);
   const { setFieldValue } = useFormikContext();
+
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <TimePicker
@@ -21,6 +22,7 @@ export const FormikTime = (props: FormikTimeProps) => {
         }}
         renderInput={(params) => {
           const { label, size, margin } = props;
+
           return (
             <TextField
               {...params}
