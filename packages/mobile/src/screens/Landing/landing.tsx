@@ -43,7 +43,7 @@ export const LandingScreen = () => {
   }, []);
 
   return (
-    <ScrollView style={landingStyles.container}>
+    <View style={landingStyles.container}>
       <Searchbar
         autoComplete
         placeholder="Enter a destination"
@@ -73,6 +73,6 @@ export const LandingScreen = () => {
         )}
       </View>
       <BookingPopup />
-    </ScrollView>
+    </View>
   );
 };

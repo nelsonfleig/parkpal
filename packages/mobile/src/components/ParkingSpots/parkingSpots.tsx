@@ -14,7 +14,7 @@ export const ParkingSpots = ({ parkingSpots }: ParkingSpotsProps) => {
         <Marker
           coordinate={{ latitude: spot.latitude, longitude: spot.longitude }}
           key={spot.id}
-          onPress={() => panelReference.current?.show(475)}>
+          onPress={() => panelReference.current?.show(500)}>
           <Image source={SpotIcon} style={{ width: 50, height: 50 }} />
         </Marker>
       ))
