@@ -176,6 +176,8 @@ export type Query = {
   findAllTodos: Array<Todo>;
   /** List all Users */
   findAllUsers: Array<User>;
+  /** Find logged in user's ParkingSpots */
+  findMyParkingSpots: Array<ParkingSpot>;
   /** Find one ParkingSpot */
   findOneParkingSpot: ParkingSpot;
   /** Find one Todo */
@@ -308,6 +310,11 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, firstName: string, lastName: string, email: string, roles: Array<Role> } | null | undefined };
+
+export type FindMyParkingSpotsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindMyParkingSpotsQuery = { __typename?: 'Query', parkingSpots: Array<{ __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour: number, endHour: number, userId: number }> };
 
 export type FindAllTodosQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -475,6 +482,40 @@ export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const FindMyParkingSpotsDocument = gql`
+    query FindMyParkingSpots {
+  parkingSpots: findMyParkingSpots {
+    ...ParkingSpotDetails
+  }
+}
+    ${ParkingSpotDetailsFragmentDoc}`;
+
+/**
+ * __useFindMyParkingSpotsQuery__
+ *
+ * To run a query within a React component, call `useFindMyParkingSpotsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindMyParkingSpotsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindMyParkingSpotsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFindMyParkingSpotsQuery(baseOptions?: Apollo.QueryHookOptions<FindMyParkingSpotsQuery, FindMyParkingSpotsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindMyParkingSpotsQuery, FindMyParkingSpotsQueryVariables>(FindMyParkingSpotsDocument, options);
+      }
+export function useFindMyParkingSpotsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindMyParkingSpotsQuery, FindMyParkingSpotsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindMyParkingSpotsQuery, FindMyParkingSpotsQueryVariables>(FindMyParkingSpotsDocument, options);
+        }
+export type FindMyParkingSpotsQueryHookResult = ReturnType<typeof useFindMyParkingSpotsQuery>;
+export type FindMyParkingSpotsLazyQueryHookResult = ReturnType<typeof useFindMyParkingSpotsLazyQuery>;
+export type FindMyParkingSpotsQueryResult = Apollo.QueryResult<FindMyParkingSpotsQuery, FindMyParkingSpotsQueryVariables>;
 export const FindAllTodosDocument = gql`
     query FindAllTodos {
   todos: findAllTodos {

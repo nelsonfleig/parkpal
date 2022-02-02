@@ -11,14 +11,14 @@ import { FormikMultiSelect } from '../../formik/formik-multiselect';
 import { FormikTime } from '../../formik/formik-time';
 import { ParkingSpotFormWrapper } from './style';
 
-interface MyFormValues {
+interface InitialValues {
   price: number | string;
   startHour: string;
   endHour: string;
   daysAvailable: { name: string; value: number }[];
 }
 
-const initialValues: MyFormValues = {
+const initialValues: InitialValues = {
   price: '',
   startHour: null,
   endHour: null,

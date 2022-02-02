@@ -47,20 +47,6 @@ const theme = createTheme({
       dark: '#051626',
     },
   },
-  components: {
-    MuiButton: {
-      defaultProps: {
-        style: {
-          color: '#fff',
-          fontSize: '20px',
-          fontWeight: '700',
-          padding: '25px',
-          borderRadius: '5px',
-          // backgroundColor: '#7145D6',
-        },
-      },
-    },
-  },
 });
 
 export default theme;
