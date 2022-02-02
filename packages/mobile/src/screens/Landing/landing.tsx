@@ -5,7 +5,7 @@ import * as Location from 'expo-location';
 
 import { Searchbar } from 'react-native-paper';
 import { landingStyles } from './landingStyles';
-import { MapComponent } from '../../components/MapView/mapView';
+import { MapComponent, mapRef } from '../../components/MapView/mapView';
 import { BookingPopup } from '../../components/BookingPopup/bookingPopup';
 
 export const LandingScreen = () => {
@@ -55,9 +55,22 @@ export const LandingScreen = () => {
         value={searchQuery}
         onSubmitEditing={async () => {
           // When we submit the direction, we transform it to coordinates
-          const temp = searchQuery ? await Location.geocodeAsync(searchQuery) : null;
-          if (temp) {
-            setDestination(temp[0]);
+          const locationQuery = searchQuery ? await Location.geocodeAsync(searchQuery) : null;
+          if (locationQuery) {
+            mapRef.current?.animateCamera(
+              {
+                center: {
+                  latitude: locationQuery[0].latitude,
+                  longitude: locationQuery[0].longitude,
+                },
+                heading: 0,
+                zoom: 16,
+                pitch: 0,
+                altitude: 0,
+              },
+              { duration: 1000 }
+            );
+            setDestination(locationQuery[0]); // We select the first object of the array
           }
         }}
       />
