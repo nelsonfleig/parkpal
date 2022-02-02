@@ -6,6 +6,7 @@ import * as Location from 'expo-location';
 import { Searchbar } from 'react-native-paper';
 import { landingStyles } from './landingStyles';
 import { MapComponent } from '../../components/MapView/mapView';
+import { BookingPopup } from '../../components/BookingPopup/bookingPopup';
 
 export const LandingScreen = () => {
   const [location, setLocation] = useState(null as LocationObject | null);
@@ -71,6 +72,7 @@ export const LandingScreen = () => {
           <Text>Warm lentils alert! You have to enable the location to use ParkPal.</Text>
         )}
       </View>
+      <BookingPopup />
     </ScrollView>
   );
 };
