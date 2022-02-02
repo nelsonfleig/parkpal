@@ -1,15 +1,20 @@
 import { Typography } from '@mui/material';
 import { Form, Formik } from 'formik';
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
-import { useCreateParkingSpotMutation } from '../../../graphql/__generated__';
+import {
+  FindMyParkingSpotsDocument,
+  useCreateParkingSpotMutation,
+} from '../../../graphql/__generated__';
 import { createParkingSchema } from '../../../models/create-parking.form';
 import { RootState } from '../../../redux';
 import { FormikSubmit, FormikText } from '../../formik';
 import { FormikMultiSelect } from '../../formik/formik-multiselect';
 import { FormikTime } from '../../formik/formik-time';
 import { ParkingSpotFormWrapper } from './style';
+import { toggleCreateMode } from '../../../redux/parking-spot/parkingSpotSlice';
+import { clearMarker } from '../../../redux/marker/markerSlice';
 
 interface InitialValues {
   price: number | string;
@@ -26,9 +31,13 @@ const initialValues: InitialValues = {
 };
 
 export const ParkingCreateForm = () => {
-  const marker = useSelector((state: RootState) => state.marker);
+  const { marker } = useSelector((state: RootState) => state.marker);
+  const dispatch = useDispatch();
 
-  const [createParkingSpot] = useCreateParkingSpotMutation();
+  const [createParkingSpot] = useCreateParkingSpotMutation({
+    refetchQueries: [FindMyParkingSpotsDocument],
+    awaitRefetchQueries: true,
+  });
 
   return (
     <ParkingSpotFormWrapper>
@@ -60,6 +69,8 @@ export const ParkingCreateForm = () => {
               },
             });
             resetForm();
+            dispatch(toggleCreateMode());
+            dispatch(clearMarker());
             toast.success('Parking spot created!');
           } catch (error) {
             if (error instanceof Error) {

@@ -9,12 +9,12 @@ export const ParkingList = () => {
   return (
     <div>
       {data.parkingSpots.map((p) => (
-        <>
+        <div key={p.id}>
           <p>
             lat: {p.lat}, lng: {p.lng}
           </p>
           <br />
-        </>
+        </div>
       ))}
     </div>
   );

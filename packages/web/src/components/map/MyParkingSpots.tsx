@@ -9,7 +9,9 @@ const ICON = icon({
 });
 
 export const MyParkingSpots = () => {
-  const { data, loading } = useFindMyParkingSpotsQuery();
+  const { data, loading } = useFindMyParkingSpotsQuery({
+    fetchPolicy: 'network-only',
+  });
 
   if (!data || loading) return null;
 
