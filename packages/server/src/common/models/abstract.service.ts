@@ -6,12 +6,12 @@ import { DeepPartial, Repository } from 'typeorm';
 export abstract class AbstractService<T> {
   protected constructor(protected readonly repository: Repository<T>) {}
 
-  find(query: any = {}): Promise<T[]> {
-    return this.repository.find({ where: query });
+  find(query: any = {}, relations: string[] = []): Promise<T[]> {
+    return this.repository.find({ where: query, relations });
   }
 
-  findOne(query: any = {}): Promise<T> {
-    return this.repository.findOne({ where: query });
+  findOne(query: any = {}, relations: string[] = []): Promise<T> {
+    return this.repository.findOne({ where: query, relations });
   }
 
   create(data: DeepPartial<T>): Promise<T> {

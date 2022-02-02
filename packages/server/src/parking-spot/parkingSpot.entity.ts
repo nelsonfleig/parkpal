@@ -3,38 +3,43 @@ import { AbstractEntity } from 'src/common/models/abstract.entity';
 import { Complain } from 'src/complain/complain.entity';
 import { Reservation } from 'src/reservation/reservation.entity';
 import { User } from 'src/user/user.entity';
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, RelationId } from 'typeorm';
 
 @ObjectType()
-@Entity('parkingSpots')
+@Entity('parking_spots')
 export class ParkingSpot extends AbstractEntity {
   @Field()
   @Column({ type: 'float' })
-  latitude: number;
+  lat: number;
 
   @Field()
   @Column({ type: 'float' })
-  longitude: number;
+  lng: number;
 
   @Field()
   @Column()
   price: number;
 
-  @Column()
-  @Field()
+  @Field({ nullable: true })
+  @Column({ nullable: true })
   picture_url: string;
 
   @Field(() => User)
-  @ManyToOne(() => User, (user: User) => user.parkingSpots)
+  @ManyToOne(() => User, (user: User) => user.parkingSpots, { eager: true })
   user: User;
 
-  @Field(() => [Reservation])
+  @Field()
+  @RelationId((parkingSpot: ParkingSpot) => parkingSpot.user) // you need to specify target relation on a ManyToOne
+  @Column()
+  userId: number;
+
+  @Field(() => [Reservation], { nullable: true })
   @OneToMany(() => Reservation, (reservation) => reservation.parkingSpot, {
     nullable: true,
   })
   reservations: Reservation[];
 
-  @Field(() => User)
+  @Field(() => User, { nullable: true })
   @OneToMany(() => Complain, (complain) => complain.parkingSpot, {
     nullable: true,
   })
