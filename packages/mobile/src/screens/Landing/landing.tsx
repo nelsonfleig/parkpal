@@ -41,49 +41,51 @@ export const LandingScreen = () => {
 
   return (
     <View style={landingStyles.container}>
-      <Searchbar
-        autoComplete
-        placeholder="Enter a destination"
-        iconColor="#7145D6"
-        theme={{ colors: { text: 'black' } }}
-        style={{ position: 'absolute', top: 60, right: 20, left: 20, zIndex: 3 }}
-        autoCapitalize="words"
-        onChangeText={onChangeSearch}
-        value={searchQuery}
-        onSubmitEditing={async () => {
-          // When we submit the direction, we transform it to coordinates
-          const locationQuery = searchQuery ? await Location.geocodeAsync(searchQuery) : null;
-          if (locationQuery) {
-            setDestination(null); // We first remove all the markers from the map
-            mapRef.current?.animateCamera(
-              {
-                center: {
-                  latitude: locationQuery[0].latitude, // We select the first object of the array
-                  longitude: locationQuery[0].longitude,
-                },
-                heading: 0,
-                zoom: 16,
-                pitch: 0,
-                altitude: 0,
-              },
-              { duration: 1000 }
-            );
-            setDestination(locationQuery[0]); // We set new markers in the map
-          }
-        }}
-      />
       <View>
-        {location ? (
-          <MapComponent
-            latitude={location.coords.latitude}
-            longitude={location.coords.longitude}
-            destination={destination}
-          />
-        ) : (
-          <SafeAreaView>
-            <Text>Warm lentils alert! You have to enable the location to use ParkPal.</Text>
-          </SafeAreaView>
-        )}
+        <Searchbar
+          autoComplete
+          placeholder="Enter a destination"
+          iconColor="#7145D6"
+          theme={{ colors: { text: 'black' } }}
+          style={{ position: 'absolute', top: 60, right: 20, left: 20, zIndex: 3, height: 50 }}
+          autoCapitalize="words"
+          onChangeText={onChangeSearch}
+          value={searchQuery}
+          onSubmitEditing={async () => {
+            // When we submit the direction, we transform it to coordinates
+            const locationQuery = searchQuery ? await Location.geocodeAsync(searchQuery) : null;
+            if (locationQuery) {
+              setDestination(null); // We first remove all the markers from the map
+              mapRef.current?.animateCamera(
+                {
+                  center: {
+                    latitude: locationQuery[0].latitude, // We select the first object of the array
+                    longitude: locationQuery[0].longitude,
+                  },
+                  heading: 0,
+                  zoom: 16,
+                  pitch: 0,
+                  altitude: 0,
+                },
+                { duration: 500 }
+              );
+              setDestination(locationQuery[0]); // We set new markers in the map
+            }
+          }}
+        />
+        <View>
+          {location ? (
+            <MapComponent
+              latitude={location.coords.latitude}
+              longitude={location.coords.longitude}
+              destination={destination}
+            />
+          ) : (
+            <SafeAreaView>
+              <Text>Warm lentils alert! You have to enable the location to use ParkPal.</Text>
+            </SafeAreaView>
+          )}
+        </View>
       </View>
       <BookingPopup />
     </View>
