@@ -5,7 +5,7 @@ export const useAuth = () => {
 
   return {
     user: data?.me,
-    isAuthenticated: Boolean(data),
+    isAuthenticated: Boolean(data?.me),
     error,
     loading,
   };
