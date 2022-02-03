@@ -3,7 +3,7 @@ import React from 'react';
 import { Marker, Popup, useMapEvents } from 'react-leaflet';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux';
-import { setMarker } from '../../redux/marker/markerSlice';
+import { setMarker } from '../../redux/marker/mapSlice';
 
 const ICON = icon({
   iconUrl: '/images/marker.png',
@@ -13,7 +13,7 @@ const ICON = icon({
 export const MapElements = () => {
   // const markerPos = useMarkerPos();
 
-  const { marker } = useSelector((state: RootState) => state.marker);
+  const { marker } = useSelector((state: RootState) => state.map);
   const dispatch = useDispatch();
 
   useMapEvents({

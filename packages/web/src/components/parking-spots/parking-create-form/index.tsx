@@ -14,7 +14,7 @@ import { FormikMultiSelect } from '../../formik/formik-multiselect';
 import { FormikTime } from '../../formik/formik-time';
 import { ParkingSpotFormWrapper } from './style';
 import { toggleCreateMode } from '../../../redux/parking-spot/parkingSpotSlice';
-import { clearMarker } from '../../../redux/marker/markerSlice';
+import { clearMarker } from '../../../redux/marker/mapSlice';
 
 interface InitialValues {
   price: number | string;
@@ -31,7 +31,7 @@ const initialValues: InitialValues = {
 };
 
 export const ParkingCreateForm = () => {
-  const { marker } = useSelector((state: RootState) => state.marker);
+  const { marker } = useSelector((state: RootState) => state.map);
   const dispatch = useDispatch();
 
   const [createParkingSpot] = useCreateParkingSpotMutation({
