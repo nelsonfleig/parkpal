@@ -37,10 +37,10 @@ type ParkingSpot {
   daysAvailable: [Float!]!
   startHour: Float!
   endHour: Float!
-  street: String!
-  zipCode: String!
-  city: String!
-  country: String!
+  street: String
+  zipCode: String
+  city: String
+  country: String
   user: User!
   userId: Float!
   reservations: [Reservation!]
