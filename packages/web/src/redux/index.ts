@@ -1,5 +1,5 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import mapReducer from './marker/mapSlice';
+import mapReducer from './map/mapSlice';
 import parkingSpotReducer from './parking-spot/parkingSpotSlice';
 
 const rootReducer = combineReducers({

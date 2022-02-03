@@ -3,7 +3,7 @@ import React from 'react';
 import { Marker, Popup, useMapEvents } from 'react-leaflet';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux';
-import { setMarker } from '../../redux/marker/mapSlice';
+import { setMarker } from '../../redux/map/mapSlice';
 
 const ICON = icon({
   iconUrl: '/images/marker.png',

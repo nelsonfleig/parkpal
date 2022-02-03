@@ -3,7 +3,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { ParkingSpotDetailsFragment } from '../../../graphql/__generated__';
-import { setCenter } from '../../../redux/marker/mapSlice';
+import { setCenter } from '../../../redux/map/mapSlice';
 
 type Props = {
   parkingSpot: ParkingSpotDetailsFragment;
