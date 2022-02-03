@@ -17,6 +17,7 @@ import {
   StyledPopper,
   StyledProfilePaper,
 } from '../../common/dashboard';
+import { useAuth } from '../../../hooks/useAuth';
 
 export const NavBar: NextComponentType = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -25,6 +26,9 @@ export const NavBar: NextComponentType = () => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
   };
   const open = Boolean(anchorEl);
+
+  const { user, loading } = useAuth();
+  if (!user || loading) return <p>Loading State</p>;
 
   return (
     <Box>
@@ -39,7 +43,7 @@ export const NavBar: NextComponentType = () => {
             <StyledAvatar alt="Avatar Picture" src="/static/images/avatar/1.jpg" />
             <Box>
               <Typography sx={{ color: 'black', fontWeight: '600' }} variant="h6">
-                Ivan Wojczestwinsky
+                {`${user.firstName} ${user.lastName}`}
               </Typography>
               <Typography sx={{ color: 'gray' }} variant="body1">
                 Renter

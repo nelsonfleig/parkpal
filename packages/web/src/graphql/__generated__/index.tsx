@@ -283,7 +283,7 @@ export type ParkingSpotDetailsFragment = { __typename?: 'ParkingSpot', id: strin
 
 export type TodoExcerptFragment = { __typename?: 'Todo', id: string, title: string, completed?: boolean | null | undefined };
 
-export type UserExcerptFragment = { __typename?: 'User', id: string, firstName: string, lastName: string, email: string, roles: Array<Role> };
+export type UserExcerptFragment = { __typename?: 'User', id: string, firstName: string, lastName: string, email: string, roles: Array<Role>, phone?: string | null | undefined, bankInfo?: string | null | undefined };
 
 export type LoginMutationVariables = Exact<{
   input: LoginInput;
@@ -309,7 +309,7 @@ export type CreateParkingSpotMutation = { __typename?: 'Mutation', createParking
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, firstName: string, lastName: string, email: string, roles: Array<Role> } | null | undefined };
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, firstName: string, lastName: string, email: string, roles: Array<Role>, phone?: string | null | undefined, bankInfo?: string | null | undefined } | null | undefined };
 
 export type FindMyParkingSpotsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -347,6 +347,8 @@ export const UserExcerptFragmentDoc = gql`
   lastName
   email
   roles
+  phone
+  bankInfo
 }
     `;
 export const LoginDocument = gql`

@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import { useAuth } from '../../../hooks/useAuth';
+import { CenteredPaper } from '../../common/dashboard';
 import { DashboardSidebar } from './dashboardSidebar';
 import { NavBar } from './navbar';
 import { DashboardBody, DashboardContent, DashboardWrapper } from './styles';
@@ -18,6 +19,10 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
       router.push('/');
     }
   }, [isAuthenticated, loading, router]);
+
+  if (loading) {
+    return <CenteredPaper>Loading...</CenteredPaper>;
+  }
 
   return (
     <DashboardWrapper>

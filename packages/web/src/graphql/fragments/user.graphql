@@ -4,4 +4,6 @@ fragment UserExcerpt on User {
   lastName
   email
   roles
+  phone
+  bankInfo
 }
