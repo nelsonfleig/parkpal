@@ -10,13 +10,31 @@ type Props = {
 const ParkingItemWrapper = styled.div`
   background: ${(props) => props.theme.palette.secondary.main};
   padding: 10px;
+  margin: 10px 0;
+  cursor: pointer;
 `;
 
-export const ParkingSpotItem = ({ parkingSpot }: Props) => (
+const InfoItem = styled(Typography)`
+  font-weight: 600;
+  color: white;
+  span {
+    font-weight: 400;
+  }
+`;
+
+export const ParkingSpotItem = ({
+  parkingSpot: { id, street, zipCode, city, country, price },
+}: Props) => (
   <ParkingItemWrapper>
-    <Typography variant="body1">
-      lat: {parkingSpot.lat.toFixed(4)}, lng: {parkingSpot.lng.toFixed(4)}
-    </Typography>
-    <br />
+    <InfoItem variant="body1" gutterBottom>
+      Parking spot #{id}
+    </InfoItem>
+    <InfoItem variant="body1" gutterBottom>
+      <span>
+        {street} <br />
+        {zipCode} {city}, {country}
+      </span>
+    </InfoItem>
+    <InfoItem variant="body1">{price} €/hr</InfoItem>
   </ParkingItemWrapper>
 );

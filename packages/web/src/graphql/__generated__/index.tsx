@@ -136,9 +136,9 @@ export type MutationUpdateUserArgs = {
 
 export type ParkingSpot = {
   __typename?: 'ParkingSpot';
-  city: Scalars['String'];
+  city?: Maybe<Scalars['String']>;
   complains?: Maybe<User>;
-  country: Scalars['String'];
+  country?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
   daysAvailable: Array<Scalars['Float']>;
   endHour: Scalars['Float'];
@@ -149,11 +149,11 @@ export type ParkingSpot = {
   price: Scalars['Float'];
   reservations?: Maybe<Array<Reservation>>;
   startHour: Scalars['Float'];
-  street: Scalars['String'];
+  street?: Maybe<Scalars['String']>;
   updatedAt: Scalars['DateTime'];
   user: User;
   userId: Scalars['Float'];
-  zipCode: Scalars['String'];
+  zipCode?: Maybe<Scalars['String']>;
 };
 
 export type ParkingSpotInput = {
@@ -284,7 +284,7 @@ export type UserInput = {
   password: Scalars['String'];
 };
 
-export type ParkingSpotDetailsFragment = { __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour: number, endHour: number, userId: number };
+export type ParkingSpotDetailsFragment = { __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour: number, endHour: number, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, country?: string | null | undefined, userId: number };
 
 export type TodoExcerptFragment = { __typename?: 'Todo', id: string, title: string, completed?: boolean | null | undefined };
 
@@ -309,7 +309,7 @@ export type CreateParkingSpotMutationVariables = Exact<{
 }>;
 
 
-export type CreateParkingSpotMutation = { __typename?: 'Mutation', createParkingSpot: { __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour: number, endHour: number, userId: number } };
+export type CreateParkingSpotMutation = { __typename?: 'Mutation', createParkingSpot: { __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour: number, endHour: number, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, country?: string | null | undefined, userId: number } };
 
 export type UpdateProfileMutationVariables = Exact<{
   input: ProfileInput;
@@ -331,7 +331,7 @@ export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: st
 export type FindMyParkingSpotsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindMyParkingSpotsQuery = { __typename?: 'Query', parkingSpots: Array<{ __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour: number, endHour: number, userId: number }> };
+export type FindMyParkingSpotsQuery = { __typename?: 'Query', parkingSpots: Array<{ __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour: number, endHour: number, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, country?: string | null | undefined, userId: number }> };
 
 export type FindAllTodosQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -347,6 +347,10 @@ export const ParkingSpotDetailsFragmentDoc = gql`
   daysAvailable
   startHour
   endHour
+  street
+  zipCode
+  city
+  country
   userId
 }
     `;

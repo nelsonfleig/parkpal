@@ -69,9 +69,9 @@ export const ParkingCreateForm = () => {
               },
             });
             resetForm();
-            dispatch(toggleCreateMode());
             dispatch(clearMarker());
             toast.success('Parking spot created!');
+            dispatch(toggleCreateMode());
           } catch (error) {
             if (error instanceof Error) {
               toast.error(error.message);

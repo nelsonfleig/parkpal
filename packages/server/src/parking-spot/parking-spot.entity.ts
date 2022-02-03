@@ -36,20 +36,20 @@ export class ParkingSpot extends AbstractEntity {
   @Column()
   endHour: number;
 
-  @Field()
-  @Column()
+  @Field({ nullable: true })
+  @Column({ nullable: true })
   street: string;
 
-  @Field()
-  @Column()
+  @Field({ nullable: true })
+  @Column({ nullable: true })
   zipCode: string;
 
-  @Field()
-  @Column()
+  @Field({ nullable: true })
+  @Column({ nullable: true })
   city: string;
 
-  @Field()
-  @Column()
+  @Field({ nullable: true })
+  @Column({ nullable: true })
   country: string;
 
   @Field(() => User)
