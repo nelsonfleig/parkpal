@@ -7,11 +7,12 @@ import getAvailableTimes from '../../helpers/availableTimes';
 
 type TimePickerProps = {
   hours: number[];
+  selectedTime: string;
+  setSelectedTime: React.Dispatch<React.SetStateAction<undefined>>;
 };
 
-export const TimePicker = ({ hours }: TimePickerProps) => {
+export const TimePicker = ({ hours, selectedTime, setSelectedTime }: TimePickerProps) => {
   const [visible, setVisible] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState();
   const [availableTimes, setAvailableTimes] = useState<string[]>([]);
   const openTimePicker = () => setVisible(true);
   const closeTimePicker = () => setVisible(false);
@@ -32,8 +33,8 @@ export const TimePicker = ({ hours }: TimePickerProps) => {
         }
         style={styles.menu}>
         <Picker
-          selectedValue={selectedLanguage}
-          onValueChange={(itemValue: any) => setSelectedLanguage(itemValue)}>
+          selectedValue={selectedTime}
+          onValueChange={(itemValue: any) => setSelectedTime(itemValue)}>
           {availableTimes?.map((time) => (
             <Picker.Item label={time} value={time} key={time} />
           ))}

@@ -36,6 +36,7 @@ export class ReservationResolver extends AbstractResolver(
     description: 'Create Reservation',
   })
   create(@CurrentUser() user: UserJwt, @Args('input') input: ReservationInput) {
+    console.log(input, user);
     return this.resService.create({
       ...input,
       userId: user.id,
