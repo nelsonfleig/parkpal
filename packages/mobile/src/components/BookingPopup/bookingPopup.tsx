@@ -1,4 +1,3 @@
-// @ts-nocheck
 import SlidingUpPanel from 'rn-sliding-up-panel';
 import { View } from 'react-native';
 
@@ -11,7 +10,7 @@ import { ParkingSpotInfo } from '../ParkingSpotInfo/parkingSpotInfo';
 export const panelReference = React.createRef<any>();
 
 export const BookingPopup = () => {
-  const [content, setContent]: string = useState('booking');
+  const [content, setContent] = useState('booking');
 
   return (
     <SlidingUpPanel

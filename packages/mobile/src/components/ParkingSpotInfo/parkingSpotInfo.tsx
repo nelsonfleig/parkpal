@@ -4,13 +4,14 @@ import { View, Image, ScrollView } from 'react-native';
 import React, { useState } from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../redux';
 import CalendarComponent from '../Calendar/calendar';
 import profile from '../../../assets/images/profile.png';
 import { CustomButton } from '../Forms/button';
 import { TimePicker } from '../TimePicker/timePicker';
 import { parkingSpotInfoStyles as styles } from './parkingSpotInfoStyles';
+import { changeDestination } from '../../redux/destination/destinationSlice';
 
 export const panelReference = React.createRef<any>();
 
@@ -21,7 +22,7 @@ type ParkingSpotInfoType = {
 export const ParkingSpotInfo = ({ setContent }: ParkingSpotInfoType) => {
   const { currentSpot } = useSelector((state: RootState) => state.parkingSpots);
   const [scrollEnabled, setScrollEnabled] = useState(false);
-
+  const dispatch = useDispatch();
   const enableScroll = () => setScrollEnabled(true);
 
   const disableScroll = () => {
@@ -77,7 +78,6 @@ export const ParkingSpotInfo = ({ setContent }: ParkingSpotInfoType) => {
               size={40}
               color="#7145D6"
             />
-
             <MultiSlider
               onValuesChangeStart={disableScroll}
               onValuesChangeFinish={enableScroll}
@@ -91,6 +91,9 @@ export const ParkingSpotInfo = ({ setContent }: ParkingSpotInfoType) => {
           </ScrollView>
           <CustomButton
             press={() => {
+              // Remove all parking spots except the selected one
+              dispatch(changeDestination(null));
+              // Create route with the selected one and display it in the map
               setContent('start');
             }}
             color="white"
