@@ -1,0 +1,9 @@
+fragment UserExcerpt on User {
+  id
+  firstName
+  lastName
+  email
+  roles
+  phone
+  bankInfo
+}

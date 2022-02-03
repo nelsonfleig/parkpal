@@ -3,6 +3,7 @@ import { View } from 'react-native';
 import { WelcomeProps } from '../../../types/rootStack';
 import { CustomButton } from '../../components/Forms/button';
 import { StartScreen } from '../../components/StartScreen/startScreen';
+import { AuthLayout } from '../../components/Layouts/authLayout';
 
 export const WelcomeScreen = ({ navigation }: WelcomeProps) => {
   const signInPage = () => {
@@ -13,18 +14,20 @@ export const WelcomeScreen = ({ navigation }: WelcomeProps) => {
   };
 
   return (
-    <StartScreen>
-      <View>
+    <AuthLayout>
+      <StartScreen>
         <View>
-          <CustomButton press={signInPage} type="welcome">
-            Sign In
-          </CustomButton>
+          <View>
+            <CustomButton press={signInPage} type="welcome">
+              Sign In
+            </CustomButton>
 
-          <CustomButton press={register} type="welcome">
-            Sign Up
-          </CustomButton>
+            <CustomButton press={register} type="welcome">
+              Sign Up
+            </CustomButton>
+          </View>
         </View>
-      </View>
-    </StartScreen>
+      </StartScreen>
+    </AuthLayout>
   );
 };
