@@ -1,12 +1,16 @@
 // @ts-ignore
 import { DIRECTIONS_API_KEY } from '@env';
 import { createRef, useEffect, useState } from 'react';
-import { View } from 'react-native';
-import MapView from 'react-native-maps';
+import { Image, View } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import { useSelector } from 'react-redux';
+
+import SpotIcon from '../../../assets/images/Spot-icon.png';
+
 import { useGetSpotsQuery } from '../../graphql/__generated__';
 import { RootState } from '../../redux';
+
 import { DestinationMarker } from '../DestinationMarker/destinationMarker';
 import { ParkingSpots } from '../ParkingSpots/parkingSpots';
 import { mapViewStyles } from './mapViewStyles';
@@ -21,6 +25,7 @@ export const mapRef = createRef<MapView>();
 export const MapComponent = ({ latitude, longitude }: MapComponentProps) => {
   const { currentSpot } = useSelector((state: RootState) => state.parkingSpots);
   const { destination } = useSelector((state: RootState) => state.destination);
+  const { showRoute } = useSelector((state: RootState) => state.showRoute);
   const [origin, setOrigin] = useState({ latitude, longitude });
   const { data } = useGetSpotsQuery();
 
@@ -50,14 +55,19 @@ export const MapComponent = ({ latitude, longitude }: MapComponentProps) => {
           <ParkingSpots />
         </View>
       )}
-      {currentSpot && (
+      {showRoute && currentSpot && (
         <MapViewDirections
           origin={origin}
           destination={{ latitude: currentSpot.lat, longitude: currentSpot.lng }}
-          apikey={DIRECTIONS_API_KEY} // insert your API Key here
+          apikey={DIRECTIONS_API_KEY}
           strokeWidth={10}
           strokeColor="#7145D6"
         />
+      )}
+      {showRoute && currentSpot && (
+        <Marker coordinate={{ latitude: currentSpot.lat, longitude: currentSpot.lng }}>
+          <Image source={SpotIcon} style={{ width: 50, height: 50 }} />
+        </Marker>
       )}
     </MapView>
   );

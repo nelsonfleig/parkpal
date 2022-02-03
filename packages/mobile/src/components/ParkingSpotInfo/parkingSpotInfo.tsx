@@ -1,17 +1,18 @@
 // @ts-nocheck
-import { Text } from 'react-native-paper';
-import { View, Image, ScrollView } from 'react-native';
-import React, { useState } from 'react';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../redux';
-import CalendarComponent from '../Calendar/calendar';
+import React, { useState } from 'react';
+import { Image, ScrollView, View } from 'react-native';
+import { Text } from 'react-native-paper';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useDispatch, useSelector } from 'react-redux';
 import profile from '../../../assets/images/profile.png';
+import { RootState } from '../../redux';
+import { changeDestination } from '../../redux/destination/destinationSlice';
+import { displayRoute } from '../../redux/showRoute/showRoute';
+import CalendarComponent from '../Calendar/calendar';
 import { CustomButton } from '../Forms/button';
 import { TimePicker } from '../TimePicker/timePicker';
 import { parkingSpotInfoStyles as styles } from './parkingSpotInfoStyles';
-import { changeDestination } from '../../redux/destination/destinationSlice';
 
 export const panelReference = React.createRef<any>();
 
@@ -94,6 +95,7 @@ export const ParkingSpotInfo = ({ setContent }: ParkingSpotInfoType) => {
               // Remove all parking spots except the selected one
               dispatch(changeDestination(null));
               // Create route with the selected one and display it in the map
+              dispatch(displayRoute(true));
               setContent('start');
             }}
             color="white"
