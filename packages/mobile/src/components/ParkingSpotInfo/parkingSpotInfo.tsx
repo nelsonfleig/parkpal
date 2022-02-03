@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { Text } from 'react-native-paper';
-import { View, Image } from 'react-native';
+import { View, Image, ScrollView } from 'react-native';
 import React, { useState } from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
@@ -56,7 +56,7 @@ export const ParkingSpotInfo = () => {
           <CalendarComponent disabledDayIndexes={[1, 2, 3]} />
           <TimePicker hours={[9, 23]} />
         </View>
-        <View contentContainerStyle={styles.slider} scrollEnabled={scrollEnabled}>
+        <ScrollView contentContainerStyle={styles.slider} scrollEnabled={scrollEnabled}>
           <MaterialCommunityIcons
             name="clock-time-five"
             style={{ ...styles.icon, marginRight: 15 }}
@@ -74,13 +74,8 @@ export const ParkingSpotInfo = () => {
             showSteps
             enableLabel
           />
-        </View>
-        <CustomButton
-          press={() => {
-            panelReference.current.hide();
-          }}
-          color="white"
-          type="main">
+        </ScrollView>
+        <CustomButton press={() => {}} color="white" type="main">
           Book
         </CustomButton>
       </View>
