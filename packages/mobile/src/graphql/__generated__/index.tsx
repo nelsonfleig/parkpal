@@ -279,6 +279,8 @@ export type UserInput = {
   password: Scalars['String'];
 };
 
+export type ParkingSpotDetailsFragment = { __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour: number, endHour: number, user: { __typename?: 'User', firstName: string, lastName: string, phone?: string | null | undefined } };
+
 export type LoginMutationVariables = Exact<{
   input: LoginInput;
 }>;
@@ -303,7 +305,22 @@ export type GetTodosQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetTodosQuery = { __typename?: 'Query', todos: Array<{ __typename?: 'Todo', id: string, title: string }> };
 
-
+export const ParkingSpotDetailsFragmentDoc = gql`
+    fragment ParkingSpotDetails on ParkingSpot {
+  id
+  lat
+  lng
+  price
+  daysAvailable
+  startHour
+  endHour
+  user {
+    firstName
+    lastName
+    phone
+  }
+}
+    `;
 export const LoginDocument = gql`
     mutation Login($input: LoginInput!) {
   login(input: $input) {
