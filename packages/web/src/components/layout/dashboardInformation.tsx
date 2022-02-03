@@ -16,17 +16,23 @@ import {
   ProfileLabel,
 } from '../common/dashboard';
 import { useAuth } from '../../hooks/useAuth';
+import { useUpdateProfileMutation, MeDocument, Role } from '../../graphql/__generated__';
 
 export const DashboardInformation: FC = () => {
   const [AddRenter, setAddRenter] = React.useState(false);
-  const { user } = useAuth();
-  // const [updateProfile] = useUpdateProfile();
+  const { user, loading } = useAuth();
+  const [updateProfile] = useUpdateProfileMutation({
+    refetchQueries: [MeDocument],
+    awaitRefetchQueries: true,
+  });
 
   useEffect(() => {
-    if (user.roles[0] === 'USER' && !AddRenter) {
-      setAddRenter(true);
+    if (user) {
+      if (!user.roles.includes(Role.Renter)) {
+        setAddRenter(true);
+      }
     }
-  }, [AddRenter, user]);
+  }, [AddRenter, user, loading]);
 
   return (
     <StyledBox>
@@ -61,12 +67,11 @@ export const DashboardInformation: FC = () => {
             validationSchema={upgradeSchema}
             onSubmit={async (values, { setSubmitting }) => {
               try {
-                // console.log(values);
-                // await updateProfile({
-                //   variables: {
-                //     input: values,
-                //   },
-                // });
+                await updateProfile({
+                  variables: {
+                    input: values,
+                  },
+                });
                 toast.success('Information Added!');
                 setAddRenter(false);
               } catch (error) {

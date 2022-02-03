@@ -9,6 +9,7 @@ import React from 'react';
 import Link from 'next/link';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ErrorIcon from '@mui/icons-material/Error';
+import { useRouter } from 'next/router';
 import {
   StyledButton,
   PopperButton,
@@ -18,14 +19,21 @@ import {
   StyledProfilePaper,
 } from '../../common/dashboard';
 import { useAuth } from '../../../hooks/useAuth';
+import { useLogoutMutation } from '../../../graphql/__generated__';
 
 export const NavBar: NextComponentType = () => {
+  const router = useRouter();
   const [anchorEl, setAnchorEl] = React.useState(null);
-
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
   };
   const open = Boolean(anchorEl);
+  const [logout] = useLogoutMutation();
+
+  const handleLogout = () => {
+    logout();
+    router.reload();
+  };
 
   const { user, loading } = useAuth();
   if (!user || loading) return <p>Loading State</p>;
@@ -67,7 +75,7 @@ export const NavBar: NextComponentType = () => {
                     </Typography>
                   </PopperButton>
                 </Link>
-                <StyledButton>Logout</StyledButton>
+                <StyledButton onClick={() => handleLogout()}>Logout</StyledButton>
               </StyledPopper>
             </Popper>
           </StyledProfilePaper>
