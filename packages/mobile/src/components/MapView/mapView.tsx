@@ -24,7 +24,7 @@ export const MapComponent = ({ latitude, longitude, destination }: MapComponentP
   // const [origin, setOrigin] = useState({ latitude, longitude });
   const [mapDest, setMapDest] = useState(null as LocationGeocodedLocation | null);
   const [markers, setMarkers] = useState<GetSpotsQuery['spaces']>([]);
-  const { data, loading, error } = useGetSpotsQuery();
+  const { data } = useGetSpotsQuery();
 
   useEffect(() => {
     // setOrigin({ latitude, longitude });
@@ -39,40 +39,38 @@ export const MapComponent = ({ latitude, longitude, destination }: MapComponentP
     if (spotsInZone) {
       setMarkers(spotsInZone);
     }
-  }, [latitude, longitude, destination, data?.spaces, loading, data]);
+  }, [latitude, longitude, destination, data?.spaces]);
 
   return (
-    !loading && (
-      <MapView
-        ref={mapRef}
-        showsScale
-        provider="google"
-        style={mapViewStyles.map}
-        showsUserLocation
-        followsUserLocation
-        showsMyLocationButton
-        initialCamera={{
-          center: { latitude, longitude },
-          heading: 0,
-          zoom: 16,
-          pitch: 0,
-          altitude: 0,
-        }}>
-        {mapDest && (
-          <View>
-            <DestinationMarker mapDest={mapDest} />
-            <ParkingSpots parkingSpots={markers} />
-          </View>
-        )}
+    <MapView
+      ref={mapRef}
+      showsScale
+      provider="google"
+      style={mapViewStyles.map}
+      showsUserLocation
+      followsUserLocation
+      showsMyLocationButton
+      initialCamera={{
+        center: { latitude, longitude },
+        heading: 0,
+        zoom: 16,
+        pitch: 0,
+        altitude: 0,
+      }}>
+      {mapDest && (
+        <View>
+          <DestinationMarker mapDest={mapDest} />
+          <ParkingSpots parkingSpots={markers} />
+        </View>
+      )}
 
-        {/* <MapViewDirections
+      {/* <MapViewDirections
           origin={origin}
           destination={destination}
           apikey={API_DIRECTIONS_KEY} // insert your API Key here
           strokeWidth={10}
           strokeColor="#111111"
         /> */}
-      </MapView>
-    )
+    </MapView>
   );
 };
