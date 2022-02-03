@@ -3,13 +3,10 @@ import { InputType, Field } from '@nestjs/graphql';
 @InputType()
 export class ReservationInput {
   @Field()
-  date: string;
+  startDate: string;
 
   @Field()
-  startTime: string;
-
-  @Field()
-  endTime: string;
+  endDate: string;
 
   @Field()
   parkingSpotId: number;

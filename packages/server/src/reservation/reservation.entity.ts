@@ -10,15 +10,11 @@ import { Column, Entity, ManyToOne, RelationId } from 'typeorm';
 export class Reservation extends AbstractEntity {
   @Field()
   @Column()
-  date: string;
+  startDate: string;
 
   @Field()
   @Column()
-  startTime: string;
-
-  @Field()
-  @Column()
-  endTime: string;
+  endDate: string;
 
   @Field({ nullable: true })
   @Column({ nullable: true })
