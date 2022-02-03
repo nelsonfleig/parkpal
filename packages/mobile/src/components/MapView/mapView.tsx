@@ -62,6 +62,21 @@ export const MapComponent = ({ latitude, longitude }: MapComponentProps) => {
           apikey={DIRECTIONS_API_KEY}
           strokeWidth={10}
           strokeColor="#7145D6"
+          onReady={() => {
+            mapRef.current?.animateCamera(
+              {
+                center: {
+                  latitude: (currentSpot.lat + origin.latitude) / 2,
+                  longitude: (currentSpot.lng + origin.longitude) / 2,
+                },
+                heading: 0,
+                zoom: 13,
+                pitch: 0,
+                altitude: 0,
+              },
+              { duration: 500 }
+            );
+          }}
         />
       )}
       {showRoute && currentSpot && (
