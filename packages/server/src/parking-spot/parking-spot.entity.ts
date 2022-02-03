@@ -24,8 +24,20 @@ export class ParkingSpot extends AbstractEntity {
   @Column({ nullable: true })
   picture_url: string;
 
+  @Field(() => [Number])
+  @Column('simple-array')
+  daysAvailable: number[];
+
+  @Field()
+  @Column()
+  startHour: number;
+
+  @Field()
+  @Column()
+  endHour: number;
+
   @Field(() => User)
-  @ManyToOne(() => User, (user: User) => user.parkingSpots, { eager: true })
+  @ManyToOne(() => User, (user: User) => user.parkingSpots)
   user: User;
 
   @Field()

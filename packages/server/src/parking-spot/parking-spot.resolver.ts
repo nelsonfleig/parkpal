@@ -5,7 +5,7 @@ import { Role } from 'src/common/constants/role.enum';
 import { AbstractResolver } from 'src/common/models/abstract.resolver';
 import { UserJwt } from 'src/common/types/user-jwt.type';
 import { ParkingSpotService } from './parking-spot.service';
-import { ParkingSpot } from './parkingSpot.entity';
+import { ParkingSpot } from './parking-spot.entity';
 import { ParkingSpotInput } from './types/parking-spot.input';
 
 @Resolver()
@@ -23,6 +23,15 @@ export class ParkingSpotResolver extends AbstractResolver(
   })
   findAll() {
     return this.parkingSpotService.find({}, ['user']);
+  }
+
+  @Roles(Role.RENTER)
+  @Query(() => [ParkingSpot], {
+    name: 'findMyParkingSpots',
+    description: "Find logged in user's ParkingSpots",
+  })
+  findMyParkingSpots(@CurrentUser() user: UserJwt) {
+    return this.parkingSpotService.find({ userId: user.id });
   }
 
   @Roles(Role.RENTER)

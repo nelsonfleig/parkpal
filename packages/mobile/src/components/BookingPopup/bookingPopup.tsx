@@ -62,7 +62,7 @@ export const BookingPopup = () => {
             <CalendarComponent disabledDayIndexes={[1, 2, 3]} />
             <TimePicker hours={[9, 23]} />
           </View>
-          <ScrollView contentContainerStyle={styles.slider} scrollEnabled={scrollEnabled}>
+          <View contentContainerStyle={styles.slider} scrollEnabled={scrollEnabled}>
             <MaterialCommunityIcons
               name="clock-time-five"
               style={{ ...styles.icon, marginRight: 15 }}
@@ -80,9 +80,13 @@ export const BookingPopup = () => {
               showSteps
               enableLabel
             />
-          </ScrollView>
-
-          <CustomButton press={() => {}} color="white" type="main">
+          </View>
+          <CustomButton
+            press={() => {
+              panelReference.current.hide();
+            }}
+            color="white"
+            type="main">
             Book
           </CustomButton>
         </View>

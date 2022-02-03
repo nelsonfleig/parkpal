@@ -1,16 +1,24 @@
+import AddIcon from '@mui/icons-material/Add';
+import PinDropIcon from '@mui/icons-material/PinDrop';
 import dynamic from 'next/dynamic';
-import React, { useState } from 'react';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { DashboardLayout } from '../../../components/layout/dashboard-layout/dashboard-layout';
 import {
-  ParkingInfoColumn,
   ParkingCreateForm,
+  ParkingInfoColumn,
   ParkingSpotWrapper,
+  ParkingToggleButton,
 } from '../../../components/parking-spots';
+import { ParkingList } from '../../../components/parking-spots/parking-list';
 import useGeolocation from '../../../hooks/useGeolocation';
+import { RootState } from '../../../redux';
+import { toggleCreateMode } from '../../../redux/parking-spot/parkingSpotSlice';
 
 const CreateParkingSpot = () => {
   const { data } = useGeolocation();
-  const [createMode] = useState(true);
+  const { isCreateMode } = useSelector((state: RootState) => state.parkingSpots);
+  const dispatch = useDispatch();
 
   const Map = React.useMemo(
     () =>
@@ -32,7 +40,23 @@ const CreateParkingSpot = () => {
       <ParkingSpotWrapper>
         <Map coords={data} />
         <ParkingInfoColumn>
-          {createMode ? <ParkingCreateForm /> : <h1>YOUR BOOKINGS</h1>}
+          <ParkingToggleButton
+            color="secondary"
+            variant="contained"
+            size="large"
+            fullWidth
+            onClick={() => dispatch(toggleCreateMode())}>
+            {isCreateMode ? (
+              <>
+                <PinDropIcon /> View Parking Spots
+              </>
+            ) : (
+              <>
+                <AddIcon /> Create
+              </>
+            )}
+          </ParkingToggleButton>
+          {isCreateMode ? <ParkingCreateForm /> : <ParkingList />}
         </ParkingInfoColumn>
       </ParkingSpotWrapper>
     </DashboardLayout>

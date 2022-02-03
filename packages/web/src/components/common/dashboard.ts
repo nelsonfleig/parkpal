@@ -15,7 +15,6 @@ export const CenteredPaper = styled(Paper)(() => ({
 export const ProfileLabel = styled(Typography)(() => ({
   fontSize: '0.9rem',
   fontWeight: '600',
-  marginBottom: '-12px',
   marginTop: '10px',
 }));
 
@@ -148,6 +147,7 @@ export const StyledButton = styled(Button)((props) => ({
 }));
 
 export const StyledProfilePaper = styled(Paper)(() => ({
+  minWidth: '150px',
   color: 'inherit',
   background: 'none',
   outline: 'none',
@@ -157,6 +157,9 @@ export const StyledProfilePaper = styled(Paper)(() => ({
   display: 'flex',
   alignItems: 'center',
   borderRadius: '0',
+  ':hover': {
+    cursor: 'pointer',
+  },
 }));
 
 export const GraphStyle = {

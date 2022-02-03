@@ -1,6 +1,6 @@
-import React from 'react';
 import { icon } from 'leaflet';
-import { Marker, Popup, TileLayer, useMapEvents } from 'react-leaflet';
+import React from 'react';
+import { Marker, Popup, useMapEvents } from 'react-leaflet';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux';
 import { setMarker } from '../../redux/marker/markerSlice';
@@ -13,7 +13,7 @@ const ICON = icon({
 export const MapElements = () => {
   // const markerPos = useMarkerPos();
 
-  const marker = useSelector((state: RootState) => state.marker);
+  const { marker } = useSelector((state: RootState) => state.marker);
   const dispatch = useDispatch();
 
   useMapEvents({
@@ -26,10 +26,6 @@ export const MapElements = () => {
 
   return (
     <>
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
       {/* <Circle center={coords} radius={10} /> */}
       {marker && (
         <Marker icon={ICON} position={marker}>

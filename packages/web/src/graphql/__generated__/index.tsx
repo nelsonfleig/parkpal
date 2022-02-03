@@ -43,10 +43,14 @@ export type LoginInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  /** Create ParkingSpot */
+  createParkingSpot: ParkingSpot;
   /** Custom Create Todo */
   createTodo: Todo;
   /** Create User */
   createUser: User;
+  /** Delete ParkingSpot */
+  deleteParkingSpot: ParkingSpot;
   /** Delete Todo */
   deleteTodo: Todo;
   /** Delete User */
@@ -57,10 +61,19 @@ export type Mutation = {
   logout: Scalars['Boolean'];
   /** Register user */
   register: User;
+  /** Update ParkingSpot */
+  updateParkingSpot: ParkingSpot;
+  /** Logout user */
+  updateProfile: User;
   /** Update Todo */
   updateTodo: Todo;
   /** Update User */
   updateUser: User;
+};
+
+
+export type MutationCreateParkingSpotArgs = {
+  input: ParkingSpotInput;
 };
 
 
@@ -71,6 +84,11 @@ export type MutationCreateTodoArgs = {
 
 export type MutationCreateUserArgs = {
   input: UserInput;
+};
+
+
+export type MutationDeleteParkingSpotArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -94,6 +112,17 @@ export type MutationRegisterArgs = {
 };
 
 
+export type MutationUpdateParkingSpotArgs = {
+  id: Scalars['ID'];
+  input: ParkingSpotInput;
+};
+
+
+export type MutationUpdateProfileArgs = {
+  input: ProfileInput;
+};
+
+
 export type MutationUpdateTodoArgs = {
   id: Scalars['ID'];
   input: TodoInput;
@@ -107,24 +136,50 @@ export type MutationUpdateUserArgs = {
 
 export type ParkingSpot = {
   __typename?: 'ParkingSpot';
-  complains: User;
+  complains?: Maybe<User>;
   createdAt: Scalars['DateTime'];
+  daysAvailable: Array<Scalars['Float']>;
+  endHour: Scalars['Float'];
   id: Scalars['ID'];
-  latitude: Scalars['Float'];
-  longitude: Scalars['Float'];
-  picture_url: Scalars['String'];
+  lat: Scalars['Float'];
+  lng: Scalars['Float'];
+  picture_url?: Maybe<Scalars['String']>;
   price: Scalars['Float'];
-  reservations: Array<Reservation>;
+  reservations?: Maybe<Array<Reservation>>;
+  startHour: Scalars['Float'];
   updatedAt: Scalars['DateTime'];
   user: User;
+  userId: Scalars['Float'];
+};
+
+export type ParkingSpotInput = {
+  daysAvailable: Array<Scalars['Float']>;
+  endHour: Scalars['Float'];
+  lat?: InputMaybe<Scalars['Float']>;
+  lng?: InputMaybe<Scalars['Float']>;
+  price?: InputMaybe<Scalars['Float']>;
+  startHour: Scalars['Float'];
+};
+
+export type ProfileInput = {
+  bankInfo: Scalars['String'];
+  firstName: Scalars['String'];
+  lastName: Scalars['String'];
+  phone: Scalars['String'];
 };
 
 export type Query = {
   __typename?: 'Query';
+  /** Find all ParkingSpots */
+  findAllParkingSpots: Array<ParkingSpot>;
   /** List all Todos */
   findAllTodos: Array<Todo>;
   /** List all Users */
   findAllUsers: Array<User>;
+  /** Find logged in user's ParkingSpots */
+  findMyParkingSpots: Array<ParkingSpot>;
+  /** Find one ParkingSpot */
+  findOneParkingSpot: ParkingSpot;
   /** Find one Todo */
   findOneTodo: Todo;
   /** Find one User */
@@ -132,6 +187,11 @@ export type Query = {
   /** Get logged in user */
   me?: Maybe<User>;
   protect: Scalars['String'];
+};
+
+
+export type QueryFindOneParkingSpotArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -219,6 +279,8 @@ export type UserInput = {
   password: Scalars['String'];
 };
 
+export type ParkingSpotDetailsFragment = { __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour: number, endHour: number, userId: number };
+
 export type TodoExcerptFragment = { __typename?: 'Todo', id: string, title: string, completed?: boolean | null | undefined };
 
 export type UserExcerptFragment = { __typename?: 'User', id: string, firstName: string, lastName: string, email: string, roles: Array<Role> };
@@ -237,16 +299,40 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'User', id: string } };
 
+export type CreateParkingSpotMutationVariables = Exact<{
+  input: ParkingSpotInput;
+}>;
+
+
+export type CreateParkingSpotMutation = { __typename?: 'Mutation', createParkingSpot: { __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour: number, endHour: number, userId: number } };
+
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, firstName: string, lastName: string, email: string, roles: Array<Role> } | null | undefined };
+
+export type FindMyParkingSpotsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindMyParkingSpotsQuery = { __typename?: 'Query', parkingSpots: Array<{ __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour: number, endHour: number, userId: number }> };
 
 export type FindAllTodosQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type FindAllTodosQuery = { __typename?: 'Query', todos: Array<{ __typename?: 'Todo', id: string, title: string, completed?: boolean | null | undefined }> };
 
+export const ParkingSpotDetailsFragmentDoc = gql`
+    fragment ParkingSpotDetails on ParkingSpot {
+  id
+  lat
+  lng
+  price
+  daysAvailable
+  startHour
+  endHour
+  userId
+}
+    `;
 export const TodoExcerptFragmentDoc = gql`
     fragment TodoExcerpt on Todo {
   id
@@ -329,6 +415,39 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const CreateParkingSpotDocument = gql`
+    mutation CreateParkingSpot($input: ParkingSpotInput!) {
+  createParkingSpot(input: $input) {
+    ...ParkingSpotDetails
+  }
+}
+    ${ParkingSpotDetailsFragmentDoc}`;
+export type CreateParkingSpotMutationFn = Apollo.MutationFunction<CreateParkingSpotMutation, CreateParkingSpotMutationVariables>;
+
+/**
+ * __useCreateParkingSpotMutation__
+ *
+ * To run a mutation, you first call `useCreateParkingSpotMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateParkingSpotMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createParkingSpotMutation, { data, loading, error }] = useCreateParkingSpotMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateParkingSpotMutation(baseOptions?: Apollo.MutationHookOptions<CreateParkingSpotMutation, CreateParkingSpotMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateParkingSpotMutation, CreateParkingSpotMutationVariables>(CreateParkingSpotDocument, options);
+      }
+export type CreateParkingSpotMutationHookResult = ReturnType<typeof useCreateParkingSpotMutation>;
+export type CreateParkingSpotMutationResult = Apollo.MutationResult<CreateParkingSpotMutation>;
+export type CreateParkingSpotMutationOptions = Apollo.BaseMutationOptions<CreateParkingSpotMutation, CreateParkingSpotMutationVariables>;
 export const MeDocument = gql`
     query Me {
   me {
@@ -363,6 +482,40 @@ export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
+export const FindMyParkingSpotsDocument = gql`
+    query FindMyParkingSpots {
+  parkingSpots: findMyParkingSpots {
+    ...ParkingSpotDetails
+  }
+}
+    ${ParkingSpotDetailsFragmentDoc}`;
+
+/**
+ * __useFindMyParkingSpotsQuery__
+ *
+ * To run a query within a React component, call `useFindMyParkingSpotsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindMyParkingSpotsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindMyParkingSpotsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFindMyParkingSpotsQuery(baseOptions?: Apollo.QueryHookOptions<FindMyParkingSpotsQuery, FindMyParkingSpotsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindMyParkingSpotsQuery, FindMyParkingSpotsQueryVariables>(FindMyParkingSpotsDocument, options);
+      }
+export function useFindMyParkingSpotsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindMyParkingSpotsQuery, FindMyParkingSpotsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindMyParkingSpotsQuery, FindMyParkingSpotsQueryVariables>(FindMyParkingSpotsDocument, options);
+        }
+export type FindMyParkingSpotsQueryHookResult = ReturnType<typeof useFindMyParkingSpotsQuery>;
+export type FindMyParkingSpotsLazyQueryHookResult = ReturnType<typeof useFindMyParkingSpotsLazyQuery>;
+export type FindMyParkingSpotsQueryResult = Apollo.QueryResult<FindMyParkingSpotsQuery, FindMyParkingSpotsQueryVariables>;
 export const FindAllTodosDocument = gql`
     query FindAllTodos {
   todos: findAllTodos {

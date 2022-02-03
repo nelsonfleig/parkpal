@@ -1,11 +1,16 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import markerReducer from './marker/markerSlice';
+import parkingSpotReducer from './parking-spot/parkingSpotSlice';
 
-export const store = configureStore({
-  reducer: markerReducer,
+const rootReducer = combineReducers({
+  marker: markerReducer,
+  parkingSpots: parkingSpotReducer,
 });
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = ReturnType<typeof store.getState>;
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
+export const store = configureStore({
+  reducer: rootReducer,
+});
+
+export type RootState = ReturnType<typeof rootReducer>;
+
 export type AppDispatch = typeof store.dispatch;
