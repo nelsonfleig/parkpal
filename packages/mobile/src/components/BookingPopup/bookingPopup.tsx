@@ -1,16 +1,17 @@
 // @ts-nocheck
-
 import SlidingUpPanel from 'rn-sliding-up-panel';
 import { View, Image, ScrollView } from 'react-native';
 import { Text } from 'react-native-paper';
 import React, { useState } from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
+
 import CalendarComponent from '../Calendar/calendar';
 
 import styles from './bookingPopupStyles';
 import profile from '../../../assets/images/profile.png';
 import { CustomButton } from '../Forms/button';
+import { TimePicker } from '../TimePicker/timePicker';
 
 export const panelReference = React.createRef<any>();
 
@@ -59,6 +60,7 @@ export const BookingPopup = () => {
             <MaterialCommunityIcons name="calendar" size={40} color="#7145D6" style={styles.icon} />
 
             <CalendarComponent disabledDayIndexes={[1, 2, 3]} />
+            <TimePicker hours={[9, 23]} />
           </View>
           <ScrollView contentContainerStyle={styles.slider} scrollEnabled={scrollEnabled}>
             <MaterialCommunityIcons

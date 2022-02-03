@@ -77,6 +77,13 @@ const styles = StyleSheet.create({
 
   time: {
     width: 80,
+    backgroundColor: '#EBEBEB',
+  },
+
+  timeText: {
+    color: 'black',
+    padding: 10,
+    textTransform: 'uppercase',
   },
 
   slider: {
