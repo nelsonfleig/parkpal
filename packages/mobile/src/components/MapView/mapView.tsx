@@ -28,6 +28,7 @@ export const MapComponent = ({ latitude, longitude, destination }: MapComponentP
   useEffect(() => {
     // setOrigin({ latitude, longitude });
     setMapDest(destination);
+    // We select the parking spots that are within the radius of 300m
     const spotsInZone =
       destination &&
       mockParkingSpots.filter(
