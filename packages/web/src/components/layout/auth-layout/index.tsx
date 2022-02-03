@@ -9,6 +9,7 @@ type AuthLayoutProps = {
 
 export const AuthLayout = ({ children }: AuthLayoutProps) => {
   const { isAuthenticated } = useAuth();
+  console.log('AUTH', isAuthenticated);
   const router = useRouter();
 
   useEffect(() => {
