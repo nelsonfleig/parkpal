@@ -6,9 +6,8 @@ type Reservation {
   id: ID!
   createdAt: DateTime!
   updatedAt: DateTime!
-  date: String!
-  startTime: String!
-  endTime: String!
+  startDate: String!
+  endDate: String!
   stripeChargeId: String
   user: User!
   userId: Float!
@@ -210,10 +209,9 @@ input TodoInput {
 }
 
 input ReservationInput {
-  date: String!
-  startTime: String!
-  endTime: String!
-  parkingSpotId: Float!
+  startDate: String!
+  endDate: String!
+  parkingSpotId: ID!
 }
 
 input ParkingSpotInput {
