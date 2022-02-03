@@ -14,16 +14,21 @@ import {
 } from '../common/dashboard';
 import { FormikText } from '../formik/formik-text';
 import { FormikSubmitProfile } from '../formik/formik-submit';
+import { useAuth } from '../../hooks/useAuth';
 
 export const DashboardProfile: FC = () => {
   const [openSensitive, setOpenSensitive] = React.useState(false);
   const [openInfo, setOpenInfo] = React.useState(false);
 
+  const { user, loading } = useAuth();
+
+  if (!user || loading) return <p>Loading State</p>;
+
   return (
     <StyledProfileBox>
       <StyledProfilePic alt="Profile Picture" src="/testProfilePic.jpg" />
       <Box>
-        <Typography variant="h4">Ivan Wojczestwinsky</Typography>
+        <Typography variant="h4">{`${user.firstName} ${user.lastName}`}</Typography>
         <Typography variant="h5" color="gray" marginBottom="2rem">
           Renter
         </Typography>
@@ -36,7 +41,7 @@ export const DashboardProfile: FC = () => {
                 First Name:
               </Typography>
               <Typography variant="body2" fontSize="1.1rem">
-                Ivan
+                {user.firstName}
               </Typography>
             </InfoText>
             <InfoText>
@@ -44,7 +49,7 @@ export const DashboardProfile: FC = () => {
                 Last Name:
               </Typography>
               <Typography variant="body2" fontSize="1.1rem">
-                Wojczestwinsky
+                {user.lastName}
               </Typography>
             </InfoText>
             <InfoText>
@@ -52,7 +57,7 @@ export const DashboardProfile: FC = () => {
                 Email Adress:
               </Typography>
               <Typography variant="body2" fontSize="1.1rem">
-                Ivan@bly.at
+                {user.email}
               </Typography>
             </InfoText>
             <InfoText>
@@ -60,7 +65,7 @@ export const DashboardProfile: FC = () => {
                 Phone:
               </Typography>
               <Typography variant="body2" fontSize="1.1rem">
-                +44 430 124 999
+                {user.phone}
               </Typography>
             </InfoText>
           </Box>
@@ -80,7 +85,7 @@ export const DashboardProfile: FC = () => {
                 Bank Information:
               </Typography>
               <Typography variant="body2" fontSize="1.1rem">
-                Sum Bank Information
+                {user.bankInfo}
               </Typography>
             </InfoText>
           </Box>
@@ -101,7 +106,7 @@ export const DashboardProfile: FC = () => {
                 <ProfileLabel>Current Password</ProfileLabel>
                 <FormikText name="name" fullWidth value="Ivan" type="password" disabled />
                 <ProfileLabel>Current Bank Information</ProfileLabel>
-                <FormikText name="name" fullWidth value="Sum Bank Information" />
+                <FormikText name="name" fullWidth value="Sum Bank Information" type="hidden" />
                 <FormikSubmitProfile loading={isSubmitting} disabled={!isValid || isSubmitting}>
                   Save Changes
                 </FormikSubmitProfile>

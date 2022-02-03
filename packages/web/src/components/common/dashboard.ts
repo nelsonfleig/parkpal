@@ -100,9 +100,13 @@ export const InfoText = styled(Box)(() => ({
   margin: '.8rem 0rem',
 }));
 
+let color: string;
 export function randomColor() {
-  const hex = Math.floor(Math.random() * 0xffffff);
-  return `#${hex.toString(16)}`;
+  if (!color) {
+    const hex = Math.floor(Math.random() * 0xffffff);
+    color = `#${hex.toString(16)}`;
+  }
+  return color;
 }
 
 export const StyledAvatar = styled(Avatar)(() => ({
@@ -140,6 +144,7 @@ export const StyledButton = styled(Button)((props) => ({
   padding: '5px 50px !important',
   fontSize: '0.8rem !important',
   marginTop: '1rem',
+  color: '#fff',
   backgroundColor: props.theme.palette.secondary.main,
   ':hover': {
     backgroundColor: props.theme.palette.secondary.light,
@@ -147,7 +152,7 @@ export const StyledButton = styled(Button)((props) => ({
 }));
 
 export const StyledProfilePaper = styled(Paper)(() => ({
-  minWidth: '150px',
+  minWidth: '150px important',
   color: 'inherit',
   background: 'none',
   outline: 'none',
