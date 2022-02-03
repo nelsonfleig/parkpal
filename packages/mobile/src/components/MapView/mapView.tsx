@@ -1,9 +1,9 @@
 import { LocationGeocodedLocation } from 'expo-location';
 import MapView from 'react-native-maps';
 import { createRef, useEffect, useState } from 'react';
-// import MapViewDirections from 'react-native-maps-directions';
+import MapViewDirections from 'react-native-maps-directions';
 
-// import { API_DIRECTIONS_KEY } from '@env';
+import { DIRECTIONS_API_KEY } from '@env';
 import { View } from 'react-native';
 import { mapViewStyles } from './mapViewStyles';
 
@@ -21,16 +21,16 @@ type MapComponentProps = {
 export const mapRef = createRef<MapView>();
 
 export const MapComponent = ({ latitude, longitude, destination }: MapComponentProps) => {
-  // const [origin, setOrigin] = useState({ latitude, longitude });
+  const [origin, setOrigin] = useState({ latitude, longitude });
   const [mapDest, setMapDest] = useState(null as LocationGeocodedLocation | null);
   const [markers, setMarkers] = useState<GetSpotsQuery['spaces']>([]);
   const { data } = useGetSpotsQuery();
 
   useEffect(() => {
-    // setOrigin({ latitude, longitude });
+    setOrigin({ latitude, longitude });
     setMapDest(destination);
-    // We select the parking spots that are within the radius of 300m
 
+    // We select the parking spots that are within the radius of 300m
     const spotsInZone =
       destination &&
       data?.spaces.filter(
@@ -64,13 +64,15 @@ export const MapComponent = ({ latitude, longitude, destination }: MapComponentP
         </View>
       )}
 
-      {/* <MapViewDirections
+      {destination && (
+        <MapViewDirections
           origin={origin}
-          destination={destination}
-          apikey={API_DIRECTIONS_KEY} // insert your API Key here
+          destination={{ latitude: destination.latitude, longitude: destination.longitude }}
+          apikey={DIRECTIONS_API_KEY} // insert your API Key here
           strokeWidth={10}
           strokeColor="#111111"
-        /> */}
+        />
+      )}
     </MapView>
   );
 };
