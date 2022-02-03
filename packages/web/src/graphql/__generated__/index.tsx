@@ -162,10 +162,10 @@ export type ParkingSpotInput = {
 };
 
 export type ProfileInput = {
-  bankInfo: Scalars['String'];
+  bankInfo?: InputMaybe<Scalars['String']>;
   firstName?: InputMaybe<Scalars['String']>;
   lastName?: InputMaybe<Scalars['String']>;
-  phone: Scalars['String'];
+  phone?: InputMaybe<Scalars['String']>;
 };
 
 export type Query = {

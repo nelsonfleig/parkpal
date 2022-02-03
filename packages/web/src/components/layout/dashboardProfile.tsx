@@ -1,5 +1,6 @@
 import { Form, Formik } from 'formik';
 import { Typography, Box, Modal } from '@mui/material';
+import { toast } from 'react-toastify';
 import React, { FC } from 'react';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LockIcon from '@mui/icons-material/Lock';
@@ -15,12 +16,17 @@ import {
 import { FormikText } from '../formik/formik-text';
 import { FormikSubmitProfile } from '../formik/formik-submit';
 import { useAuth } from '../../hooks/useAuth';
+import { useUpdateProfileMutation, MeDocument } from '../../graphql/__generated__';
 
 export const DashboardProfile: FC = () => {
   const [openSensitive, setOpenSensitive] = React.useState(false);
   const [openInfo, setOpenInfo] = React.useState(false);
-
   const { user, loading } = useAuth();
+
+  const [updateProfile] = useUpdateProfileMutation({
+    refetchQueries: [MeDocument],
+    awaitRefetchQueries: true,
+  });
 
   if (!user || loading) return <p>Loading State</p>;
 
@@ -97,16 +103,32 @@ export const DashboardProfile: FC = () => {
         aria-labelledby="modal-modal-title">
         <CenteredPaper>
           <Formik
-            initialValues={{}}
-            onSubmit={async () => {
-              // console.log('yep');
+            initialValues={{
+              bankInfo: user.bankInfo,
+            }}
+            onSubmit={async (values, { setSubmitting }) => {
+              try {
+                await updateProfile({
+                  variables: {
+                    input: values,
+                  },
+                });
+                toast.success('Information Updated!');
+                setOpenInfo(false);
+              } catch (error) {
+                if (error instanceof Error) {
+                  toast.error(error.message);
+                }
+              } finally {
+                setSubmitting(false);
+              }
             }}>
             {({ isValid, isSubmitting }) => (
               <Form>
                 <ProfileLabel>Current Password</ProfileLabel>
-                <FormikText name="name" fullWidth value="Ivan" type="password" disabled />
+                <FormikText name="password" fullWidth value="0000" type="password" disabled />
                 <ProfileLabel>Current Bank Information</ProfileLabel>
-                <FormikText name="name" fullWidth value="Sum Bank Information" type="hidden" />
+                <FormikText name="bankInfo" fullWidth />
                 <FormikSubmitProfile loading={isSubmitting} disabled={!isValid || isSubmitting}>
                   Save Changes
                 </FormikSubmitProfile>
@@ -118,20 +140,38 @@ export const DashboardProfile: FC = () => {
       <Modal open={openInfo} onClose={() => setOpenInfo(false)} aria-labelledby="modal-modal-title">
         <CenteredPaper>
           <Formik
-            initialValues={{}}
-            onSubmit={async () => {
-              // console.log('yep');
+            initialValues={{
+              firstName: user.firstName,
+              lastName: user.lastName,
+              phone: user.phone,
+            }}
+            onSubmit={async (values, { setSubmitting }) => {
+              try {
+                await updateProfile({
+                  variables: {
+                    input: values,
+                  },
+                });
+                toast.success('Information Updated!');
+                setOpenInfo(false);
+              } catch (error) {
+                if (error instanceof Error) {
+                  toast.error(error.message);
+                }
+              } finally {
+                setSubmitting(false);
+              }
             }}>
             {({ isValid, isSubmitting }) => (
               <Form>
                 <ProfileLabel>Current First Name</ProfileLabel>
-                <FormikText name="name" fullWidth value="Ivan" />
+                <FormikText name="firstName" fullWidth />
                 <ProfileLabel>Current Last Name</ProfileLabel>
-                <FormikText name="name" fullWidth value="Polish Name" />
-                <ProfileLabel>Email</ProfileLabel>
-                <FormikText name="name" fullWidth disabled value="Cannot Change Email" />
+                <FormikText name="lastName" fullWidth />
+                <ProfileLabel>Email (non-changable)</ProfileLabel>
+                <FormikText name="email" fullWidth disabled value={`${user.email}`} />
                 <ProfileLabel>Current Phone Number</ProfileLabel>
-                <FormikText name="name" fullWidth value="323905 045" />
+                <FormikText name="phone" fullWidth />
 
                 <FormikSubmitProfile loading={isSubmitting} disabled={!isValid || isSubmitting}>
                   Save Changes

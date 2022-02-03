@@ -8,9 +8,9 @@ export class ProfileInput {
   @Field({ nullable: true })
   lastName: string;
 
-  @Field()
+  @Field({ nullable: true })
   phone: string;
 
-  @Field()
+  @Field({ nullable: true })
   bankInfo: string;
 }

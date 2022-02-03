@@ -175,8 +175,8 @@ input RegisterInput {
 input ProfileInput {
   firstName: String
   lastName: String
-  phone: String!
-  bankInfo: String!
+  phone: String
+  bankInfo: String
 }
 
 input UserInput {
