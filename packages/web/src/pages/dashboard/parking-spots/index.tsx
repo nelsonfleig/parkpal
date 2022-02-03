@@ -11,15 +11,12 @@ import {
   ParkingToggleButton,
 } from '../../../components/parking-spots';
 import { ParkingList } from '../../../components/parking-spots/parking-list';
-import useGeolocation from '../../../hooks/useGeolocation';
 import { RootState } from '../../../redux';
 import { toggleCreateMode } from '../../../redux/parking-spot/parkingSpotSlice';
 
 const CreateParkingSpot = () => {
-  const { data } = useGeolocation();
   const { isCreateMode } = useSelector((state: RootState) => state.parkingSpots);
   const dispatch = useDispatch();
-
   const Map = React.useMemo(
     () =>
       dynamic(
@@ -38,7 +35,7 @@ const CreateParkingSpot = () => {
   return (
     <DashboardLayout>
       <ParkingSpotWrapper>
-        <Map coords={data} />
+        <Map />
         <ParkingInfoColumn>
           <ParkingToggleButton
             variant="contained"
