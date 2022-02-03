@@ -46,14 +46,23 @@ export class AuthResolver {
    * Also allow a Renter to change his profile info
    */
   @Roles(Role.USER, Role.RENTER)
-  @Mutation(() => User, { description: 'Logout user' })
-  updateProfile(
+  @Mutation(() => AuthResponse, { description: 'Logout user' })
+  async updateProfile(
     @CurrentUser() user: UserJwt,
-    @Args('input') input: ProfileInput
+    @Args('input') input: ProfileInput,
+    @Context() context: Ctx
   ) {
-    return this.userService.update(user.id, {
+    const updatedUser = await this.userService.update(user.id, {
       ...input,
       roles: [Role.USER, Role.RENTER],
     });
+    const accessToken = this.authService.reissueAccessToken(
+      updatedUser,
+      context
+    );
+    return {
+      user: updatedUser,
+      accessToken,
+    };
   }
 }

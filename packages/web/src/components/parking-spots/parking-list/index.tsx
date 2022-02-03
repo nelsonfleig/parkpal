@@ -1,5 +1,10 @@
+import { Typography } from '@mui/material';
 import React from 'react';
+import styled from 'styled-components';
 import { useFindMyParkingSpotsQuery } from '../../../graphql/__generated__';
+import { ParkingSpotItem } from './ParkingSpotItem';
+
+const ParkingColumn = styled.div``;
 
 export const ParkingList = () => {
   const { data, loading } = useFindMyParkingSpotsQuery();
@@ -7,15 +12,14 @@ export const ParkingList = () => {
   if (!data || loading) return <h1>loading...</h1>;
 
   return (
-    <div>
-      {data.parkingSpots.map((p) => (
-        <div key={p.id}>
-          <p>
-            lat: {p.lat}, lng: {p.lng}
-          </p>
-          <br />
-        </div>
-      ))}
-    </div>
+    <ParkingColumn>
+      {data.parkingSpots.length ? (
+        data.parkingSpots.map((p) => <ParkingSpotItem key={p.id} parkingSpot={p} />)
+      ) : (
+        <Typography variant="h6" align="center">
+          You have no parking spots
+        </Typography>
+      )}
+    </ParkingColumn>
   );
 };

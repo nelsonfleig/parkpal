@@ -11,8 +11,14 @@ type FormikSubmitProps = ButtonProps & {
   loading: boolean;
 };
 
-export const FormikSubmit = ({ children, disabled, loading }: FormikSubmitProps) => (
-  <SubmitButton type="submit" size="small" variant="contained" fullWidth disabled={disabled}>
+export const FormikSubmit = ({ children, disabled, loading, color }: FormikSubmitProps) => (
+  <SubmitButton
+    type="submit"
+    size="small"
+    variant="contained"
+    fullWidth
+    disabled={disabled}
+    color={color}>
     {loading ? <CircularProgress color="secondary" size={30} /> : children}
   </SubmitButton>
 );

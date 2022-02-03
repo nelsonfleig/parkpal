@@ -2,10 +2,10 @@ import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
 export class ProfileInput {
-  @Field()
+  @Field({ nullable: true })
   firstName: string;
 
-  @Field()
+  @Field({ nullable: true })
   lastName: string;
 
   @Field()
