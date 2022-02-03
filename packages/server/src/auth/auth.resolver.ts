@@ -11,6 +11,7 @@ import { AuthResponse } from './types/auth.response';
 import { LoginInput } from './types/login.input';
 import { RegisterInput } from './types/register.input';
 import { ProfileInput } from 'src/user/types/profile.input';
+import { GraphQLError } from 'graphql';
 
 @Resolver()
 export class AuthResolver {
@@ -31,7 +32,7 @@ export class AuthResolver {
 
   @Query(() => User, { description: 'Get logged in user', nullable: true })
   me(@CurrentUser() user: UserJwt) {
-    if (!user) return null;
+    if (!user) throw new GraphQLError('Not authenticated');
     return this.userService.findOne({ id: user.id });
   }
 
