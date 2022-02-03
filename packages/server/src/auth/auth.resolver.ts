@@ -2,16 +2,15 @@ import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Role } from 'src/common/constants/role.enum';
 import { Ctx } from 'src/common/types/context.type';
 import { UserJwt } from 'src/common/types/user-jwt.type';
+import { ProfileInput } from 'src/user/types/profile.input';
 import { User } from 'src/user/user.entity';
 import { UserService } from 'src/user/user.service';
-import { CurrentUser } from './decorators/current-user.decorator';
 import { AuthService } from './auth.service';
+import { CurrentUser } from './decorators/current-user.decorator';
 import { Roles } from './decorators/roles.decorator';
 import { AuthResponse } from './types/auth.response';
 import { LoginInput } from './types/login.input';
 import { RegisterInput } from './types/register.input';
-import { ProfileInput } from 'src/user/types/profile.input';
-import { GraphQLError } from 'graphql';
 
 @Resolver()
 export class AuthResolver {
@@ -32,8 +31,7 @@ export class AuthResolver {
 
   @Query(() => User, { description: 'Get logged in user', nullable: true })
   me(@CurrentUser() user: UserJwt) {
-    if (!user) throw new GraphQLError('Not authenticated');
-    return this.userService.findOne({ id: user.id });
+    return this.userService.findOne({ id: user?.id });
   }
 
   @Mutation(() => Boolean, { description: 'Logout user' })

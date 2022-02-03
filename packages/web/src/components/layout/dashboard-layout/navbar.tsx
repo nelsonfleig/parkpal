@@ -18,7 +18,7 @@ import {
   StyledProfilePaper,
 } from '../../common/dashboard';
 import { useAuth } from '../../../hooks/useAuth';
-import { useLogoutMutation, MeDocument } from '../../../graphql/__generated__';
+import { MeDocument, useLogoutMutation } from '../../../graphql/__generated__';
 
 export const NavBar: NextComponentType = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
