@@ -1,0 +1,16 @@
+query GetSpots {
+  spaces: findAllParkingSpots {
+    price
+    startHour
+    endHour
+    lat
+    lng
+    id
+    daysAvailable
+    user {
+      firstName
+      lastName
+      phone
+    }
+  }
+}
