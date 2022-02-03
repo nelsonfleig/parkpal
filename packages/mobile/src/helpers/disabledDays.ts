@@ -1,7 +1,11 @@
 import dayjs from 'dayjs';
 import { DatesObjType } from '../../types/datesObj';
 
+const days = [0, 1, 2, 3, 4, 5, 6];
+
 const getDisabledDays = (month: number, year: number, dayIndexes: number[]) => {
+  // Filter for which days are not available
+  const disabledDays = days.filter((day) => !dayIndexes.includes(day));
   // Get the start and end dates of the month
   let pivot = dayjs().month(month).year(year).startOf('month');
   const end = dayjs().month(month).year(year).endOf('month');
@@ -11,7 +15,7 @@ const getDisabledDays = (month: number, year: number, dayIndexes: number[]) => {
   // While not at the end of the month
   while (pivot.isBefore(end)) {
     const copy = dayjs(pivot);
-    dayIndexes.forEach((day) => {
+    disabledDays.forEach((day) => {
       // Get the date for the days specified in the indexes array
       dates[copy.day(day).format('YYYY-MM-DD')] = disabled;
     });
