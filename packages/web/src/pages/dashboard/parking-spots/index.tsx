@@ -41,10 +41,10 @@ const CreateParkingSpot = () => {
         <Map coords={data} />
         <ParkingInfoColumn>
           <ParkingToggleButton
-            color="secondary"
             variant="contained"
             size="large"
             fullWidth
+            color="primary"
             onClick={() => dispatch(toggleCreateMode())}>
             {isCreateMode ? (
               <>
