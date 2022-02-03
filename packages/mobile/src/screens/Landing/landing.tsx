@@ -21,6 +21,7 @@ export const LandingScreen = () => {
       setDestination(null); // Needed to remove the markers when we delete the text
     }
   };
+
   // On submit search query:
   const onSubmitEditing = async () => {
     // When we submit the direction, we transform it to coordinates

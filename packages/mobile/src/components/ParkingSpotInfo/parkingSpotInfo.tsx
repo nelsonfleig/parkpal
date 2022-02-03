@@ -14,7 +14,11 @@ import { parkingSpotInfoStyles as styles } from './parkingSpotInfoStyles';
 
 export const panelReference = React.createRef<any>();
 
-export const ParkingSpotInfo = () => {
+type ParkingSpotInfoType = {
+  setContent: React.Dispatch<React.SetStateAction<string>>;
+};
+
+export const ParkingSpotInfo = ({ setContent }: ParkingSpotInfoType) => {
   const { currentSpot } = useSelector((state: RootState) => state.parkingSpots);
   const [scrollEnabled, setScrollEnabled] = useState(false);
 
@@ -85,7 +89,12 @@ export const ParkingSpotInfo = () => {
               enableLabel
             />
           </ScrollView>
-          <CustomButton press={() => {}} color="white" type="main">
+          <CustomButton
+            press={() => {
+              setContent('start');
+            }}
+            color="white"
+            type="main">
             Book
           </CustomButton>
         </View>
