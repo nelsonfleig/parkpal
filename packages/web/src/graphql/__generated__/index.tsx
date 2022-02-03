@@ -136,7 +136,9 @@ export type MutationUpdateUserArgs = {
 
 export type ParkingSpot = {
   __typename?: 'ParkingSpot';
+  city: Scalars['String'];
   complains?: Maybe<User>;
+  country: Scalars['String'];
   createdAt: Scalars['DateTime'];
   daysAvailable: Array<Scalars['Float']>;
   endHour: Scalars['Float'];
@@ -147,9 +149,11 @@ export type ParkingSpot = {
   price: Scalars['Float'];
   reservations?: Maybe<Array<Reservation>>;
   startHour: Scalars['Float'];
+  street: Scalars['String'];
   updatedAt: Scalars['DateTime'];
   user: User;
   userId: Scalars['Float'];
+  zipCode: Scalars['String'];
 };
 
 export type ParkingSpotInput = {
@@ -187,6 +191,7 @@ export type Query = {
   /** Get logged in user */
   me?: Maybe<User>;
   protect: Scalars['String'];
+  testGeocoding: Scalars['String'];
 };
 
 

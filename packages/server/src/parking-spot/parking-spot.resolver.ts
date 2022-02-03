@@ -4,8 +4,9 @@ import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/common/constants/role.enum';
 import { AbstractResolver } from 'src/common/models/abstract.resolver';
 import { UserJwt } from 'src/common/types/user-jwt.type';
-import { ParkingSpotService } from './parking-spot.service';
+import { getAddressForSingleCoord } from './helpers/reverseGeo';
 import { ParkingSpot } from './parking-spot.entity';
+import { ParkingSpotService } from './parking-spot.service';
 import { ParkingSpotInput } from './types/parking-spot.input';
 
 @Resolver()
@@ -44,5 +45,14 @@ export class ParkingSpotResolver extends AbstractResolver(
       ...input,
       userId: user.id,
     });
+  }
+
+  @Query(() => String)
+  async testGeocoding() {
+    const data = await getAddressForSingleCoord({
+      lat: 41.39563639194888,
+      lng: 2.197421390358452,
+    });
+    return JSON.stringify(data);
   }
 }

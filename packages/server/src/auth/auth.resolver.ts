@@ -29,10 +29,10 @@ export class AuthResolver {
     return this.authService.register(input);
   }
 
-  @Roles(Role.USER)
   @Query(() => User, { description: 'Get logged in user', nullable: true })
-  me(@CurrentUser() { id }: UserJwt) {
-    return this.userService.findOne({ id });
+  me(@CurrentUser() user: UserJwt) {
+    if (!user) return null;
+    return this.userService.findOne({ id: user.id });
   }
 
   @Mutation(() => Boolean, { description: 'Logout user' })

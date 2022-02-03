@@ -1,8 +1,7 @@
 import { Typography } from '@mui/material';
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { ParkingSpotDetailsFragment } from '../../../graphql/__generated__';
-// import { getAddressForCoords } from '../../../lib/geocoding';
 
 type Props = {
   parkingSpot: ParkingSpotDetailsFragment;
@@ -13,24 +12,11 @@ const ParkingItemWrapper = styled.div`
   padding: 10px;
 `;
 
-export const ParkingSpotItem = ({ parkingSpot }: Props) => {
-  // const [address, setAddress] = useState('');
-
-  useEffect(() => {
-    // (async () => {
-    //   const { lat, lng } = parkingSpot;
-    //   getAddressForCoords({ lat, lng }).then((data) => {
-    //     console.log(data);
-    //   });
-    // })();
-  }, []);
-
-  return (
-    <ParkingItemWrapper>
-      <Typography variant="body1">
-        lat: {parkingSpot.lat.toFixed(4)}, lng: {parkingSpot.lng.toFixed(4)}
-      </Typography>
-      <br />
-    </ParkingItemWrapper>
-  );
-};
+export const ParkingSpotItem = ({ parkingSpot }: Props) => (
+  <ParkingItemWrapper>
+    <Typography variant="body1">
+      lat: {parkingSpot.lat.toFixed(4)}, lng: {parkingSpot.lng.toFixed(4)}
+    </Typography>
+    <br />
+  </ParkingItemWrapper>
+);
