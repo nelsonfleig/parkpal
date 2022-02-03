@@ -35,7 +35,7 @@ export const TimePicker = ({ hours }: TimePickerProps) => {
           selectedValue={selectedLanguage}
           onValueChange={(itemValue: any) => setSelectedLanguage(itemValue)}>
           {availableTimes?.map((time) => (
-            <Picker.Item label={time} value={time} />
+            <Picker.Item label={time} value={time} key={time} />
           ))}
         </Picker>
       </Menu>

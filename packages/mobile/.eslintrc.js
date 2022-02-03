@@ -17,5 +17,6 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'react/require-default-props': 'off',
     'no-param-reassign': 'off',
+    'react/jsx-no-useless-fragment': 'off',
   },
 };
