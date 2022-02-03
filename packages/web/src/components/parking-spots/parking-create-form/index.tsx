@@ -14,7 +14,7 @@ import { FormikMultiSelect } from '../../formik/formik-multiselect';
 import { FormikTime } from '../../formik/formik-time';
 import { ParkingSpotFormWrapper } from './style';
 import { toggleCreateMode } from '../../../redux/parking-spot/parkingSpotSlice';
-import { clearMarker } from '../../../redux/marker/mapSlice';
+import { clearMarker } from '../../../redux/map/mapSlice';
 
 interface InitialValues {
   price: number | string;
