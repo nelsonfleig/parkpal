@@ -61,7 +61,7 @@ export const DashboardInformation: FC = () => {
             validationSchema={upgradeSchema}
             onSubmit={async (values, { setSubmitting }) => {
               try {
-                console.log(values);
+                // console.log(values);
                 // await updateProfile({
                 //   variables: {
                 //     input: values,
