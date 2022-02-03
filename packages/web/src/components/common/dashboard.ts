@@ -1,7 +1,7 @@
-import { Box, Paper, Avatar, Button, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
 import EditIcon from '@mui/icons-material/Edit';
 import MenuIcon from '@mui/icons-material/Menu';
+import { Avatar, Box, Button, Paper, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
 export const CenteredPaper = styled(Paper)(() => ({
   maxWidth: '360px',

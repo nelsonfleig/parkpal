@@ -1,7 +1,9 @@
 import { icon } from 'leaflet';
-import React from 'react';
-import { Marker, Popup } from 'react-leaflet';
+import React, { useEffect } from 'react';
+import { Marker, Popup, useMap } from 'react-leaflet';
+import { useSelector } from 'react-redux';
 import { useFindMyParkingSpotsQuery } from '../../graphql/__generated__';
+import { RootState } from '../../redux';
 
 const ICON = icon({
   iconUrl: '/images/marker.png',
@@ -12,6 +14,15 @@ export const MyParkingSpots = () => {
   const { data, loading } = useFindMyParkingSpotsQuery({
     fetchPolicy: 'network-only',
   });
+
+  const { center } = useSelector((state: RootState) => state.map);
+  const map = useMap();
+
+  useEffect(() => {
+    if (center) {
+      map.setView(center, 17);
+    }
+  }, [center, map]);
 
   if (!data || loading) return null;
 
