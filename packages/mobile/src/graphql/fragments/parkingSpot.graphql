@@ -1,0 +1,14 @@
+fragment ParkingSpotDetails on ParkingSpot {
+  id
+  lat
+  lng
+  price
+  daysAvailable
+  startHour
+  endHour
+  user {
+    firstName
+    lastName
+    phone
+  }
+}

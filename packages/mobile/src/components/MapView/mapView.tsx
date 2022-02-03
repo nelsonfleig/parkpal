@@ -8,9 +8,9 @@ import { View } from 'react-native';
 import { mapViewStyles } from './mapViewStyles';
 
 import { DestinationMarker } from '../DestinationMarker/destinationMarker';
-import { mockParkingSpots, ParkingSpotType } from '../../mockParkings';
 import { getDistKm } from '../../helpers/linearDistance';
 import { ParkingSpots } from '../ParkingSpots/parkingSpots';
+import { useGetSpotsQuery, GetSpotsQuery } from '../../graphql/__generated__';
 
 type MapComponentProps = {
   latitude: number;
@@ -23,21 +23,23 @@ export const mapRef = createRef<MapView>();
 export const MapComponent = ({ latitude, longitude, destination }: MapComponentProps) => {
   // const [origin, setOrigin] = useState({ latitude, longitude });
   const [mapDest, setMapDest] = useState(null as LocationGeocodedLocation | null);
-  const [markers, setMarkers] = useState([] as ParkingSpotType[] | null);
+  const [markers, setMarkers] = useState<GetSpotsQuery['spaces']>([]);
+  const { data } = useGetSpotsQuery();
 
   useEffect(() => {
     // setOrigin({ latitude, longitude });
     setMapDest(destination);
     // We select the parking spots that are within the radius of 300m
+
     const spotsInZone =
       destination &&
-      mockParkingSpots.filter(
-        (spot) =>
-          getDistKm(destination.latitude, destination.longitude, spot.latitude, spot.longitude) <
-          0.3
+      data?.spaces.filter(
+        (spot) => getDistKm(destination.latitude, destination.longitude, spot.lat, spot.lng) < 0.3
       );
-    setMarkers(spotsInZone);
-  }, [latitude, longitude, destination]);
+    if (spotsInZone) {
+      setMarkers(spotsInZone);
+    }
+  }, [latitude, longitude, destination, data?.spaces]);
 
   return (
     <MapView

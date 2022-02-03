@@ -43,10 +43,14 @@ export type LoginInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  /** Create ParkingSpot */
+  createParkingSpot: ParkingSpot;
   /** Custom Create Todo */
   createTodo: Todo;
   /** Create User */
   createUser: User;
+  /** Delete ParkingSpot */
+  deleteParkingSpot: ParkingSpot;
   /** Delete Todo */
   deleteTodo: Todo;
   /** Delete User */
@@ -57,10 +61,19 @@ export type Mutation = {
   logout: Scalars['Boolean'];
   /** Register user */
   register: User;
+  /** Update ParkingSpot */
+  updateParkingSpot: ParkingSpot;
+  /** Logout user */
+  updateProfile: AuthResponse;
   /** Update Todo */
   updateTodo: Todo;
   /** Update User */
   updateUser: User;
+};
+
+
+export type MutationCreateParkingSpotArgs = {
+  input: ParkingSpotInput;
 };
 
 
@@ -71,6 +84,11 @@ export type MutationCreateTodoArgs = {
 
 export type MutationCreateUserArgs = {
   input: UserInput;
+};
+
+
+export type MutationDeleteParkingSpotArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -94,6 +112,17 @@ export type MutationRegisterArgs = {
 };
 
 
+export type MutationUpdateParkingSpotArgs = {
+  id: Scalars['ID'];
+  input: ParkingSpotInput;
+};
+
+
+export type MutationUpdateProfileArgs = {
+  input: ProfileInput;
+};
+
+
 export type MutationUpdateTodoArgs = {
   id: Scalars['ID'];
   input: TodoInput;
@@ -107,24 +136,50 @@ export type MutationUpdateUserArgs = {
 
 export type ParkingSpot = {
   __typename?: 'ParkingSpot';
-  complains: User;
+  complains?: Maybe<User>;
   createdAt: Scalars['DateTime'];
+  daysAvailable: Array<Scalars['Float']>;
+  endHour: Scalars['Float'];
   id: Scalars['ID'];
-  latitude: Scalars['Float'];
-  longitude: Scalars['Float'];
-  picture_url: Scalars['String'];
+  lat: Scalars['Float'];
+  lng: Scalars['Float'];
+  picture_url?: Maybe<Scalars['String']>;
   price: Scalars['Float'];
-  reservations: Array<Reservation>;
+  reservations?: Maybe<Array<Reservation>>;
+  startHour: Scalars['Float'];
   updatedAt: Scalars['DateTime'];
   user: User;
+  userId: Scalars['Float'];
+};
+
+export type ParkingSpotInput = {
+  daysAvailable: Array<Scalars['Float']>;
+  endHour: Scalars['Float'];
+  lat?: InputMaybe<Scalars['Float']>;
+  lng?: InputMaybe<Scalars['Float']>;
+  price?: InputMaybe<Scalars['Float']>;
+  startHour: Scalars['Float'];
+};
+
+export type ProfileInput = {
+  bankInfo: Scalars['String'];
+  firstName?: InputMaybe<Scalars['String']>;
+  lastName?: InputMaybe<Scalars['String']>;
+  phone: Scalars['String'];
 };
 
 export type Query = {
   __typename?: 'Query';
+  /** Find all ParkingSpots */
+  findAllParkingSpots: Array<ParkingSpot>;
   /** List all Todos */
   findAllTodos: Array<Todo>;
   /** List all Users */
   findAllUsers: Array<User>;
+  /** Find logged in user's ParkingSpots */
+  findMyParkingSpots: Array<ParkingSpot>;
+  /** Find one ParkingSpot */
+  findOneParkingSpot: ParkingSpot;
   /** Find one Todo */
   findOneTodo: Todo;
   /** Find one User */
@@ -132,6 +187,11 @@ export type Query = {
   /** Get logged in user */
   me?: Maybe<User>;
   protect: Scalars['String'];
+};
+
+
+export type QueryFindOneParkingSpotArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -219,6 +279,8 @@ export type UserInput = {
   password: Scalars['String'];
 };
 
+export type ParkingSpotDetailsFragment = { __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour: number, endHour: number, user: { __typename?: 'User', firstName: string, lastName: string, phone?: string | null | undefined } };
+
 export type LoginMutationVariables = Exact<{
   input: LoginInput;
 }>;
@@ -233,12 +295,32 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'User', email: string } };
 
+export type GetSpotsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetSpotsQuery = { __typename?: 'Query', spaces: Array<{ __typename?: 'ParkingSpot', price: number, startHour: number, endHour: number, lat: number, lng: number, id: string, daysAvailable: Array<number>, user: { __typename?: 'User', firstName: string, lastName: string, phone?: string | null | undefined } }> };
+
 export type GetTodosQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetTodosQuery = { __typename?: 'Query', todos: Array<{ __typename?: 'Todo', id: string, title: string }> };
 
-
+export const ParkingSpotDetailsFragmentDoc = gql`
+    fragment ParkingSpotDetails on ParkingSpot {
+  id
+  lat
+  lng
+  price
+  daysAvailable
+  startHour
+  endHour
+  user {
+    firstName
+    lastName
+    phone
+  }
+}
+    `;
 export const LoginDocument = gql`
     mutation Login($input: LoginInput!) {
   login(input: $input) {
@@ -305,6 +387,51 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const GetSpotsDocument = gql`
+    query GetSpots {
+  spaces: findAllParkingSpots {
+    price
+    startHour
+    endHour
+    lat
+    lng
+    id
+    daysAvailable
+    user {
+      firstName
+      lastName
+      phone
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetSpotsQuery__
+ *
+ * To run a query within a React component, call `useGetSpotsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSpotsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetSpotsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetSpotsQuery(baseOptions?: Apollo.QueryHookOptions<GetSpotsQuery, GetSpotsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetSpotsQuery, GetSpotsQueryVariables>(GetSpotsDocument, options);
+      }
+export function useGetSpotsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetSpotsQuery, GetSpotsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetSpotsQuery, GetSpotsQueryVariables>(GetSpotsDocument, options);
+        }
+export type GetSpotsQueryHookResult = ReturnType<typeof useGetSpotsQuery>;
+export type GetSpotsLazyQueryHookResult = ReturnType<typeof useGetSpotsLazyQuery>;
+export type GetSpotsQueryResult = Apollo.QueryResult<GetSpotsQuery, GetSpotsQueryVariables>;
 export const GetTodosDocument = gql`
     query GetTodos {
   todos: findAllTodos {
