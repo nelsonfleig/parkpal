@@ -45,12 +45,16 @@ export type Mutation = {
   __typename?: 'Mutation';
   /** Create ParkingSpot */
   createParkingSpot: ParkingSpot;
+  /** Create Reservation */
+  createReservation: Reservation;
   /** Custom Create Todo */
   createTodo: Todo;
   /** Create User */
   createUser: User;
   /** Delete ParkingSpot */
   deleteParkingSpot: ParkingSpot;
+  /** Delete Reservation */
+  deleteReservation: Reservation;
   /** Delete Todo */
   deleteTodo: Todo;
   /** Delete User */
@@ -65,6 +69,8 @@ export type Mutation = {
   updateParkingSpot: ParkingSpot;
   /** Logout user */
   updateProfile: AuthResponse;
+  /** Update Reservation */
+  updateReservation: Reservation;
   /** Update Todo */
   updateTodo: Todo;
   /** Update User */
@@ -74,6 +80,11 @@ export type Mutation = {
 
 export type MutationCreateParkingSpotArgs = {
   input: ParkingSpotInput;
+};
+
+
+export type MutationCreateReservationArgs = {
+  input: ReservationInput;
 };
 
 
@@ -88,6 +99,11 @@ export type MutationCreateUserArgs = {
 
 
 export type MutationDeleteParkingSpotArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeleteReservationArgs = {
   id: Scalars['ID'];
 };
 
@@ -123,6 +139,12 @@ export type MutationUpdateProfileArgs = {
 };
 
 
+export type MutationUpdateReservationArgs = {
+  id: Scalars['ID'];
+  input: ReservationInput;
+};
+
+
 export type MutationUpdateTodoArgs = {
   id: Scalars['ID'];
   input: TodoInput;
@@ -136,7 +158,9 @@ export type MutationUpdateUserArgs = {
 
 export type ParkingSpot = {
   __typename?: 'ParkingSpot';
+  city?: Maybe<Scalars['String']>;
   complains?: Maybe<User>;
+  country?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
   daysAvailable: Array<Scalars['Float']>;
   endHour: Scalars['Float'];
@@ -147,9 +171,11 @@ export type ParkingSpot = {
   price: Scalars['Float'];
   reservations?: Maybe<Array<Reservation>>;
   startHour: Scalars['Float'];
+  street?: Maybe<Scalars['String']>;
   updatedAt: Scalars['DateTime'];
   user: User;
   userId: Scalars['Float'];
+  zipCode?: Maybe<Scalars['String']>;
 };
 
 export type ParkingSpotInput = {
@@ -162,24 +188,30 @@ export type ParkingSpotInput = {
 };
 
 export type ProfileInput = {
-  bankInfo: Scalars['String'];
+  bankInfo?: InputMaybe<Scalars['String']>;
   firstName?: InputMaybe<Scalars['String']>;
   lastName?: InputMaybe<Scalars['String']>;
-  phone: Scalars['String'];
+  phone?: InputMaybe<Scalars['String']>;
 };
 
 export type Query = {
   __typename?: 'Query';
   /** Find all ParkingSpots */
   findAllParkingSpots: Array<ParkingSpot>;
+  /** Find all Reservations */
+  findAllReservations: Array<Reservation>;
   /** List all Todos */
   findAllTodos: Array<Todo>;
   /** List all Users */
   findAllUsers: Array<User>;
   /** Find logged in user's ParkingSpots */
   findMyParkingSpots: Array<ParkingSpot>;
+  /** Find Drivers reservations */
+  findMyReservations: Array<Reservation>;
   /** Find one ParkingSpot */
   findOneParkingSpot: ParkingSpot;
+  /** Find one Reservation */
+  findOneReservation: Reservation;
   /** Find one Todo */
   findOneTodo: Todo;
   /** Find one User */
@@ -187,10 +219,16 @@ export type Query = {
   /** Get logged in user */
   me?: Maybe<User>;
   protect: Scalars['String'];
+  testGeocoding: Scalars['String'];
 };
 
 
 export type QueryFindOneParkingSpotArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryFindOneReservationArgs = {
   id: Scalars['ID'];
 };
 
@@ -213,23 +251,23 @@ export type RegisterInput = {
 
 export type Reservation = {
   __typename?: 'Reservation';
-  amount: Scalars['Float'];
   createdAt: Scalars['DateTime'];
-  duration: Scalars['Float'];
+  endDate: Scalars['String'];
   id: Scalars['ID'];
   parkingSpot: ParkingSpot;
-  reservedDate: Scalars['String'];
-  status: Array<ReservationStatus>;
+  parkingSpotId: Scalars['Float'];
+  startDate: Scalars['String'];
   stripeChargeId?: Maybe<Scalars['String']>;
   updatedAt: Scalars['DateTime'];
   user: User;
+  userId: Scalars['Float'];
 };
 
-export enum ReservationStatus {
-  Finished = 'FINISHED',
-  Ongoing = 'ONGOING',
-  Reserved = 'RESERVED'
-}
+export type ReservationInput = {
+  endDate: Scalars['String'];
+  parkingSpotId: Scalars['Float'];
+  startDate: Scalars['String'];
+};
 
 export enum Role {
   Admin = 'ADMIN',
@@ -294,6 +332,13 @@ export type RegisterMutationVariables = Exact<{
 
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'User', email: string } };
+
+export type CreateReservationMutationVariables = Exact<{
+  input: ReservationInput;
+}>;
+
+
+export type CreateReservationMutation = { __typename?: 'Mutation', createReservation: { __typename?: 'Reservation', id: string } };
 
 export type GetSpotsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -387,6 +432,39 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const CreateReservationDocument = gql`
+    mutation CreateReservation($input: ReservationInput!) {
+  createReservation(input: $input) {
+    id
+  }
+}
+    `;
+export type CreateReservationMutationFn = Apollo.MutationFunction<CreateReservationMutation, CreateReservationMutationVariables>;
+
+/**
+ * __useCreateReservationMutation__
+ *
+ * To run a mutation, you first call `useCreateReservationMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateReservationMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createReservationMutation, { data, loading, error }] = useCreateReservationMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateReservationMutation(baseOptions?: Apollo.MutationHookOptions<CreateReservationMutation, CreateReservationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateReservationMutation, CreateReservationMutationVariables>(CreateReservationDocument, options);
+      }
+export type CreateReservationMutationHookResult = ReturnType<typeof useCreateReservationMutation>;
+export type CreateReservationMutationResult = Apollo.MutationResult<CreateReservationMutation>;
+export type CreateReservationMutationOptions = Apollo.BaseMutationOptions<CreateReservationMutation, CreateReservationMutationVariables>;
 export const GetSpotsDocument = gql`
     query GetSpots {
   spaces: findAllParkingSpots {
