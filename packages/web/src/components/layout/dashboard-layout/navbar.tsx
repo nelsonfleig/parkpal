@@ -9,7 +9,6 @@ import React from 'react';
 import Link from 'next/link';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ErrorIcon from '@mui/icons-material/Error';
-import { useRouter } from 'next/router';
 import {
   StyledButton,
   PopperButton,
@@ -19,20 +18,21 @@ import {
   StyledProfilePaper,
 } from '../../common/dashboard';
 import { useAuth } from '../../../hooks/useAuth';
-import { useLogoutMutation } from '../../../graphql/__generated__';
+import { useLogoutMutation, MeDocument } from '../../../graphql/__generated__';
 
 export const NavBar: NextComponentType = () => {
-  const router = useRouter();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
   };
   const open = Boolean(anchorEl);
-  const [logout] = useLogoutMutation();
+  const [logout] = useLogoutMutation({
+    refetchQueries: [MeDocument],
+    awaitRefetchQueries: true,
+  });
 
-  const handleLogout = () => {
-    logout();
-    router.reload();
+  const handleLogout = async () => {
+    await logout();
   };
 
   const { user, loading } = useAuth();
