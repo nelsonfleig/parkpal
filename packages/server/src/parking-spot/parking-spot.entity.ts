@@ -36,6 +36,22 @@ export class ParkingSpot extends AbstractEntity {
   @Column()
   endHour: number;
 
+  @Field()
+  @Column()
+  street: string;
+
+  @Field()
+  @Column()
+  zipCode: string;
+
+  @Field()
+  @Column()
+  city: string;
+
+  @Field()
+  @Column()
+  country: string;
+
   @Field(() => User)
   @ManyToOne(() => User, (user: User) => user.parkingSpots)
   user: User;
