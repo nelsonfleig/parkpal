@@ -43,6 +43,7 @@ export const LandingScreen = () => {
       setDestination(locationQuery[0]); // We set new markers in the map
     }
   };
+
   useEffect(() => {
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
@@ -69,7 +70,13 @@ export const LandingScreen = () => {
           placeholder="Enter a destination"
           iconColor="#7145D6"
           theme={{ colors: { text: 'black' } }}
-          style={{ position: 'absolute', top: 60, right: 20, left: 20, zIndex: 3, height: 50 }}
+          style={{
+            position: 'absolute',
+            top: 60,
+            right: 20,
+            left: 20,
+            zIndex: 3,
+          }}
           autoCapitalize="words"
           onChangeText={onChangeSearch}
           value={searchQuery}

@@ -65,7 +65,12 @@ export const BookingPopup = () => {
               style={styles.time}
             />
           </View>
-          <CustomButton press={() => {}} color="white" type="main">
+          <CustomButton
+            press={() => {
+              panelReference.current.hide();
+            }}
+            color="white"
+            type="main">
             Book
           </CustomButton>
         </View>
