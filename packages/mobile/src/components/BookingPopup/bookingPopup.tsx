@@ -1,6 +1,6 @@
 // @ts-nocheck
 import SlidingUpPanel from 'rn-sliding-up-panel';
-import { View, Image, ScrollView } from 'react-native';
+import { View, Image } from 'react-native';
 import { Text } from 'react-native-paper';
 import React, { useState } from 'react';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
