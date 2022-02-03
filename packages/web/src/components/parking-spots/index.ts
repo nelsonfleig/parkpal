@@ -11,7 +11,7 @@ export const ParkingSpotWrapper = styled.div`
 
 export const ParkingInfoColumn = styled.div`
   width: 324px;
-  padding: 0 24px;
+  padding-left: 24px;
 `;
 
 export const ParkingToggleButton = styled(Button)`

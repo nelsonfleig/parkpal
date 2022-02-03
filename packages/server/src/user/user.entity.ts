@@ -57,7 +57,6 @@ export class User extends AbstractEntity {
   @Field(() => [ParkingSpot], { nullable: true })
   @OneToMany(() => ParkingSpot, (parkingSpots) => parkingSpots.user, {
     nullable: true,
-    eager: true,
   })
   parkingSpots: ParkingSpot[];
 

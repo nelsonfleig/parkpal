@@ -130,7 +130,7 @@ type Mutation {
   logout: Boolean!
 
   """Logout user"""
-  updateProfile(input: ProfileInput!): User!
+  updateProfile(input: ProfileInput!): AuthResponse!
 
   """Create User"""
   createUser(input: UserInput!): User!
@@ -173,8 +173,8 @@ input RegisterInput {
 }
 
 input ProfileInput {
-  firstName: String!
-  lastName: String!
+  firstName: String
+  lastName: String
   phone: String!
   bankInfo: String!
 }

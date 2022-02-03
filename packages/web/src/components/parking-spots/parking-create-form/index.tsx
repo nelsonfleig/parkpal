@@ -94,7 +94,10 @@ export const ParkingCreateForm = () => {
             <FormikTime label="Start hour" name="startHour" margin="normal" />
             <FormikTime label="End hour" name="endHour" margin="normal" />
             <FormikMultiSelect label="Days available" name="daysAvailable" margin="normal" />
-            <FormikSubmit disabled={!isValid || isSubmitting} loading={isSubmitting}>
+            <FormikSubmit
+              disabled={!isValid || isSubmitting}
+              loading={isSubmitting}
+              color="secondary">
               Create
             </FormikSubmit>
           </Form>

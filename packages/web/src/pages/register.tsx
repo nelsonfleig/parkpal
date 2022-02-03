@@ -48,14 +48,35 @@ const Register = () => {
           }}>
           {({ isValid, isSubmitting }) => (
             <Form>
-              <FormikText name="firstName" label="First Name" fullWidth />
-              <FormikText name="lastName" label="Last Name" fullWidth />
-              <FormikText name="email" label="Email" fullWidth />
-              <FormikText name="password" label="Password" type="password" fullWidth />
+              <FormikText
+                name="firstName"
+                label="First Name"
+                size="medium"
+                margin="dense"
+                fullWidth
+              />
+              <FormikText
+                name="lastName"
+                label="Last Name"
+                size="medium"
+                margin="dense"
+                fullWidth
+              />
+              <FormikText name="email" label="Email" size="medium" margin="dense" fullWidth />
+              <FormikText
+                name="password"
+                label="Password"
+                type="password"
+                size="medium"
+                margin="dense"
+                fullWidth
+              />
               <FormikText
                 name="confirmPassword"
                 label="Confirm Password"
                 type="password"
+                size="medium"
+                margin="dense"
                 fullWidth
               />
               <FormikSubmit loading={isSubmitting} disabled={!isValid || isSubmitting}>
