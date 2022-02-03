@@ -16,7 +16,7 @@ export const ParkingSpots = ({ parkingSpots }: ParkingSpotsProps) => {
           key={spot.id}
           onPress={() => {
             Keyboard.dismiss();
-            panelReference.current?.show(475);
+            panelReference.current?.show(500);
           }}>
           <Image source={SpotIcon} style={{ width: 50, height: 50 }} />
         </Marker>

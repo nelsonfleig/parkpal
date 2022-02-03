@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
   slideContent: {
     backgroundColor: 'white',
     flex: 1,
-    padding: 20,
+    padding: 25,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
   },
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
 
   location: {
     flexDirection: 'row',
-    marginBottom: 30,
+    marginBottom: 20,
   },
 
   addressLine: {
@@ -61,8 +61,8 @@ const styles = StyleSheet.create({
   },
 
   wrapper: {
-    paddingLeft: 60,
-    paddingRight: 60,
+    paddingLeft: 50,
+    paddingRight: 50,
     paddingTop: 30,
     paddingBottom: 30,
   },
@@ -77,6 +77,19 @@ const styles = StyleSheet.create({
 
   time: {
     width: 80,
+    backgroundColor: '#EBEBEB',
+  },
+
+  timeText: {
+    color: 'black',
+    padding: 10,
+    textTransform: 'uppercase',
+  },
+
+  slider: {
+    marginTop: 35,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });
 
