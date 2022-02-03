@@ -6,7 +6,7 @@ const defaultParams = {
 
 const BASE_URL = 'http://api.positionstack.com/v1';
 
-console.log(process.env.NEXT_POSITION_STACK_KEY);
+// console.log(process.env.NEXT_POSITION_STACK_KEY);
 
 export const getAddressForCoords = ({ lat, lng }: { lat: number; lng: number }) =>
   axios.get(`${BASE_URL}/reverse`, {
