@@ -25,7 +25,7 @@ export class ParkingSpot extends AbstractEntity {
   picture_url: string;
 
   @Field(() => [Number])
-  @Column('simple-array')
+  @Column('int', { array: true })
   daysAvailable: number[];
 
   @Field()
