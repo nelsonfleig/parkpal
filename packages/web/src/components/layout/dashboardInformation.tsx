@@ -16,27 +16,31 @@ import { upgradeSchema } from '../../models/upgradeUser.form';
 import { CenteredPaper, ProfileLabel, StyledBox, StyledPaper } from '../common/dashboard';
 import { FormikSubmitProfile } from '../formik/formik-submit';
 import { FormikText } from '../formik/formik-text';
+import { enhanceTimeSeries } from '../../helpers';
 
-const buildGraph = (timeSeries: Array<SeriesDataItem>) => ({
+const buildChart = (timeSeries: Array<SeriesDataItem>) => ({
   title: {
     text: 'Daily Revenue',
     style: {
       color: '#fff',
     },
   },
+  legend: {
+    itemStyle: { color: 'white' },
+  },
   series: [
     {
-      name: 'revenue',
+      name: 'Day',
       data: timeSeries.map(({ sum }) => sum),
     },
   ],
   xAxis: {
     title: {
+      // text: 'TEST',
       style: {
         color: 'white',
       },
     },
-    // categories: ['Monday', 'Tuesday', 'Wendesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
     categories: timeSeries.map(({ date }) => date),
     lineColor: '#fff',
     tickColor: '#fff',
@@ -50,6 +54,7 @@ const buildGraph = (timeSeries: Array<SeriesDataItem>) => ({
     gridLineWidth: 0,
     minorGridLineWidth: 0,
     title: {
+      text: 'EUR',
       style: {
         color: 'white',
       },
@@ -91,8 +96,34 @@ export const DashboardInformation: FC = () => {
     }
   }, [AddRenter, user, loading]);
 
-  if (AddRenter) {
-    return (
+  if (statsLoading || !data) return <CircularProgress />;
+
+  return (
+    <StyledBox>
+      <StyledPaper>
+        <Typography variant="body2">Total Revenue This Week</Typography>
+        <Typography variant="h3" color="white">
+          {data.stats.totalRevenue}€
+        </Typography>
+      </StyledPaper>
+      <StyledPaper>
+        <Typography variant="body2">Total Bookings This Week</Typography>
+        <Typography variant="h3" color="white">
+          {data.stats.totalReservations}
+        </Typography>
+      </StyledPaper>
+      <StyledPaper>
+        <Typography variant="body2">Total Complains This Week</Typography>
+        <Typography variant="h3" color="white">
+          {data.stats.totalComplaints}
+        </Typography>
+      </StyledPaper>
+      <Box style={{ width: '100%' }}>
+        <HighchartsReact
+          highcharts={Highcharts}
+          options={buildChart(enhanceTimeSeries(data.stats.timeSeries))}
+        />
+      </Box>
       <Modal open={AddRenter} aria-labelledby="modal-modal-title">
         <CenteredPaper>
           <Formik
@@ -132,34 +163,6 @@ export const DashboardInformation: FC = () => {
           </Formik>
         </CenteredPaper>
       </Modal>
-    );
-  }
-
-  if (statsLoading || !data) return <CircularProgress />;
-
-  return (
-    <StyledBox>
-      <StyledPaper>
-        <Typography variant="body2">Total Revenue This Week</Typography>
-        <Typography variant="h3" color="white">
-          {data.stats.totalRevenue}€
-        </Typography>
-      </StyledPaper>
-      <StyledPaper>
-        <Typography variant="body2">Total Bookings This Week</Typography>
-        <Typography variant="h3" color="white">
-          {data.stats.totalReservations}
-        </Typography>
-      </StyledPaper>
-      <StyledPaper>
-        <Typography variant="body2">Total Complains This Week</Typography>
-        <Typography variant="h3" color="white">
-          {data.stats.totalComplaints}
-        </Typography>
-      </StyledPaper>
-      <Box style={{ width: '100%' }}>
-        <HighchartsReact highcharts={Highcharts} options={buildGraph(data.stats.timeSeries)} />
-      </Box>
     </StyledBox>
   );
 };
