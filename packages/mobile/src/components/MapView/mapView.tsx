@@ -1,4 +1,3 @@
-// @ts-ignore
 import { DIRECTIONS_API_KEY } from '@env';
 import { createRef, useEffect, useState } from 'react';
 import { Image, View } from 'react-native';

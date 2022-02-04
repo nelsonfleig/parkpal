@@ -1,3 +1,5 @@
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable func-names */
 module.exports = function (api) {
   api.cache(true);
   return {

@@ -1,0 +1,12 @@
+query GetMyReservations {
+  reservations: findMyReservations {
+    startDate
+    endDate
+    id
+    parkingSpot {
+      street
+      lat
+      lng
+    }
+  }
+}

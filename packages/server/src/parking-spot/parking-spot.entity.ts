@@ -28,12 +28,12 @@ export class ParkingSpot extends AbstractEntity {
   @Column('int', { array: true, default: {} })
   daysAvailable: number[];
 
-  @Field()
-  @Column()
+  @Field({ nullable: true })
+  @Column({ nullable: true })
   startHour: number;
 
-  @Field()
-  @Column()
+  @Field({ nullable: true })
+  @Column({ nullable: true })
   endHour: number;
 
   @Field({ nullable: true })
