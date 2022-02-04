@@ -40,6 +40,7 @@ const CalendarComponent = ({
   // Mark disabled dates for current month
   useEffect(() => {
     const dates = getDisabledDays(initDate.getMonth(), initDate.getFullYear(), disabledDayIndexes);
+
     setDisabledAndMarked(dates);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -67,7 +68,7 @@ const CalendarComponent = ({
           // When the month changes render the new disabled days
           onMonthChange={(date) => {
             const dates = getDisabledDays(date.month - 1, date.year, disabledDayIndexes);
-            setDisabledAndMarked(dates);
+            if (dates) setDisabledAndMarked(dates);
           }}
           hideExtraDays
         />

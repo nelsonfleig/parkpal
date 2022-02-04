@@ -1,25 +1,21 @@
 // @ts-nocheck
-import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import React, { useState } from 'react';
-import { Image, Linking, Pressable, ScrollView, View } from 'react-native';
-import { Text } from 'react-native-paper';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import profile from '../../../assets/images/profile.png';
 import { RootState } from '../../redux';
 import { changeDestination } from '../../redux/destination/destinationSlice';
 import { displayRoute } from '../../redux/showRoute/showRoute';
-import CalendarComponent from '../Calendar/calendar';
 import { CustomButton } from '../Forms/button';
-import { TimePicker } from '../TimePicker/timePicker';
 import { parkingSpotInfoStyles as styles } from './parkingSpotInfoStyles';
-import hoursInDay from '../../helpers/hoursInDay';
 import {
   GetMyReservationsDocument,
   useCreateReservationMutation,
 } from '../../graphql/__generated__';
 import createReservationObj from '../../helpers/createReservationObj';
-import { formatNumber } from '../../helpers/formatPhoneNumber';
+import { RenterInformation } from '../Renter/information';
+import { RenterLocation } from '../Renter/location';
+import { RenterCalendar } from '../Renter/calendar';
+import { RenterSlider } from '../Renter/slider';
 
 type ParkingSpotInfoType = {
   setContent: React.Dispatch<React.SetStateAction<string>>;
@@ -27,7 +23,7 @@ type ParkingSpotInfoType = {
 
 export const ParkingSpotInfo = ({ setContent }: ParkingSpotInfoType) => {
   const { currentSpot } = useSelector((state: RootState) => state.parkingSpots);
-  const [scrollEnabled, setScrollEnabled] = useState(false);
+
   const dispatch = useDispatch();
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedTime, setSelectedTime] = useState();
@@ -37,83 +33,34 @@ export const ParkingSpotInfo = ({ setContent }: ParkingSpotInfoType) => {
     awaitRefetchQueries: true,
   });
 
-  const enableScroll = () => setScrollEnabled(true);
+  const reservationRequest = async () => {
+    try {
+      const req = createReservationObj(
+        selectedDate,
+        selectedTime,
+        duration,
+        currentSpot.id,
+        currentSpot.price
+      );
 
-  const disableScroll = () => {
-    setScrollEnabled(false);
+      await createReservation({ variables: { input: req } });
+    } catch (err) {
+      throw new Error(err);
+    }
   };
 
   return (
     currentSpot && (
       <View style={styles.slideContent}>
-        <View style={styles.renterInfo}>
-          <Image source={profile} style={styles.image} />
-          <View>
-            <Text
-              style={
-                styles.name
-              }>{`${currentSpot.user.firstName} ${currentSpot.user.lastName}`}</Text>
-            <Pressable
-              onPress={() => {
-                // Linking.openURL(`tel:+34${currentSpot.user.phone}`);
-                Linking.openURL(
-                  `whatsapp://send?text=Hello!+I+have+seen+your+parking+spot+on+Parkpal!&phone=+34${currentSpot.user.phone}`
-                );
-              }}>
-              <Text style={styles.number}>+34 {formatNumber(currentSpot.user.phone)} </Text>
-            </Pressable>
-          </View>
-          <Text style={styles.price}>{`${currentSpot.price}€/hr`}</Text>
-        </View>
+        <RenterInformation />
         <View style={styles.wrapper}>
-          <View style={styles.location}>
-            <MaterialCommunityIcons
-              name="map-marker"
-              size={40}
-              color="#7145D6"
-              style={styles.icon}
-            />
-            <View>
-              <Text style={styles.addressLine}>
-                {`${currentSpot.street}, ${currentSpot.zipCode},`}
-              </Text>
-              <Text style={styles.addressLine}>{currentSpot.city},</Text>
-            </View>
-          </View>
-          <View style={styles.calendar}>
-            <MaterialCommunityIcons name="calendar" size={40} color="#7145D6" style={styles.icon} />
-
-            <CalendarComponent
-              disabledDayIndexes={currentSpot?.daysAvailable}
-              setSelectedDate={setSelectedDate}
-            />
-            <TimePicker
-              hours={[currentSpot.startHour, currentSpot.endHour]}
-              setSelectedTime={setSelectedTime}
-              selectedTime={selectedTime}
-            />
-          </View>
-          <ScrollView contentContainerStyle={styles.slider} scrollEnabled={scrollEnabled}>
-            <MaterialCommunityIcons
-              name="clock-time-five"
-              style={{ ...styles.icon, marginRight: 15 }}
-              size={40}
-              color="#7145D6"
-            />
-            <MultiSlider
-              onValuesChangeStart={disableScroll}
-              onValuesChangeFinish={(e) => {
-                enableScroll();
-                setDuration(e[0]);
-              }}
-              sliderLength={180}
-              min={1}
-              max={24}
-              optionsArray={hoursInDay()}
-              showSteps
-              enableLabel
-            />
-          </ScrollView>
+          <RenterLocation />
+          <RenterCalendar
+            setSelectedDate={setSelectedDate}
+            setSelectedTime={setSelectedTime}
+            selectedTime={selectedTime}
+          />
+          <RenterSlider setDuration={setDuration} />
           <CustomButton
             press={() => {
               // Remove all parking spots except the selected one
@@ -122,21 +69,7 @@ export const ParkingSpotInfo = ({ setContent }: ParkingSpotInfoType) => {
               dispatch(displayRoute(true));
               setContent('start');
               // Make reservations
-              (async () => {
-                try {
-                  const req = createReservationObj(
-                    selectedDate,
-                    selectedTime,
-                    duration,
-                    currentSpot.id,
-                    currentSpot.price
-                  );
-
-                  await createReservation({ variables: { input: req } });
-                } catch (err) {
-                  throw new Error(err);
-                }
-              })();
+              reservationRequest();
             }}
             color="white"
             type="main">
