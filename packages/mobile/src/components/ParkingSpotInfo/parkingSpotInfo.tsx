@@ -1,13 +1,15 @@
 // @ts-nocheck
-import { Text } from 'react-native-paper';
-import { View, Image, ScrollView } from 'react-native';
-import React, { useState } from 'react';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux';
-import CalendarComponent from '../Calendar/calendar';
+import React, { useState } from 'react';
+import { Image, ScrollView, View } from 'react-native';
+import { Text } from 'react-native-paper';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useDispatch, useSelector } from 'react-redux';
 import profile from '../../../assets/images/profile.png';
+import { RootState } from '../../redux';
+import { changeDestination } from '../../redux/destination/destinationSlice';
+import { displayRoute } from '../../redux/showRoute/showRoute';
+import CalendarComponent from '../Calendar/calendar';
 import { CustomButton } from '../Forms/button';
 import { TimePicker } from '../TimePicker/timePicker';
 import { parkingSpotInfoStyles as styles } from './parkingSpotInfoStyles';
@@ -17,9 +19,14 @@ import createReservationObj from '../../helpers/createReservationObj';
 
 export const panelReference = React.createRef<any>();
 
-export const ParkingSpotInfo = () => {
+type ParkingSpotInfoType = {
+  setContent: React.Dispatch<React.SetStateAction<string>>;
+};
+
+export const ParkingSpotInfo = ({ setContent }: ParkingSpotInfoType) => {
   const { currentSpot } = useSelector((state: RootState) => state.parkingSpots);
   const [scrollEnabled, setScrollEnabled] = useState(false);
+  const dispatch = useDispatch();
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedTime, setSelectedTime] = useState();
   const [duration, setDuration] = useState(0);
@@ -79,7 +86,6 @@ export const ParkingSpotInfo = () => {
               size={40}
               color="#7145D6"
             />
-
             <MultiSlider
               onValuesChangeStart={disableScroll}
               onValuesChangeFinish={(e) => {
@@ -95,19 +101,27 @@ export const ParkingSpotInfo = () => {
             />
           </ScrollView>
           <CustomButton
-            press={async () => {
-              try {
-                const req = createReservationObj(
-                  selectedDate,
-                  selectedTime,
-                  duration,
-                  currentSpot.id
-                );
+            press={() => {
+              // Remove all parking spots except the selected one
+              dispatch(changeDestination(null));
+              // Create route with the selected one and display it in the map
+              dispatch(displayRoute(true));
+              setContent('start');
+              // Make reservations
+              (async () => {
+                try {
+                  const req = createReservationObj(
+                    selectedDate,
+                    selectedTime,
+                    duration,
+                    currentSpot.id
+                  );
 
-                await createReservation({ variables: { input: req } });
-              } catch (err) {
-                throw new Error(err);
-              }
+                  await createReservation({ variables: { input: req } });
+                } catch (err) {
+                  throw new Error(err);
+                }
+              })();
             }}
             color="white"
             type="main">

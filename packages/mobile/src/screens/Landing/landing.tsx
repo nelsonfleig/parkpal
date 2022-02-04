@@ -1,32 +1,33 @@
-import { useEffect, useState } from 'react';
-import { View, Text, Keyboard } from 'react-native';
-import { LocationGeocodedLocation, LocationObject } from 'expo-location';
 import * as Location from 'expo-location';
-
+import { LocationObject } from 'expo-location';
+import { useEffect, useState } from 'react';
+import { Keyboard, Text, View } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { landingStyles } from './landingStyles';
-import { MapComponent, mapRef } from '../../components/MapView/mapView';
+import { useDispatch } from 'react-redux';
 import { BookingPopup } from '../../components/BookingPopup/bookingPopup';
+import { MapComponent, mapRef } from '../../components/MapView/mapView';
+import { changeDestination } from '../../redux/destination/destinationSlice';
+import { landingStyles } from './landingStyles';
 
 export const LandingScreen = () => {
   const [location, setLocation] = useState(null as LocationObject | null); // Here we get the user's current location
   const [searchQuery, setSearchQuery] = useState(''); // We set the query on the searchbar
-  const [destination, setDestination] = useState(null as LocationGeocodedLocation | null); // Here we set the destination chosen by the user with the prev query
-
+  const dispatch = useDispatch();
   // On change search query:
   const onChangeSearch = (query: string) => {
     setSearchQuery(query);
     if (query === '') {
-      setDestination(null); // Needed to remove the markers when we delete the text
+      dispatch(changeDestination(null)); // Needed to remove the markers when we delete the text
     }
   };
+
   // On submit search query:
   const onSubmitEditing = async () => {
     // When we submit the direction, we transform it to coordinates
     const locationQuery = searchQuery ? await Location.geocodeAsync(searchQuery) : null;
     if (locationQuery) {
-      setDestination(null); // We first remove all the markers from the map
+      dispatch(changeDestination(null)); // We first remove all the markers from the map
       mapRef.current?.animateCamera(
         {
           center: {
@@ -40,7 +41,7 @@ export const LandingScreen = () => {
         },
         { duration: 500 }
       );
-      setDestination(locationQuery[0]); // We set new markers in the map
+      dispatch(changeDestination(locationQuery[0])); // We set new markers in the map
     }
   };
 
@@ -87,7 +88,6 @@ export const LandingScreen = () => {
             <MapComponent
               latitude={location.coords.latitude}
               longitude={location.coords.longitude}
-              destination={destination}
             />
           ) : (
             <SafeAreaView>
