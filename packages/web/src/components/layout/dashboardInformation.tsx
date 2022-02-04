@@ -91,31 +91,8 @@ export const DashboardInformation: FC = () => {
     }
   }, [AddRenter, user, loading]);
 
-  if (statsLoading || !data) return <CircularProgress />;
-
-  return (
-    <StyledBox>
-      <StyledPaper>
-        <Typography variant="body2">Total Revenue This Week</Typography>
-        <Typography variant="h3" color="white">
-          {data.stats.totalRevenue}€
-        </Typography>
-      </StyledPaper>
-      <StyledPaper>
-        <Typography variant="body2">Total Bookings This Week</Typography>
-        <Typography variant="h3" color="white">
-          {data.stats.totalReservations}
-        </Typography>
-      </StyledPaper>
-      <StyledPaper>
-        <Typography variant="body2">Total Complains This Week</Typography>
-        <Typography variant="h3" color="white">
-          {data.stats.totalComplaints}
-        </Typography>
-      </StyledPaper>
-      <Box style={{ width: '100%' }}>
-        <HighchartsReact highcharts={Highcharts} options={buildGraph(data.stats.timeSeries)} />
-      </Box>
+  if (AddRenter) {
+    return (
       <Modal open={AddRenter} aria-labelledby="modal-modal-title">
         <CenteredPaper>
           <Formik
@@ -155,6 +132,34 @@ export const DashboardInformation: FC = () => {
           </Formik>
         </CenteredPaper>
       </Modal>
+    );
+  }
+
+  if (statsLoading || !data) return <CircularProgress />;
+
+  return (
+    <StyledBox>
+      <StyledPaper>
+        <Typography variant="body2">Total Revenue This Week</Typography>
+        <Typography variant="h3" color="white">
+          {/* {data.stats.totalRevenue}€ */}
+        </Typography>
+      </StyledPaper>
+      <StyledPaper>
+        <Typography variant="body2">Total Bookings This Week</Typography>
+        <Typography variant="h3" color="white">
+          {/* {data.stats.totalReservations} */}
+        </Typography>
+      </StyledPaper>
+      <StyledPaper>
+        <Typography variant="body2">Total Complains This Week</Typography>
+        <Typography variant="h3" color="white">
+          {/* {data.stats.totalComplaints} */}
+        </Typography>
+      </StyledPaper>
+      <Box style={{ width: '100%' }}>
+        {/* <HighchartsReact highcharts={Highcharts} options={buildGraph(data.stats.timeSeries)} /> */}
+      </Box>
     </StyledBox>
   );
 };

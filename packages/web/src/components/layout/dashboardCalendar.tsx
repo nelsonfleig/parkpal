@@ -1,43 +1,55 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import moment from 'moment';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Box } from '@mui/material';
+import { useParkingSpotResTestQuery } from '../../graphql/__generated__';
+import { randomColorC } from '../common/dashboard';
 
 const DashboardCalendar: FC = () => {
   const localizer = momentLocalizer(moment);
+  const [reservations, setReservations] = useState([]);
+  const { data, loading } = useParkingSpotResTestQuery({ fetchPolicy: 'network-only' });
 
-  const [myEvents] = useState([
-    {
-      title: 'Booked by: Tango',
-      start: moment().toDate(),
-      end: moment().add(2, 'hours').toDate(),
-    },
-    {
-      title: 'Booked by: Crash',
-      start: new Date(2022, 1, 4, 10, 0), // 10.00 AM
-      end: new Date(2022, 1, 4, 14, 30), // 2.30 PM
-    },
-  ]);
+  useEffect(() => {
+    if (!loading && data) {
+      const reserv = data.parkingSpots.map((el) => ({
+        startDate: new Date(el.startHour),
+        endDate: new Date(el.endHour),
+        title: el.name,
+        id: el.spot,
+      }));
+      setReservations(reserv);
+    }
+  }, [data, loading]);
 
-  const formats = {
-    eventTimeRangeFormat: () => '',
+  const eventStyleGetter = (event: any) => {
+    const style = {
+      backgroundColor: randomColorC(event.id),
+      borderRadius: '5px',
+      color: 'white',
+      border: '0px',
+      padding: '.8rem',
+      borderLeft: '3px solid #d9d9d9',
+    };
+    return {
+      style,
+    };
   };
 
   return (
     <Box sx={{ display: 'flex', gap: '3%' }}>
       <Calendar
-        step={60}
         defaultView="week"
         localizer={localizer}
-        events={myEvents}
-        startAccessor="start"
-        endAccessor="end"
-        formats={formats}
+        events={reservations}
+        startAccessor="startDate"
+        endAccessor="endDate"
         style={{
           height: 'calc(100vh - 130px)',
           width: '100%',
         }}
+        eventPropGetter={eventStyleGetter}
       />
     </Box>
   );

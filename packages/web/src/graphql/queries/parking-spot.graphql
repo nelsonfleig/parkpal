@@ -3,3 +3,12 @@ query FindMyParkingSpots {
     ...ParkingSpotDetails
   }
 }
+
+query ParkingSpotResTest {
+  parkingSpots: findCalendarInfo {
+    spot
+    startHour
+    endHour
+    name
+  }
+}
