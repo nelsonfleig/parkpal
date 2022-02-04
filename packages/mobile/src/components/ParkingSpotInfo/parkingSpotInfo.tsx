@@ -13,6 +13,9 @@ import CalendarComponent from '../Calendar/calendar';
 import { CustomButton } from '../Forms/button';
 import { TimePicker } from '../TimePicker/timePicker';
 import { parkingSpotInfoStyles as styles } from './parkingSpotInfoStyles';
+import hoursInDay from '../../helpers/hoursInDay';
+import { useCreateReservationMutation } from '../../graphql/__generated__';
+import createReservationObj from '../../helpers/createReservationObj';
 
 export const panelReference = React.createRef<any>();
 
@@ -24,18 +27,15 @@ export const ParkingSpotInfo = ({ setContent }: ParkingSpotInfoType) => {
   const { currentSpot } = useSelector((state: RootState) => state.parkingSpots);
   const [scrollEnabled, setScrollEnabled] = useState(false);
   const dispatch = useDispatch();
+  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedTime, setSelectedTime] = useState();
+  const [duration, setDuration] = useState(0);
+  const [createReservation] = useCreateReservationMutation();
+
   const enableScroll = () => setScrollEnabled(true);
 
   const disableScroll = () => {
     setScrollEnabled(false);
-  };
-
-  const arr = () => {
-    const output = [];
-    for (let i = 1; i < 25; i += 1) {
-      output.push(i);
-    }
-    return output;
   };
 
   return (
@@ -69,8 +69,15 @@ export const ParkingSpotInfo = ({ setContent }: ParkingSpotInfoType) => {
           <View style={styles.calendar}>
             <MaterialCommunityIcons name="calendar" size={40} color="#7145D6" style={styles.icon} />
 
-            <CalendarComponent disabledDayIndexes={currentSpot?.daysAvailable} />
-            <TimePicker hours={[currentSpot.startHour, currentSpot.endHour]} />
+            <CalendarComponent
+              disabledDayIndexes={currentSpot?.daysAvailable}
+              setSelectedDate={setSelectedDate}
+            />
+            <TimePicker
+              hours={[currentSpot.startHour, currentSpot.endHour]}
+              setSelectedTime={setSelectedTime}
+              selectedTime={selectedTime}
+            />
           </View>
           <ScrollView contentContainerStyle={styles.slider} scrollEnabled={scrollEnabled}>
             <MaterialCommunityIcons
@@ -81,11 +88,14 @@ export const ParkingSpotInfo = ({ setContent }: ParkingSpotInfoType) => {
             />
             <MultiSlider
               onValuesChangeStart={disableScroll}
-              onValuesChangeFinish={enableScroll}
+              onValuesChangeFinish={(e) => {
+                enableScroll();
+                setDuration(e[0]);
+              }}
               sliderLength={180}
               min={1}
               max={24}
-              optionsArray={arr()}
+              optionsArray={hoursInDay()}
               showSteps
               enableLabel
             />
@@ -97,6 +107,21 @@ export const ParkingSpotInfo = ({ setContent }: ParkingSpotInfoType) => {
               // Create route with the selected one and display it in the map
               dispatch(displayRoute(true));
               setContent('start');
+              // Make reservations
+              (async () => {
+                try {
+                  const req = createReservationObj(
+                    selectedDate,
+                    selectedTime,
+                    duration,
+                    currentSpot.id
+                  );
+
+                  await createReservation({ variables: { input: req } });
+                } catch (err) {
+                  throw new Error(err);
+                }
+              })();
             }}
             color="white"
             type="main">

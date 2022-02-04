@@ -9,42 +9,45 @@ import { loginSchema } from '../../models/login.form';
 import { WelcomeProps } from '../../../types/rootStack';
 import { useLoginMutation } from '../../graphql/__generated__';
 import { errorToast } from '../../components';
+import { AuthLayout } from '../../components/Layouts/authLayout';
 
 export const LoginScreen = ({ navigation }: WelcomeProps) => {
   const [login] = useLoginMutation();
 
   return (
-    <StartScreen>
-      <View style={styles.container}>
-        <Formik
-          initialValues={{ email: '', password: '' }}
-          validationSchema={loginSchema}
-          onSubmit={async (values, { setSubmitting }) => {
-            try {
-              const { data } = await login({ variables: { input: values } });
-              await AsyncStorage.setItem('accessToken', data?.login.accessToken!);
-              navigation.navigate('Home');
-            } catch (error) {
-              errorToast('Invalid email or password.');
-            } finally {
-              setSubmitting(false);
-            }
-          }}>
-          {({ handleSubmit, isSubmitting, isValid }) => (
-            <View>
-              <FormikInput name="email" label="Email" />
-              <FormikInput name="password" label="Password" value="password" secureTextEntry />
-              <CustomButton
-                press={handleSubmit}
-                type="welcome"
-                loading={isSubmitting}
-                disabled={!isValid || isSubmitting}>
-                Log In
-              </CustomButton>
-            </View>
-          )}
-        </Formik>
-      </View>
-    </StartScreen>
+    <AuthLayout>
+      <StartScreen>
+        <View style={styles.container}>
+          <Formik
+            initialValues={{ email: '', password: '' }}
+            validationSchema={loginSchema}
+            onSubmit={async (values, { setSubmitting }) => {
+              try {
+                const { data } = await login({ variables: { input: values } });
+                await AsyncStorage.setItem('accessToken', data?.login.accessToken!);
+                navigation.navigate('Home');
+              } catch (error) {
+                errorToast('Invalid email or password.');
+              } finally {
+                setSubmitting(false);
+              }
+            }}>
+            {({ handleSubmit, isSubmitting, isValid }) => (
+              <View>
+                <FormikInput name="email" label="Email" />
+                <FormikInput name="password" label="Password" value="password" secureTextEntry />
+                <CustomButton
+                  press={handleSubmit}
+                  type="welcome"
+                  loading={isSubmitting}
+                  disabled={!isValid || isSubmitting}>
+                  Log In
+                </CustomButton>
+              </View>
+            )}
+          </Formik>
+        </View>
+      </StartScreen>
+    </AuthLayout>
   );
 };

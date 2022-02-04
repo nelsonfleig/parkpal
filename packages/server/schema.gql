@@ -6,25 +6,19 @@ type Reservation {
   id: ID!
   createdAt: DateTime!
   updatedAt: DateTime!
-  reservedDate: String!
-  duration: Float!
-  amount: Float!
+  startDate: String!
+  endDate: String!
   stripeChargeId: String
-  status: [ReservationStatus!]!
   user: User!
+  userId: Float!
   parkingSpot: ParkingSpot!
+  parkingSpotId: Float!
 }
 
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
 scalar DateTime
-
-enum ReservationStatus {
-  RESERVED
-  ONGOING
-  FINISHED
-}
 
 type ParkingSpot {
   id: ID!
@@ -113,6 +107,15 @@ type Query {
   findOneTodo(id: ID!): Todo!
   protect: String!
 
+  """Find all Reservations"""
+  findAllReservations: [Reservation!]!
+
+  """Find one Reservation"""
+  findOneReservation(id: ID!): Reservation!
+
+  """Find Drivers reservations"""
+  findMyReservations: [Reservation!]!
+
   """Find all ParkingSpots"""
   findAllParkingSpots: [ParkingSpot!]!
 
@@ -155,6 +158,15 @@ type Mutation {
   """Delete Todo"""
   deleteTodo(id: ID!): Todo!
 
+  """Create Reservation"""
+  createReservation(input: ReservationInput!): Reservation!
+
+  """Update Reservation"""
+  updateReservation(input: ReservationInput!, id: ID!): Reservation!
+
+  """Delete Reservation"""
+  deleteReservation(id: ID!): Reservation!
+
   """Create ParkingSpot"""
   createParkingSpot(input: ParkingSpotInput!): ParkingSpot!
 
@@ -194,6 +206,12 @@ input UserInput {
 input TodoInput {
   title: String
   completed: Boolean
+}
+
+input ReservationInput {
+  startDate: String!
+  endDate: String!
+  parkingSpotId: ID!
 }
 
 input ParkingSpotInput {

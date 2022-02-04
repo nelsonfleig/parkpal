@@ -1,19 +1,21 @@
 import Typography from '@mui/material/Typography';
 import { Form, Formik } from 'formik';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import React from 'react';
 import { toast } from 'react-toastify';
 import { AuthBottomText, AuthFormWrapper } from '../components/common';
 import { FormikSubmit } from '../components/formik/formik-submit';
 import { FormikText } from '../components/formik/formik-text';
 import { AuthLayout } from '../components/layout/auth-layout';
-import { useLoginMutation } from '../graphql/__generated__';
+import { MeDocument, useLoginMutation } from '../graphql/__generated__';
 import { loginSchema } from '../models/login.form';
 
 const Login = () => {
-  const [login] = useLoginMutation();
-  const router = useRouter();
+  const [login] = useLoginMutation({
+    refetchQueries: [MeDocument],
+    awaitRefetchQueries: true,
+  });
+
   return (
     <AuthLayout>
       <AuthFormWrapper elevation={3}>
@@ -33,7 +35,6 @@ const Login = () => {
                   input: values,
                 },
               });
-              router.push('/dashboard');
             } catch (error) {
               if (error instanceof Error) {
                 toast.error(error.message);

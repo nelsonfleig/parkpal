@@ -7,13 +7,17 @@ import styles from './calendarStyles';
 import { DatesObjType } from '../../../types/datesObj';
 import getDisabledDays from '../../helpers/disabledDays';
 
+type CalendarPropTypes = {
+  disabledDayIndexes: number[];
+  initDate: Date;
+  setSelectedDate: React.Dispatch<React.SetStateAction<string>>;
+};
+
 const CalendarComponent = ({
   disabledDayIndexes,
   initDate = new Date(),
-}: {
-  disabledDayIndexes: number[];
-  initDate: Date;
-}) => {
+  setSelectedDate,
+}: CalendarPropTypes) => {
   const { colors } = useTheme();
   // Get today's date & create initial object for marked dates
   const now = dayjs(Date.now()).format('YYYY-MM-DD');
@@ -55,6 +59,7 @@ const CalendarComponent = ({
           // When day is clicked focus that day and keep the disabled dates
           onDayPress={(day) => {
             setMarkedDates({ [day.dateString]: focusedOptions, ...disabledDates });
+            setSelectedDate(day.dateString);
           }}
           enableSwipeMonths
           disableAllTouchEventsForDisabledDays
