@@ -128,7 +128,8 @@ export const ParkingSpotInfo = ({ setContent }: ParkingSpotInfoType) => {
                     selectedDate,
                     selectedTime,
                     duration,
-                    currentSpot.id
+                    currentSpot.id,
+                    currentSpot.price
                   );
 
                   await createReservation({ variables: { input: req } });
