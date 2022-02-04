@@ -25,6 +25,14 @@ export type AuthResponse = {
   user: User;
 };
 
+export type BusinessStatsResponse = {
+  __typename?: 'BusinessStatsResponse';
+  timeSeries: Array<SeriesDataItem>;
+  totalComplaints: Scalars['Float'];
+  totalReservations: Scalars['Float'];
+  totalRevenue: Scalars['Float'];
+};
+
 export type Complain = {
   __typename?: 'Complain';
   createdAt: Scalars['DateTime'];
@@ -45,12 +53,16 @@ export type Mutation = {
   __typename?: 'Mutation';
   /** Create ParkingSpot */
   createParkingSpot: ParkingSpot;
+  /** Create Reservation */
+  createReservation: Reservation;
   /** Custom Create Todo */
   createTodo: Todo;
   /** Create User */
   createUser: User;
   /** Delete ParkingSpot */
   deleteParkingSpot: ParkingSpot;
+  /** Delete Reservation */
+  deleteReservation: Reservation;
   /** Delete Todo */
   deleteTodo: Todo;
   /** Delete User */
@@ -65,6 +77,8 @@ export type Mutation = {
   updateParkingSpot: ParkingSpot;
   /** Logout user */
   updateProfile: AuthResponse;
+  /** Update Reservation */
+  updateReservation: Reservation;
   /** Update Todo */
   updateTodo: Todo;
   /** Update User */
@@ -74,6 +88,11 @@ export type Mutation = {
 
 export type MutationCreateParkingSpotArgs = {
   input: ParkingSpotInput;
+};
+
+
+export type MutationCreateReservationArgs = {
+  input: ReservationInput;
 };
 
 
@@ -88,6 +107,11 @@ export type MutationCreateUserArgs = {
 
 
 export type MutationDeleteParkingSpotArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeleteReservationArgs = {
   id: Scalars['ID'];
 };
 
@@ -120,6 +144,12 @@ export type MutationUpdateParkingSpotArgs = {
 
 export type MutationUpdateProfileArgs = {
   input: ProfileInput;
+};
+
+
+export type MutationUpdateReservationArgs = {
+  id: Scalars['ID'];
+  input: ReservationInput;
 };
 
 
@@ -176,18 +206,25 @@ export type Query = {
   __typename?: 'Query';
   /** Find all ParkingSpots */
   findAllParkingSpots: Array<ParkingSpot>;
+  /** Find all Reservations */
+  findAllReservations: Array<Reservation>;
   /** List all Todos */
   findAllTodos: Array<Todo>;
   /** List all Users */
   findAllUsers: Array<User>;
   /** Find logged in user's ParkingSpots */
   findMyParkingSpots: Array<ParkingSpot>;
+  /** Find Drivers reservations */
+  findMyReservations: Array<Reservation>;
   /** Find one ParkingSpot */
   findOneParkingSpot: ParkingSpot;
+  /** Find one Reservation */
+  findOneReservation: Reservation;
   /** Find one Todo */
   findOneTodo: Todo;
   /** Find one User */
   findOneUser: User;
+  getMyBusinessStats: BusinessStatsResponse;
   /** Get logged in user */
   me?: Maybe<User>;
   protect: Scalars['String'];
@@ -196,6 +233,11 @@ export type Query = {
 
 
 export type QueryFindOneParkingSpotArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryFindOneReservationArgs = {
   id: Scalars['ID'];
 };
 
@@ -218,29 +260,37 @@ export type RegisterInput = {
 
 export type Reservation = {
   __typename?: 'Reservation';
-  amount: Scalars['Float'];
   createdAt: Scalars['DateTime'];
-  duration: Scalars['Float'];
+  endDate: Scalars['String'];
   id: Scalars['ID'];
   parkingSpot: ParkingSpot;
-  reservedDate: Scalars['String'];
-  status: Array<ReservationStatus>;
+  parkingSpotId: Scalars['Float'];
+  startDate: Scalars['String'];
   stripeChargeId?: Maybe<Scalars['String']>;
+  total: Scalars['Float'];
   updatedAt: Scalars['DateTime'];
   user: User;
+  userId: Scalars['Float'];
 };
 
-export enum ReservationStatus {
-  Finished = 'FINISHED',
-  Ongoing = 'ONGOING',
-  Reserved = 'RESERVED'
-}
+export type ReservationInput = {
+  endDate: Scalars['String'];
+  parkingSpotId: Scalars['ID'];
+  startDate: Scalars['String'];
+  total: Scalars['Float'];
+};
 
 export enum Role {
   Admin = 'ADMIN',
   Renter = 'RENTER',
   User = 'USER'
 }
+
+export type SeriesDataItem = {
+  __typename?: 'SeriesDataItem';
+  date: Scalars['String'];
+  sum: Scalars['Float'];
+};
 
 export type Todo = {
   __typename?: 'Todo';
@@ -337,6 +387,11 @@ export type FindAllTodosQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type FindAllTodosQuery = { __typename?: 'Query', todos: Array<{ __typename?: 'Todo', id: string, title: string, completed?: boolean | null | undefined }> };
+
+export type GetMyBusinessStatsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetMyBusinessStatsQuery = { __typename?: 'Query', stats: { __typename?: 'BusinessStatsResponse', totalRevenue: number, totalComplaints: number, totalReservations: number, timeSeries: Array<{ __typename?: 'SeriesDataItem', date: string, sum: number }> } };
 
 export const ParkingSpotDetailsFragmentDoc = gql`
     fragment ParkingSpotDetails on ParkingSpot {
@@ -636,3 +691,43 @@ export function useFindAllTodosLazyQuery(baseOptions?: Apollo.LazyQueryHookOptio
 export type FindAllTodosQueryHookResult = ReturnType<typeof useFindAllTodosQuery>;
 export type FindAllTodosLazyQueryHookResult = ReturnType<typeof useFindAllTodosLazyQuery>;
 export type FindAllTodosQueryResult = Apollo.QueryResult<FindAllTodosQuery, FindAllTodosQueryVariables>;
+export const GetMyBusinessStatsDocument = gql`
+    query GetMyBusinessStats {
+  stats: getMyBusinessStats {
+    totalRevenue
+    totalComplaints
+    totalReservations
+    timeSeries {
+      date
+      sum
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetMyBusinessStatsQuery__
+ *
+ * To run a query within a React component, call `useGetMyBusinessStatsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMyBusinessStatsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMyBusinessStatsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetMyBusinessStatsQuery(baseOptions?: Apollo.QueryHookOptions<GetMyBusinessStatsQuery, GetMyBusinessStatsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMyBusinessStatsQuery, GetMyBusinessStatsQueryVariables>(GetMyBusinessStatsDocument, options);
+      }
+export function useGetMyBusinessStatsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMyBusinessStatsQuery, GetMyBusinessStatsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMyBusinessStatsQuery, GetMyBusinessStatsQueryVariables>(GetMyBusinessStatsDocument, options);
+        }
+export type GetMyBusinessStatsQueryHookResult = ReturnType<typeof useGetMyBusinessStatsQuery>;
+export type GetMyBusinessStatsLazyQueryHookResult = ReturnType<typeof useGetMyBusinessStatsLazyQuery>;
+export type GetMyBusinessStatsQueryResult = Apollo.QueryResult<GetMyBusinessStatsQuery, GetMyBusinessStatsQueryVariables>;
