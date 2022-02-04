@@ -28,7 +28,7 @@ export class ReservationResolver extends AbstractResolver(
     description: 'Find Drivers reservations',
   })
   findMyReservations(@CurrentUser() user: UserJwt) {
-    return this.resService.find({ userId: user.id });
+    return this.resService.find({ userId: user.id }, ['parkingSpot']);
   }
 
   @Mutation(() => Reservation, {

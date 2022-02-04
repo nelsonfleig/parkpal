@@ -163,14 +163,14 @@ export type ParkingSpot = {
   country?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
   daysAvailable: Array<Scalars['Float']>;
-  endHour: Scalars['Float'];
+  endHour?: Maybe<Scalars['Float']>;
   id: Scalars['ID'];
   lat: Scalars['Float'];
   lng: Scalars['Float'];
   picture_url?: Maybe<Scalars['String']>;
   price: Scalars['Float'];
   reservations?: Maybe<Array<Reservation>>;
-  startHour: Scalars['Float'];
+  startHour?: Maybe<Scalars['Float']>;
   street?: Maybe<Scalars['String']>;
   updatedAt: Scalars['DateTime'];
   user: User;
@@ -265,7 +265,7 @@ export type Reservation = {
 
 export type ReservationInput = {
   endDate: Scalars['String'];
-  parkingSpotId: Scalars['Float'];
+  parkingSpotId: Scalars['ID'];
   startDate: Scalars['String'];
 };
 
@@ -317,7 +317,7 @@ export type UserInput = {
   password: Scalars['String'];
 };
 
-export type ParkingSpotDetailsFragment = { __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour: number, endHour: number, user: { __typename?: 'User', firstName: string, lastName: string, phone?: string | null | undefined } };
+export type ParkingSpotDetailsFragment = { __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour?: number | null | undefined, endHour?: number | null | undefined, user: { __typename?: 'User', firstName: string, lastName: string, phone?: string | null | undefined } };
 
 export type UserExcerptFragment = { __typename?: 'User', id: string, firstName: string, lastName: string, email: string, roles: Array<Role>, phone?: string | null | undefined, bankInfo?: string | null | undefined };
 
@@ -345,7 +345,12 @@ export type CreateReservationMutation = { __typename?: 'Mutation', createReserva
 export type GetSpotsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetSpotsQuery = { __typename?: 'Query', spaces: Array<{ __typename?: 'ParkingSpot', price: number, startHour: number, endHour: number, lat: number, lng: number, id: string, daysAvailable: Array<number>, user: { __typename?: 'User', firstName: string, lastName: string, phone?: string | null | undefined } }> };
+export type GetSpotsQuery = { __typename?: 'Query', spaces: Array<{ __typename?: 'ParkingSpot', price: number, startHour?: number | null | undefined, endHour?: number | null | undefined, lat: number, lng: number, id: string, daysAvailable: Array<number>, user: { __typename?: 'User', firstName: string, lastName: string, phone?: string | null | undefined } }> };
+
+export type GetMyReservationsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetMyReservationsQuery = { __typename?: 'Query', reservations: Array<{ __typename?: 'Reservation', startDate: string, endDate: string, id: string, parkingSpot: { __typename?: 'ParkingSpot', street?: string | null | undefined, lat: number, lng: number } }> };
 
 export type GetTodosQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -528,6 +533,47 @@ export function useGetSpotsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<G
 export type GetSpotsQueryHookResult = ReturnType<typeof useGetSpotsQuery>;
 export type GetSpotsLazyQueryHookResult = ReturnType<typeof useGetSpotsLazyQuery>;
 export type GetSpotsQueryResult = Apollo.QueryResult<GetSpotsQuery, GetSpotsQueryVariables>;
+export const GetMyReservationsDocument = gql`
+    query GetMyReservations {
+  reservations: findMyReservations {
+    startDate
+    endDate
+    id
+    parkingSpot {
+      street
+      lat
+      lng
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetMyReservationsQuery__
+ *
+ * To run a query within a React component, call `useGetMyReservationsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMyReservationsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMyReservationsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetMyReservationsQuery(baseOptions?: Apollo.QueryHookOptions<GetMyReservationsQuery, GetMyReservationsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMyReservationsQuery, GetMyReservationsQueryVariables>(GetMyReservationsDocument, options);
+      }
+export function useGetMyReservationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMyReservationsQuery, GetMyReservationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMyReservationsQuery, GetMyReservationsQueryVariables>(GetMyReservationsDocument, options);
+        }
+export type GetMyReservationsQueryHookResult = ReturnType<typeof useGetMyReservationsQuery>;
+export type GetMyReservationsLazyQueryHookResult = ReturnType<typeof useGetMyReservationsLazyQuery>;
+export type GetMyReservationsQueryResult = Apollo.QueryResult<GetMyReservationsQuery, GetMyReservationsQueryVariables>;
 export const GetTodosDocument = gql`
     query GetTodos {
   todos: findAllTodos {

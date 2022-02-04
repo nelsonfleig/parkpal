@@ -29,8 +29,8 @@ type ParkingSpot {
   price: Float!
   picture_url: String
   daysAvailable: [Float!]!
-  startHour: Float!
-  endHour: Float!
+  startHour: Float
+  endHour: Float
   street: String
   zipCode: String
   city: String
