@@ -1,6 +1,7 @@
 import { Formik } from 'formik';
 import { View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { CommonActions } from '@react-navigation/native';
 import { StartScreen } from '../../components/StartScreen/startScreen';
 import styles from './loginStyles';
 import { CustomButton } from '../../components/Forms/button';
@@ -25,7 +26,12 @@ export const LoginScreen = ({ navigation }: WelcomeProps) => {
               try {
                 const { data } = await login({ variables: { input: values } });
                 await AsyncStorage.setItem('accessToken', data?.login.accessToken!);
-                navigation.navigate('Home');
+                navigation.dispatch(
+                  CommonActions.reset({
+                    index: 1,
+                    routes: [{ name: 'Home' }],
+                  })
+                );
               } catch (error) {
                 errorToast('Invalid email or password.');
               } finally {
