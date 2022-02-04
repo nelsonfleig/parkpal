@@ -1,3 +1,4 @@
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React from 'react';
 import { Linking } from 'react-native';
 import { useSelector } from 'react-redux';
@@ -14,9 +15,9 @@ export const StartRoute = () => {
           `https://www.google.com/maps/dir/?api=1&travelmode=driving&dir_action=navigate&destination=${currentSpot?.lat},${currentSpot?.lng}`
         );
       }}
-      color="white"
-      type="main">
-      Start Route
+      color="#0A2540"
+      type="start">
+      Start Route in <MaterialCommunityIcons name="google-maps" size={18} color="#0A2540" />
     </CustomButton>
   );
 };

@@ -4,7 +4,7 @@ const styles = StyleSheet.create({
   slideContent: {
     flex: 1,
     padding: 25,
-    paddingTop: '90%',
+    paddingTop: '75%',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     alignItems: 'center',

@@ -28,6 +28,20 @@ const styles = StyleSheet.create({
     marginTop: 35,
   },
 
+  startButton: {
+    backgroundColor: 'white',
+    padding: 10,
+    marginTop: 35,
+    width: width * 0.55,
+  },
+
+  laterButton: {
+    backgroundColor: '#0A2540',
+    padding: 10,
+    marginTop: 15,
+    width: width * 0.55,
+  },
+
   input: {
     width: width * 0.65,
     backgroundColor: '#fff',
