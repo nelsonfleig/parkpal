@@ -68,9 +68,10 @@ export const ParkingSpotInfo = ({ setContent }: ParkingSpotInfoType) => {
               style={styles.icon}
             />
             <View>
-              <Text style={styles.addressLine}>{currentSpot.street},</Text>
+              <Text style={styles.addressLine}>
+                {`${currentSpot.street}, ${currentSpot.zipCode},`}
+              </Text>
               <Text style={styles.addressLine}>{currentSpot.city},</Text>
-              <Text style={styles.addressLine}>{currentSpot.zipCode}</Text>
             </View>
           </View>
           <View style={styles.calendar}>
