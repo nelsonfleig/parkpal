@@ -16,6 +16,7 @@ import { parkingSpotInfoStyles as styles } from './parkingSpotInfoStyles';
 import hoursInDay from '../../helpers/hoursInDay';
 import { useCreateReservationMutation } from '../../graphql/__generated__';
 import createReservationObj from '../../helpers/createReservationObj';
+import { formatNumber } from '../../helpers/formatPhoneNumber';
 
 export const panelReference = React.createRef<any>();
 
@@ -48,7 +49,7 @@ export const ParkingSpotInfo = ({ setContent }: ParkingSpotInfoType) => {
               style={
                 styles.name
               }>{`${currentSpot.user.firstName} ${currentSpot.user.lastName}`}</Text>
-            <Text style={styles.number}>{currentSpot.user.phone} </Text>
+            <Text style={styles.number}>+34 {formatNumber(currentSpot.user.phone)} </Text>
           </View>
           <Text style={styles.price}>{`${currentSpot.price}€/hr`}</Text>
         </View>
