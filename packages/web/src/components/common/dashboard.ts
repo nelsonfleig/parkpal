@@ -155,7 +155,7 @@ export const StyledPopper = styled(Paper)(() => ({
 }));
 
 export const StyledButton = styled(Button)((props) => ({
-  padding: '5px 50px !important',
+  padding: '15px 50px !important',
   fontSize: '0.8rem !important',
   marginTop: '1rem',
   color: '#fff',

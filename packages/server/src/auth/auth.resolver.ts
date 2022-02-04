@@ -1,4 +1,5 @@
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
+import md5 from 'md5';
 import { Role } from 'src/common/constants/role.enum';
 import { Ctx } from 'src/common/types/context.type';
 import { UserJwt } from 'src/common/types/user-jwt.type';
@@ -51,10 +52,18 @@ export class AuthResolver {
     @Args('input') input: ProfileInput,
     @Context() context: Ctx
   ) {
-    const updatedUser = await this.userService.update(user.id, {
-      ...input,
-      roles: [Role.USER, Role.RENTER],
-    });
+    const options = input.password
+      ? {
+          ...input,
+          password: md5(input.password),
+          roles: [Role.USER, Role.RENTER],
+        }
+      : {
+          ...input,
+          roles: [Role.USER, Role.RENTER],
+        };
+
+    const updatedUser = await this.userService.update(user.id, options);
     const accessToken = this.authService.reissueAccessToken(
       updatedUser,
       context
