@@ -142,23 +142,23 @@ export const DashboardInformation: FC = () => {
       <StyledPaper>
         <Typography variant="body2">Total Revenue This Week</Typography>
         <Typography variant="h3" color="white">
-          {/* {data.stats.totalRevenue}€ */}
+          {data.stats.totalRevenue}€
         </Typography>
       </StyledPaper>
       <StyledPaper>
         <Typography variant="body2">Total Bookings This Week</Typography>
         <Typography variant="h3" color="white">
-          {/* {data.stats.totalReservations} */}
+          {data.stats.totalReservations}
         </Typography>
       </StyledPaper>
       <StyledPaper>
         <Typography variant="body2">Total Complains This Week</Typography>
         <Typography variant="h3" color="white">
-          {/* {data.stats.totalComplaints} */}
+          {data.stats.totalComplaints}
         </Typography>
       </StyledPaper>
       <Box style={{ width: '100%' }}>
-        {/* <HighchartsReact highcharts={Highcharts} options={buildGraph(data.stats.timeSeries)} /> */}
+        <HighchartsReact highcharts={Highcharts} options={buildGraph(data.stats.timeSeries)} />
       </Box>
     </StyledBox>
   );
