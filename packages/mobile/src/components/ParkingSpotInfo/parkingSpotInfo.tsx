@@ -14,7 +14,10 @@ import { CustomButton } from '../Forms/button';
 import { TimePicker } from '../TimePicker/timePicker';
 import { parkingSpotInfoStyles as styles } from './parkingSpotInfoStyles';
 import hoursInDay from '../../helpers/hoursInDay';
-import { useCreateReservationMutation } from '../../graphql/__generated__';
+import {
+  GetMyReservationsDocument,
+  useCreateReservationMutation,
+} from '../../graphql/__generated__';
 import createReservationObj from '../../helpers/createReservationObj';
 import { formatNumber } from '../../helpers/formatPhoneNumber';
 
@@ -29,7 +32,10 @@ export const ParkingSpotInfo = ({ setContent }: ParkingSpotInfoType) => {
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedTime, setSelectedTime] = useState();
   const [duration, setDuration] = useState(0);
-  const [createReservation] = useCreateReservationMutation();
+  const [createReservation] = useCreateReservationMutation({
+    refetchQueries: [GetMyReservationsDocument],
+    awaitRefetchQueries,
+  });
 
   const enableScroll = () => setScrollEnabled(true);
 
