@@ -6,8 +6,8 @@ import { useFindMyParkingSpotsQuery } from '../../graphql/__generated__';
 import { RootState } from '../../redux';
 
 const ICON = icon({
-  iconUrl: '/images/marker.png',
-  iconSize: [32, 32],
+  iconUrl: '/images/spot-marker.png',
+  iconSize: [45, 45],
 });
 
 export const MyParkingSpots = () => {
@@ -28,10 +28,15 @@ export const MyParkingSpots = () => {
 
   return (
     <>
-      {data.parkingSpots.map(({ id, lat, lng }) => (
+      {data.parkingSpots.map(({ id, street, zipCode, city, lat, lng, price }) => (
         <Marker key={id} icon={ICON} position={{ lat, lng }}>
           <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
+            Id #{id} <br />
+            {street}
+            <br />
+            {zipCode} {city}
+            <br />
+            {price} €/hr
           </Popup>
         </Marker>
       ))}
