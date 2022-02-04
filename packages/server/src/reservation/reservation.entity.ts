@@ -20,6 +20,10 @@ export class Reservation extends AbstractEntity {
   @Column({ nullable: true })
   stripeChargeId?: string;
 
+  @Field()
+  @Column()
+  total: number;
+
   @Field(() => User)
   @ManyToOne(() => User, (user: User) => user.reservations)
   user: User;

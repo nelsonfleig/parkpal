@@ -9,6 +9,7 @@ type Reservation {
   startDate: String!
   endDate: String!
   stripeChargeId: String
+  total: Float!
   user: User!
   userId: Float!
   parkingSpot: ParkingSpot!
@@ -85,6 +86,18 @@ enum Role {
   ADMIN
 }
 
+type SeriesDataItem {
+  date: String!
+  sum: Float!
+}
+
+type BusinessStatsResponse {
+  totalReservations: Float!
+  totalRevenue: Float!
+  totalComplaints: Float!
+  timeSeries: [SeriesDataItem!]!
+}
+
 type AuthResponse {
   accessToken: String!
   user: User!
@@ -99,6 +112,7 @@ type Query {
 
   """Find one User"""
   findOneUser(id: ID!): User!
+  getMyBusinessStats: BusinessStatsResponse!
 
   """List all Todos"""
   findAllTodos: [Todo!]!
@@ -211,6 +225,7 @@ input TodoInput {
 input ReservationInput {
   startDate: String!
   endDate: String!
+  total: Float!
   parkingSpotId: ID!
 }
 
