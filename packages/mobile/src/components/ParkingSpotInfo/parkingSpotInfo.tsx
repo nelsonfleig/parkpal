@@ -1,7 +1,7 @@
 // @ts-nocheck
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import React, { useState } from 'react';
-import { Image, ScrollView, View } from 'react-native';
+import { Image, Linking, Pressable, ScrollView, View } from 'react-native';
 import { Text } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,8 +17,6 @@ import hoursInDay from '../../helpers/hoursInDay';
 import { useCreateReservationMutation } from '../../graphql/__generated__';
 import createReservationObj from '../../helpers/createReservationObj';
 import { formatNumber } from '../../helpers/formatPhoneNumber';
-
-export const panelReference = React.createRef<any>();
 
 type ParkingSpotInfoType = {
   setContent: React.Dispatch<React.SetStateAction<string>>;
@@ -49,7 +47,15 @@ export const ParkingSpotInfo = ({ setContent }: ParkingSpotInfoType) => {
               style={
                 styles.name
               }>{`${currentSpot.user.firstName} ${currentSpot.user.lastName}`}</Text>
-            <Text style={styles.number}>+34 {formatNumber(currentSpot.user.phone)} </Text>
+            <Pressable
+              onPress={() => {
+                // Linking.openURL(`tel:+34${currentSpot.user.phone}`);
+                Linking.openURL(
+                  `whatsapp://send?text=Hello!+I+have+seen+your+parking+spot+on+Parkpal!&phone=+34${currentSpot.user.phone}`
+                );
+              }}>
+              <Text style={styles.number}>+34 {formatNumber(currentSpot.user.phone)} </Text>
+            </Pressable>
           </View>
           <Text style={styles.price}>{`${currentSpot.price}€/hr`}</Text>
         </View>
