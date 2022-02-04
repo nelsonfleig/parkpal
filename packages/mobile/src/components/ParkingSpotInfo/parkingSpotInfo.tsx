@@ -9,10 +9,7 @@ import profile from '../../../assets/images/profile.png';
 import { RootState } from '../../redux';
 import { changeDestination } from '../../redux/destination/destinationSlice';
 import { displayRoute } from '../../redux/showRoute/showRoute';
-import CalendarComponent from '../Calendar/calendar';
-import { CustomButton } from '../Forms/button';
-import { TimePicker } from '../TimePicker/timePicker';
-import { parkingSpotInfoStyles as styles } from './parkingSpotInfoStyles';
+// Helper functions
 import hoursInDay from '../../helpers/hoursInDay';
 import {
   GetMyReservationsDocument,
@@ -20,6 +17,11 @@ import {
 } from '../../graphql/__generated__';
 import createReservationObj from '../../helpers/createReservationObj';
 import { formatNumber } from '../../helpers/formatPhoneNumber';
+// Components
+import CalendarComponent from '../Calendar/calendar';
+import { CustomButton } from '../Forms/button';
+import { TimePicker } from '../TimePicker/timePicker';
+import { parkingSpotInfoStyles as styles } from './parkingSpotInfoStyles';
 
 type ParkingSpotInfoType = {
   setContent: React.Dispatch<React.SetStateAction<string>>;
@@ -120,7 +122,7 @@ export const ParkingSpotInfo = ({ setContent }: ParkingSpotInfoType) => {
               dispatch(changeDestination(null));
               // Create route with the selected one and display it in the map
               dispatch(displayRoute(true));
-              setContent('start');
+              setContent('payment');
               // Make reservations
               (async () => {
                 try {
