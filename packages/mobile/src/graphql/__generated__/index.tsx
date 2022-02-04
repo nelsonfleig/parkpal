@@ -265,7 +265,7 @@ export type Reservation = {
 
 export type ReservationInput = {
   endDate: Scalars['String'];
-  parkingSpotId: Scalars['Float'];
+  parkingSpotId: Scalars['ID'];
   startDate: Scalars['String'];
 };
 
@@ -317,7 +317,7 @@ export type UserInput = {
   password: Scalars['String'];
 };
 
-export type ParkingSpotDetailsFragment = { __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour: number, endHour: number, user: { __typename?: 'User', firstName: string, lastName: string, phone?: string | null | undefined } };
+export type ParkingSpotDetailsFragment = { __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour: number, endHour: number, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, user: { __typename?: 'User', firstName: string, lastName: string, phone?: string | null | undefined } };
 
 export type UserExcerptFragment = { __typename?: 'User', id: string, firstName: string, lastName: string, email: string, roles: Array<Role>, phone?: string | null | undefined, bankInfo?: string | null | undefined };
 
@@ -345,7 +345,7 @@ export type CreateReservationMutation = { __typename?: 'Mutation', createReserva
 export type GetSpotsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetSpotsQuery = { __typename?: 'Query', spaces: Array<{ __typename?: 'ParkingSpot', price: number, startHour: number, endHour: number, lat: number, lng: number, id: string, daysAvailable: Array<number>, user: { __typename?: 'User', firstName: string, lastName: string, phone?: string | null | undefined } }> };
+export type GetSpotsQuery = { __typename?: 'Query', spaces: Array<{ __typename?: 'ParkingSpot', price: number, startHour: number, endHour: number, lat: number, lng: number, id: string, daysAvailable: Array<number>, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, user: { __typename?: 'User', firstName: string, lastName: string, phone?: string | null | undefined } }> };
 
 export type GetTodosQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -366,6 +366,9 @@ export const ParkingSpotDetailsFragmentDoc = gql`
   daysAvailable
   startHour
   endHour
+  street
+  zipCode
+  city
   user {
     firstName
     lastName
@@ -493,6 +496,9 @@ export const GetSpotsDocument = gql`
     lng
     id
     daysAvailable
+    street
+    zipCode
+    city
     user {
       firstName
       lastName

@@ -26,6 +26,7 @@ export const parkingSpotInfoStyles = StyleSheet.create({
     marginBottom: 10,
     fontFamily: 'InterMedium',
     fontWeight: 'normal',
+    maxWidth: 180,
   },
 
   number: {

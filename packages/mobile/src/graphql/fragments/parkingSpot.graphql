@@ -6,6 +6,9 @@ fragment ParkingSpotDetails on ParkingSpot {
   daysAvailable
   startHour
   endHour
+  street
+  zipCode
+  city
   user {
     firstName
     lastName
