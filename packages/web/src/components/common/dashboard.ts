@@ -3,6 +3,20 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { Avatar, Box, Button, Paper, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
+const usedIDs: Array<[string, number]> = [];
+export function randomColorC(n: any) {
+  const isIn = usedIDs.find((el) => el[1] === n);
+  if (!isIn) {
+    let res = '#';
+    for (let i = 0; i < 6; i += 1) {
+      res += Math.floor(Math.random() * 10);
+    }
+    usedIDs.push([res, n]);
+    return res;
+  }
+  return isIn[0];
+}
+
 export const CenteredPaper = styled(Paper)(() => ({
   maxWidth: '360px',
   position: 'fixed',
@@ -152,7 +166,7 @@ export const StyledButton = styled(Button)((props) => ({
 }));
 
 export const StyledProfilePaper = styled(Paper)(() => ({
-  minWidth: '150px important',
+  minWidth: '280px',
   color: 'inherit',
   background: 'none',
   outline: 'none',

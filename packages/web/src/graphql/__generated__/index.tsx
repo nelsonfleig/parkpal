@@ -171,14 +171,14 @@ export type ParkingSpot = {
   country?: Maybe<Scalars['String']>;
   createdAt: Scalars['DateTime'];
   daysAvailable: Array<Scalars['Float']>;
-  endHour: Scalars['Float'];
+  endHour?: Maybe<Scalars['Float']>;
   id: Scalars['ID'];
   lat: Scalars['Float'];
   lng: Scalars['Float'];
   picture_url?: Maybe<Scalars['String']>;
   price: Scalars['Float'];
   reservations?: Maybe<Array<Reservation>>;
-  startHour: Scalars['Float'];
+  startHour?: Maybe<Scalars['Float']>;
   street?: Maybe<Scalars['String']>;
   updatedAt: Scalars['DateTime'];
   user: User;
@@ -212,6 +212,8 @@ export type Query = {
   findAllTodos: Array<Todo>;
   /** List all Users */
   findAllUsers: Array<User>;
+  /** Find user's ParkingSpots reservations and profit */
+  findCalendarInfo: Array<RenterCalendarResponse>;
   /** Find logged in user's ParkingSpots */
   findMyParkingSpots: Array<ParkingSpot>;
   /** Find Drivers reservations */
@@ -228,7 +230,6 @@ export type Query = {
   /** Get logged in user */
   me?: Maybe<User>;
   protect: Scalars['String'];
-  testGeocoding: Scalars['String'];
 };
 
 
@@ -256,6 +257,14 @@ export type RegisterInput = {
   firstName: Scalars['String'];
   lastName: Scalars['String'];
   password: Scalars['String'];
+};
+
+export type RenterCalendarResponse = {
+  __typename?: 'RenterCalendarResponse';
+  endHour: Scalars['Float'];
+  name: Scalars['String'];
+  spot: Scalars['Float'];
+  startHour: Scalars['Float'];
 };
 
 export type Reservation = {
@@ -334,7 +343,7 @@ export type UserInput = {
   password: Scalars['String'];
 };
 
-export type ParkingSpotDetailsFragment = { __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour: number, endHour: number, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, country?: string | null | undefined, userId: number };
+export type ParkingSpotDetailsFragment = { __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour?: number | null | undefined, endHour?: number | null | undefined, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, country?: string | null | undefined, userId: number };
 
 export type TodoExcerptFragment = { __typename?: 'Todo', id: string, title: string, completed?: boolean | null | undefined };
 
@@ -359,7 +368,7 @@ export type CreateParkingSpotMutationVariables = Exact<{
 }>;
 
 
-export type CreateParkingSpotMutation = { __typename?: 'Mutation', createParkingSpot: { __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour: number, endHour: number, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, country?: string | null | undefined, userId: number } };
+export type CreateParkingSpotMutation = { __typename?: 'Mutation', createParkingSpot: { __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour?: number | null | undefined, endHour?: number | null | undefined, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, country?: string | null | undefined, userId: number } };
 
 export type UpdateProfileMutationVariables = Exact<{
   input: ProfileInput;
@@ -381,7 +390,12 @@ export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: st
 export type FindMyParkingSpotsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindMyParkingSpotsQuery = { __typename?: 'Query', parkingSpots: Array<{ __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour: number, endHour: number, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, country?: string | null | undefined, userId: number }> };
+export type FindMyParkingSpotsQuery = { __typename?: 'Query', parkingSpots: Array<{ __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour?: number | null | undefined, endHour?: number | null | undefined, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, country?: string | null | undefined, userId: number }> };
+
+export type ParkingSpotResTestQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ParkingSpotResTestQuery = { __typename?: 'Query', parkingSpots: Array<{ __typename?: 'RenterCalendarResponse', spot: number, startHour: number, endHour: number, name: string }> };
 
 export type FindAllTodosQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -657,6 +671,43 @@ export function useFindMyParkingSpotsLazyQuery(baseOptions?: Apollo.LazyQueryHoo
 export type FindMyParkingSpotsQueryHookResult = ReturnType<typeof useFindMyParkingSpotsQuery>;
 export type FindMyParkingSpotsLazyQueryHookResult = ReturnType<typeof useFindMyParkingSpotsLazyQuery>;
 export type FindMyParkingSpotsQueryResult = Apollo.QueryResult<FindMyParkingSpotsQuery, FindMyParkingSpotsQueryVariables>;
+export const ParkingSpotResTestDocument = gql`
+    query ParkingSpotResTest {
+  parkingSpots: findCalendarInfo {
+    spot
+    startHour
+    endHour
+    name
+  }
+}
+    `;
+
+/**
+ * __useParkingSpotResTestQuery__
+ *
+ * To run a query within a React component, call `useParkingSpotResTestQuery` and pass it any options that fit your needs.
+ * When your component renders, `useParkingSpotResTestQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useParkingSpotResTestQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useParkingSpotResTestQuery(baseOptions?: Apollo.QueryHookOptions<ParkingSpotResTestQuery, ParkingSpotResTestQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ParkingSpotResTestQuery, ParkingSpotResTestQueryVariables>(ParkingSpotResTestDocument, options);
+      }
+export function useParkingSpotResTestLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ParkingSpotResTestQuery, ParkingSpotResTestQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ParkingSpotResTestQuery, ParkingSpotResTestQueryVariables>(ParkingSpotResTestDocument, options);
+        }
+export type ParkingSpotResTestQueryHookResult = ReturnType<typeof useParkingSpotResTestQuery>;
+export type ParkingSpotResTestLazyQueryHookResult = ReturnType<typeof useParkingSpotResTestLazyQuery>;
+export type ParkingSpotResTestQueryResult = Apollo.QueryResult<ParkingSpotResTestQuery, ParkingSpotResTestQueryVariables>;
 export const FindAllTodosDocument = gql`
     query FindAllTodos {
   todos: findAllTodos {

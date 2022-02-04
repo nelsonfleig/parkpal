@@ -29,4 +29,31 @@ export class ParkingSpotService extends AbstractService<ParkingSpot> {
       }
     }
   }
+
+  async findCalendarInfo(
+    id: { userId: number },
+    options: string[]
+  ): Promise<any> {
+    try {
+      const res = await super.find(id, options);
+      const arr = [];
+      res.forEach((spot) => {
+        if (spot.reservations.length) {
+          return spot.reservations.forEach((el) => {
+            arr.push({
+              spot: spot.id,
+              startHour: Date.parse(el.startDate),
+              endHour: Date.parse(el.endDate),
+              name: `${spot.street}, ${spot.city}`,
+            });
+          });
+        }
+      });
+      return arr;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(error.message);
+      }
+    }
+  }
 }
