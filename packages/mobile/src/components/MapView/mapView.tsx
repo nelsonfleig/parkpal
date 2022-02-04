@@ -1,44 +1,36 @@
-import { LocationGeocodedLocation } from 'expo-location';
-import MapView from 'react-native-maps';
+// @ts-ignore
+import { DIRECTIONS_API_KEY } from '@env';
 import { createRef, useEffect, useState } from 'react';
-// import MapViewDirections from 'react-native-maps-directions';
+import { Image, View } from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
+import MapViewDirections from 'react-native-maps-directions';
+import { useSelector } from 'react-redux';
 
-// import { API_DIRECTIONS_KEY } from '@env';
-import { View } from 'react-native';
-import { mapViewStyles } from './mapViewStyles';
+import SpotIcon from '../../../assets/images/Spot-icon.png';
+
+import { useGetSpotsQuery } from '../../graphql/__generated__';
+import { RootState } from '../../redux';
 
 import { DestinationMarker } from '../DestinationMarker/destinationMarker';
-import { getDistKm } from '../../helpers/linearDistance';
 import { ParkingSpots } from '../ParkingSpots/parkingSpots';
-import { useGetSpotsQuery, GetSpotsQuery } from '../../graphql/__generated__';
+import { mapViewStyles } from './mapViewStyles';
 
 type MapComponentProps = {
   latitude: number;
   longitude: number;
-  destination: LocationGeocodedLocation | null;
 };
 
 export const mapRef = createRef<MapView>();
 
-export const MapComponent = ({ latitude, longitude, destination }: MapComponentProps) => {
-  // const [origin, setOrigin] = useState({ latitude, longitude });
-  const [mapDest, setMapDest] = useState(null as LocationGeocodedLocation | null);
-  const [markers, setMarkers] = useState<GetSpotsQuery['spaces']>([]);
+export const MapComponent = ({ latitude, longitude }: MapComponentProps) => {
+  const { currentSpot } = useSelector((state: RootState) => state.parkingSpots);
+  const { destination } = useSelector((state: RootState) => state.destination);
+  const { showRoute } = useSelector((state: RootState) => state.showRoute);
+  const [origin, setOrigin] = useState({ latitude, longitude });
   const { data } = useGetSpotsQuery();
 
   useEffect(() => {
-    // setOrigin({ latitude, longitude });
-    setMapDest(destination);
-    // We select the parking spots that are within the radius of 300m
-
-    const spotsInZone =
-      destination &&
-      data?.spaces.filter(
-        (spot) => getDistKm(destination.latitude, destination.longitude, spot.lat, spot.lng) < 0.3
-      );
-    if (spotsInZone) {
-      setMarkers(spotsInZone);
-    }
+    setOrigin({ latitude, longitude });
   }, [latitude, longitude, destination, data?.spaces]);
 
   return (
@@ -57,20 +49,41 @@ export const MapComponent = ({ latitude, longitude, destination }: MapComponentP
         pitch: 0,
         altitude: 0,
       }}>
-      {mapDest && (
+      {destination && (
         <View>
-          <DestinationMarker mapDest={mapDest} />
-          <ParkingSpots parkingSpots={markers} />
+          <DestinationMarker mapDest={destination} />
+          <ParkingSpots />
         </View>
       )}
-
-      {/* <MapViewDirections
+      {showRoute && currentSpot && (
+        <MapViewDirections
           origin={origin}
-          destination={destination}
-          apikey={API_DIRECTIONS_KEY} // insert your API Key here
+          destination={{ latitude: currentSpot.lat, longitude: currentSpot.lng }}
+          apikey={DIRECTIONS_API_KEY}
           strokeWidth={10}
-          strokeColor="#111111"
-        /> */}
+          strokeColor="#7145D6"
+          onReady={() => {
+            mapRef.current?.animateCamera(
+              {
+                center: {
+                  latitude: (currentSpot.lat + origin.latitude) / 2,
+                  longitude: (currentSpot.lng + origin.longitude) / 2,
+                },
+                heading: 0,
+                zoom: 13,
+                pitch: 0,
+                altitude: 0,
+              },
+              { duration: 500 }
+            );
+          }}
+        />
+      )}
+      {showRoute && currentSpot && (
+        <Marker coordinate={{ latitude: currentSpot.lat, longitude: currentSpot.lng }}>
+          <Image source={SpotIcon} style={{ width: 50, height: 50 }} />
+        </Marker>
+      )}
     </MapView>
   );
 };
