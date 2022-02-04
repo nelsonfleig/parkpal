@@ -27,6 +27,7 @@ export const ParkingSpots = () => {
             <Marker
               coordinate={{ latitude: spot.lat, longitude: spot.lng }}
               key={spot.id}
+              style={{ zIndex: 4 }}
               onPress={() => {
                 dispatch(changeCurrentSpace(spot));
                 Keyboard.dismiss();

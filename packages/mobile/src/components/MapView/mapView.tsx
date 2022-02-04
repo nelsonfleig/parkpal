@@ -70,7 +70,7 @@ export const MapComponent = ({ latitude, longitude }: MapComponentProps) => {
                   longitude: (currentSpot.lng + origin.longitude) / 2,
                 },
                 heading: 0,
-                zoom: 13,
+                zoom: 14,
                 pitch: 0,
                 altitude: 0,
               },

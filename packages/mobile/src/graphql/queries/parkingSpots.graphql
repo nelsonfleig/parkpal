@@ -7,6 +7,9 @@ query GetSpots {
     lng
     id
     daysAvailable
+    street
+    zipCode
+    city
     user {
       firstName
       lastName
