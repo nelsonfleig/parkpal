@@ -34,7 +34,7 @@ import { AppService } from './app.service';
       password: 'postgres',
       database: 'parkpaldb',
       entities: [__dirname + '../../**/*.entity.{ts,js}'],
-      synchronize: true,
+      synchronize: false,
     }),
     DataloaderModule,
     GraphQLModule.forRoot({
