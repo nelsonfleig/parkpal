@@ -2,7 +2,7 @@ import { View, Text } from 'react-native';
 import { Surface, Menu, Button } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useState } from 'react';
-import dayjs from 'dayjs';
+
 import styles from './bookingTileStyles';
 import { CustomButton } from '../Forms/button';
 import formatBookingDates from '../../helpers/formatBookingDates';
@@ -11,11 +11,9 @@ type BookingTyleProps = {
   street: string;
   start: string;
   end: string;
-  long: number;
-  lat: number;
 };
 
-export const BookingTile = ({ street, start, end, long, lat }: BookingTyleProps) => {
+export const BookingTile = ({ street, start, end }: BookingTyleProps) => {
   const [visible, setVisible] = useState(false);
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);

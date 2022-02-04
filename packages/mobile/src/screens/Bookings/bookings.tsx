@@ -20,8 +20,6 @@ export const BookingsScreen = () => {
               key={reservation.id}
               start={reservation.startDate}
               end={reservation.endDate}
-              long={spot.lng}
-              lat={spot.lat}
             />
           );
         })}
