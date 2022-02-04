@@ -1,0 +1,11 @@
+query GetMyBusinessStats {
+  stats: getMyBusinessStats {
+    totalRevenue
+    totalComplaints
+    totalReservations
+    timeSeries {
+      date
+      sum
+    }
+  }
+}

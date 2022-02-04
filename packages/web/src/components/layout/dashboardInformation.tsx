@@ -1,22 +1,78 @@
-import { Box, Typography, Modal } from '@mui/material';
-import React, { FC, useEffect } from 'react';
-import Highcharts from 'highcharts';
+import { Box, CircularProgress, Modal, Typography } from '@mui/material';
 import { Form, Formik } from 'formik';
-import { toast } from 'react-toastify';
+import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import { FormikText } from '../formik/formik-text';
-import { FormikSubmitProfile } from '../formik/formik-submit';
-import { upgradeSchema } from '../../models/upgradeUser.form';
-
+import React, { FC, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import {
-  StyledBox,
-  StyledPaper,
-  GraphStyle,
-  CenteredPaper,
-  ProfileLabel,
-} from '../common/dashboard';
+  MeDocument,
+  Role,
+  SeriesDataItem,
+  useGetMyBusinessStatsQuery,
+  useUpdateProfileMutation,
+} from '../../graphql/__generated__';
 import { useAuth } from '../../hooks/useAuth';
-import { useUpdateProfileMutation, MeDocument, Role } from '../../graphql/__generated__';
+import { upgradeSchema } from '../../models/upgradeUser.form';
+import { CenteredPaper, ProfileLabel, StyledBox, StyledPaper } from '../common/dashboard';
+import { FormikSubmitProfile } from '../formik/formik-submit';
+import { FormikText } from '../formik/formik-text';
+
+const buildGraph = (timeSeries: Array<SeriesDataItem>) => ({
+  title: {
+    text: 'Daily Revenue',
+    style: {
+      color: '#fff',
+    },
+  },
+  series: [
+    {
+      name: 'revenue',
+      data: timeSeries.map(({ sum }) => sum),
+    },
+  ],
+  xAxis: {
+    title: {
+      style: {
+        color: 'white',
+      },
+    },
+    // categories: ['Monday', 'Tuesday', 'Wendesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    categories: timeSeries.map(({ date }) => date),
+    lineColor: '#fff',
+    tickColor: '#fff',
+    labels: {
+      style: {
+        color: '#fff',
+      },
+    },
+  },
+  yAxis: {
+    gridLineWidth: 0,
+    minorGridLineWidth: 0,
+    title: {
+      style: {
+        color: 'white',
+      },
+    },
+    lineColor: '#fff',
+    lineWidth: 1,
+    tickWidth: 1,
+    tickColor: '#fff',
+    labels: {
+      style: {
+        color: '#fff',
+      },
+    },
+  },
+  chart: {
+    backgroundColor: '#0A2540',
+    borderRadius: '.5rem',
+    style: {
+      color: '#f00',
+    },
+    renderTo: 'container',
+  },
+});
 
 export const DashboardInformation: FC = () => {
   const [AddRenter, setAddRenter] = React.useState(false);
@@ -25,6 +81,7 @@ export const DashboardInformation: FC = () => {
     refetchQueries: [MeDocument],
     awaitRefetchQueries: true,
   });
+  const { data, loading: statsLoading } = useGetMyBusinessStatsQuery();
 
   useEffect(() => {
     if (user) {
@@ -34,28 +91,30 @@ export const DashboardInformation: FC = () => {
     }
   }, [AddRenter, user, loading]);
 
+  if (statsLoading || !data) return <CircularProgress />;
+
   return (
     <StyledBox>
       <StyledPaper>
         <Typography variant="body2">Total Revenue This Week</Typography>
         <Typography variant="h3" color="white">
-          150€
+          {data.stats.totalRevenue}€
         </Typography>
       </StyledPaper>
       <StyledPaper>
         <Typography variant="body2">Total Bookings This Week</Typography>
         <Typography variant="h3" color="white">
-          12
+          {data.stats.totalReservations}
         </Typography>
       </StyledPaper>
       <StyledPaper>
         <Typography variant="body2">Total Complains This Week</Typography>
         <Typography variant="h3" color="white">
-          3
+          {data.stats.totalComplaints}
         </Typography>
       </StyledPaper>
       <Box style={{ width: '100%' }}>
-        <HighchartsReact highcharts={Highcharts} options={GraphStyle} />
+        <HighchartsReact highcharts={Highcharts} options={buildGraph(data.stats.timeSeries)} />
       </Box>
       <Modal open={AddRenter} aria-labelledby="modal-modal-title">
         <CenteredPaper>

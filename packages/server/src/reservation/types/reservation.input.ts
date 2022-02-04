@@ -8,6 +8,9 @@ export class ReservationInput {
   @Field()
   endDate: string;
 
+  @Field()
+  total: number;
+
   @Field(() => ID)
   parkingSpotId: number;
 }
