@@ -34,7 +34,7 @@ export const ParkingSpotInfo = ({ setContent }: ParkingSpotInfoType) => {
   const [duration, setDuration] = useState(0);
   const [createReservation] = useCreateReservationMutation({
     refetchQueries: [GetMyReservationsDocument],
-    awaitRefetchQueries,
+    awaitRefetchQueries: true,
   });
 
   const enableScroll = () => setScrollEnabled(true);
