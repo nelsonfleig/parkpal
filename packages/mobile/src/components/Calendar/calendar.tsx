@@ -18,11 +18,8 @@ type CalendarPropTypes = {
 
 const CalendarComponent = ({ disabledDayIndexes }: CalendarPropTypes) => {
   const { colors } = useTheme();
-  // Get today's date & create initial object for marked dates
 
   const [visible, setVisible] = useState(false);
-  // const [markedDates, setMarkedDates] = useState<DatesObjType>();
-  // const [disabledDates, setDisabledDates] = useState<DatesObjType>();
   const dispatch = useDispatch();
   const { selectedDate, disabledDates, markedDates } = useSelector(
     (state: RootState) => state.calendar
@@ -63,8 +60,6 @@ const CalendarComponent = ({ disabledDayIndexes }: CalendarPropTypes) => {
             const newDisabled = getDisabledDays(date.month - 1, date.year, disabledDayIndexes);
             dispatch(updateDisabledDates(newDisabled));
             dispatch(updateMarkedDates({ ...selectedDate, ...newDisabled }));
-            // setDisabledDates({ ...newDisabled });
-            // setMarkedDates();
           }}
           hideExtraDays
         />
