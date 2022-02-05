@@ -8,6 +8,7 @@ import styles from './bookingPopupStyles';
 import { displayRoute } from '../../redux/showRoute/showRoute';
 import { changeCurrentSpace } from '../../redux/parkingSpot/parkingSpotSlice';
 import { CustomButton } from '../Forms/button';
+import { Payment } from '../Payment/payment';
 
 export const panelReference = React.createRef<any>();
 
@@ -23,6 +24,28 @@ export const BookingPopup = () => {
       dispatch(changeCurrentSpace(null));
     }
   };
+
+  // Function to select pop up content:
+  // eslint-disable-next-line consistent-return
+  const changeContent = () => {
+    if (content === 'booking') {
+      return <ParkingSpotInfo setContent={setContent} />;
+    }
+    if (content === 'payment') {
+      return <Payment setContent={setContent} />;
+    }
+    if (content === 'start') {
+      return (
+        <View style={styles.slideContent}>
+          <StartRoute />
+          <CustomButton press={() => panelReference.current.hide()} color="white" type="later">
+            Leave it for later
+          </CustomButton>
+        </View>
+      );
+    }
+  };
+
   return (
     <SlidingUpPanel
       ref={panelReference}
@@ -30,16 +53,7 @@ export const BookingPopup = () => {
       allowDragging={content !== 'start'}
       backdropOpacity={content === 'start' ? 0.01 : 0.5}
       onBottomReached={onDiscard}>
-      {content === 'booking' ? (
-        <ParkingSpotInfo setContent={setContent} />
-      ) : (
-        <View style={styles.slideContent}>
-          <StartRoute />
-          <CustomButton press={() => panelReference.current.hide()} color="white" type="later">
-            Leave it for later
-          </CustomButton>
-        </View>
-      )}
+      {changeContent()}
     </SlidingUpPanel>
   );
 };

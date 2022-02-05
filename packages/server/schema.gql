@@ -146,8 +146,19 @@ type Query {
   """Find logged in user's ParkingSpots"""
   findMyParkingSpots: [ParkingSpot!]!
 
+  """Find parking spots near coords"""
+  findNearParkingSpots(input: NearParkingSpotsInput!): [ParkingSpot!]!
+
   """Find user's ParkingSpots reservations and profit"""
   findCalendarInfo: [RenterCalendarResponse!]!
+}
+
+input NearParkingSpotsInput {
+  lat: Float!
+  lng: Float!
+
+  """Radius in Km"""
+  searchRadius: Float!
 }
 
 type Mutation {

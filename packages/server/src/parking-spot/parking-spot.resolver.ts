@@ -7,6 +7,7 @@ import { UserJwt } from 'src/common/types/user-jwt.type';
 import { ParkingSpot } from './parking-spot.entity';
 import { ParkingSpotService } from './parking-spot.service';
 import { RenterCalendarResponse } from './types/calendar.response';
+import { NearParkingSpotsInput } from './types/near-parking-spots.input';
 import { ParkingSpotInput } from './types/parking-spot.input';
 
 @Resolver()
@@ -33,6 +34,15 @@ export class ParkingSpotResolver extends AbstractResolver(
   })
   findMyParkingSpots(@CurrentUser() user: UserJwt) {
     return this.parkingSpotService.find({ userId: user.id });
+  }
+
+  @Roles(Role.USER)
+  @Query(() => [ParkingSpot], {
+    name: 'findNearParkingSpots',
+    description: 'Find parking spots near coords',
+  })
+  findNearParkingSpots(@Args('input') input: NearParkingSpotsInput) {
+    return this.parkingSpotService.findNearParkingSpots(input, ['user']);
   }
 
   @Roles(Role.RENTER)
