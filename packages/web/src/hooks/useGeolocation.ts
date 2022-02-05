@@ -1,10 +1,10 @@
-import { LatLngExpression } from 'leaflet';
-import { useState, useEffect } from 'react';
+import { LatLngLiteral } from 'leaflet';
+import { useEffect, useState } from 'react';
 
 export default function useGeolocation(options?: PositionOptions) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<GeolocationPositionError>();
-  const [data, setData] = useState<LatLngExpression>({
+  const [data, setData] = useState<LatLngLiteral>({
     lat: 41.39507,
     lng: 2.19785,
   });

@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { LatLngExpression } from 'leaflet';
+import { LatLngLiteral } from 'leaflet';
 
 export interface MapState {
-  marker: LatLngExpression;
-  center: LatLngExpression;
+  marker: LatLngLiteral;
+  center: LatLngLiteral;
 }
 
 const initialState: MapState = {
@@ -15,13 +15,13 @@ export const mapSlice = createSlice({
   name: 'map',
   initialState,
   reducers: {
-    setMarker: (state, action: PayloadAction<LatLngExpression>) => {
+    setMarker: (state, action: PayloadAction<LatLngLiteral>) => {
       state.marker = action.payload;
     },
     clearMarker: (state) => {
       state.marker = null;
     },
-    setCenter: (state, action: PayloadAction<LatLngExpression>) => {
+    setCenter: (state, action: PayloadAction<LatLngLiteral>) => {
       state.center = action.payload;
     },
   },
