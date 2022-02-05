@@ -51,7 +51,7 @@ export const MapComponent = ({ latitude, longitude }: MapComponentProps) => {
       }}>
       {destination && (
         <>
-          <DestinationMarker mapDest={destination} />
+          <DestinationMarker />
           <ParkingSpots />
         </>
       )}
