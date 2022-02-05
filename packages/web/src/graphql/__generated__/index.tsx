@@ -17,6 +17,8 @@ export type Scalars = {
   Float: number;
   /** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
   DateTime: any;
+  /** The `Upload` scalar type represents a file upload. */
+  Upload: any;
 };
 
 export type AuthResponse = {
@@ -77,12 +79,14 @@ export type Mutation = {
   updateParkingSpot: ParkingSpot;
   /** Logout user */
   updateProfile: AuthResponse;
+  updateProfilePicture: Scalars['String'];
   /** Update Reservation */
   updateReservation: Reservation;
   /** Update Todo */
   updateTodo: Todo;
   /** Update User */
   updateUser: User;
+  uploadFile: Scalars['String'];
 };
 
 
@@ -147,6 +151,11 @@ export type MutationUpdateProfileArgs = {
 };
 
 
+export type MutationUpdateProfilePictureArgs = {
+  image: Scalars['Upload'];
+};
+
+
 export type MutationUpdateReservationArgs = {
   id: Scalars['ID'];
   input: ReservationInput;
@@ -162,6 +171,18 @@ export type MutationUpdateTodoArgs = {
 export type MutationUpdateUserArgs = {
   id: Scalars['ID'];
   input: UserInput;
+};
+
+
+export type MutationUploadFileArgs = {
+  file: Scalars['Upload'];
+};
+
+export type NearParkingSpotsInput = {
+  lat: Scalars['Float'];
+  lng: Scalars['Float'];
+  /** Radius in Km */
+  searchRadius: Scalars['Float'];
 };
 
 export type ParkingSpot = {
@@ -219,6 +240,8 @@ export type Query = {
   findMyParkingSpots: Array<ParkingSpot>;
   /** Find Drivers reservations */
   findMyReservations: Array<Reservation>;
+  /** Find parking spots near coords */
+  findNearParkingSpots: Array<ParkingSpot>;
   /** Find one ParkingSpot */
   findOneParkingSpot: ParkingSpot;
   /** Find one Reservation */
@@ -231,6 +254,11 @@ export type Query = {
   /** Get logged in user */
   me?: Maybe<User>;
   protect: Scalars['String'];
+};
+
+
+export type QueryFindNearParkingSpotsArgs = {
+  input: NearParkingSpotsInput;
 };
 
 
@@ -348,7 +376,7 @@ export type ParkingSpotDetailsFragment = { __typename?: 'ParkingSpot', id: strin
 
 export type TodoExcerptFragment = { __typename?: 'Todo', id: string, title: string, completed?: boolean | null | undefined };
 
-export type UserExcerptFragment = { __typename?: 'User', id: string, firstName: string, lastName: string, email: string, roles: Array<Role>, phone?: string | null | undefined, bankInfo?: string | null | undefined };
+export type UserExcerptFragment = { __typename?: 'User', id: string, firstName: string, lastName: string, email: string, roles: Array<Role>, phone?: string | null | undefined, bankInfo?: string | null | undefined, pictureUrl?: string | null | undefined };
 
 export type LoginMutationVariables = Exact<{
   input: LoginInput;
@@ -383,10 +411,17 @@ export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type LogoutMutation = { __typename?: 'Mutation', logout: boolean };
 
+export type UpdateProfilePictureMutationVariables = Exact<{
+  image: Scalars['Upload'];
+}>;
+
+
+export type UpdateProfilePictureMutation = { __typename?: 'Mutation', updateProfilePicture: string };
+
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, firstName: string, lastName: string, email: string, roles: Array<Role>, phone?: string | null | undefined, bankInfo?: string | null | undefined } | null | undefined };
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, firstName: string, lastName: string, email: string, roles: Array<Role>, phone?: string | null | undefined, bankInfo?: string | null | undefined, pictureUrl?: string | null | undefined } | null | undefined };
 
 export type FindMyParkingSpotsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -440,6 +475,7 @@ export const UserExcerptFragmentDoc = gql`
   roles
   phone
   bankInfo
+  pictureUrl
 }
     `;
 export const LoginDocument = gql`
@@ -604,6 +640,37 @@ export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<Logou
 export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
 export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
+export const UpdateProfilePictureDocument = gql`
+    mutation UpdateProfilePicture($image: Upload!) {
+  updateProfilePicture(image: $image)
+}
+    `;
+export type UpdateProfilePictureMutationFn = Apollo.MutationFunction<UpdateProfilePictureMutation, UpdateProfilePictureMutationVariables>;
+
+/**
+ * __useUpdateProfilePictureMutation__
+ *
+ * To run a mutation, you first call `useUpdateProfilePictureMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateProfilePictureMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateProfilePictureMutation, { data, loading, error }] = useUpdateProfilePictureMutation({
+ *   variables: {
+ *      image: // value for 'image'
+ *   },
+ * });
+ */
+export function useUpdateProfilePictureMutation(baseOptions?: Apollo.MutationHookOptions<UpdateProfilePictureMutation, UpdateProfilePictureMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateProfilePictureMutation, UpdateProfilePictureMutationVariables>(UpdateProfilePictureDocument, options);
+      }
+export type UpdateProfilePictureMutationHookResult = ReturnType<typeof useUpdateProfilePictureMutation>;
+export type UpdateProfilePictureMutationResult = Apollo.MutationResult<UpdateProfilePictureMutation>;
+export type UpdateProfilePictureMutationOptions = Apollo.BaseMutationOptions<UpdateProfilePictureMutation, UpdateProfilePictureMutationVariables>;
 export const MeDocument = gql`
     query Me {
   me {

@@ -1,20 +1,22 @@
-import { Typography, Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import React, { FC } from 'react';
-import { useAuth } from '../../hooks/useAuth';
 import {
-  useUpdateProfileMutation,
-  useLoginMutation,
   MeDocument,
+  useLoginMutation,
+  useUpdateProfileMutation,
 } from '../../graphql/__generated__';
+import { useAuth } from '../../hooks/useAuth';
 import { BasicProfileInformationModal } from '../modals/profile/info-basic';
 import { SensitiveProfileInformationModal } from '../modals/profile/info-sensitive';
 import { BasicProfileInformation } from './forms/basicInformation';
+import { ProfileImageUpload } from './forms/profileImageUpload';
 import { SensitiveProfileInformation } from './forms/sensitiveInformation';
-import { StyledProfileBox, StyledProfilePic, ProfileBox } from './styles';
+import { ProfileBox, StyledProfileBox } from './styles';
 
 export const DashboardProfile: FC = () => {
   const [openSensitive, setOpenSensitive] = React.useState(false);
   const [openInfo, setOpenInfo] = React.useState(false);
+
   const { user, loading } = useAuth();
 
   const [login] = useLoginMutation({});
@@ -28,7 +30,8 @@ export const DashboardProfile: FC = () => {
 
   return (
     <StyledProfileBox>
-      <StyledProfilePic alt="Profile Picture" src="/testProfilePic.jpg" />
+      <ProfileImageUpload pictureUrl={user.pictureUrl} />
+
       <Box>
         <Typography variant="h4">{`${user.firstName} ${user.lastName}`}</Typography>
         <Typography variant="h5" color="gray" marginBottom="2rem">
