@@ -10,7 +10,9 @@ import { CustomButton } from '../Forms/button';
 import formatBookingDates from '../../helpers/formatBookingDates';
 import { displayRoute } from '../../redux/showRoute/showRoute';
 import { HomeStackParams } from '../../../types/appStack';
-import { setBookingSpotRoute } from '../../redux/parkingSpot/parkingSpotSlice';
+import { changeCurrentSpace, setBookingSpotRoute } from '../../redux/parkingSpot/parkingSpotSlice';
+import { changePopupContent } from '../../redux/popupContent/popupContentSlice';
+import { panelReference } from '../BookingPopup/bookingPopup';
 
 type BookingTyleProps = {
   street: string;
@@ -36,8 +38,18 @@ export const BookingTile = ({ street, start, end, navigation, coordinates }: Boo
         </View>
         <CustomButton
           press={() => {
+            // We remove the cache just in case a current spot has been selected
+            dispatch(changeCurrentSpace(null));
+            // We allow to display the route
             dispatch(displayRoute(true));
+            // We set the destination of the route to our booking spot
             dispatch(setBookingSpotRoute({ lat: coordinates.lat, lng: coordinates.lng }));
+            // Now we are displaying the route but we want to let the user choose if
+            // he/she wants to start the navigation with Google Maps.
+            // So, we display the popup panel with the needed content
+            panelReference.current.show(500);
+            dispatch(changePopupContent('start'));
+            // And we go the the landing page where all the previous will be displayed
             navigation.navigate('Landing');
           }}
           type="booking"
