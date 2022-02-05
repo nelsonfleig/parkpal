@@ -48,7 +48,10 @@ export const NavBar: NextComponentType = () => {
             <Image src="/result.svg" alt="ParkPal Logo" width={280} height={66} />
           </Box>
           <StyledProfilePaper onClick={handleClick}>
-            <StyledAvatar alt="Avatar Picture" src="/static/images/avatar/1.jpg" />
+            <StyledAvatar
+              alt="Avatar Picture"
+              src={user.pictureUrl || '/static/images/avatar/1.jpg'}
+            />
             <Box>
               <Typography sx={{ color: 'black', fontWeight: '600' }} variant="h6">
                 {`${user.firstName} ${user.lastName}`}

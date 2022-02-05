@@ -6,4 +6,5 @@ fragment UserExcerpt on User {
   roles
   phone
   bankInfo
+  pictureUrl
 }
