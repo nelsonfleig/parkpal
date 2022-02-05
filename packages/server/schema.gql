@@ -159,6 +159,9 @@ type Query {
 
   """Find one Complain"""
   findOneComplain(id: ID!): Complain!
+
+  """Find Complains about renters parking spaces"""
+  findMyComplains: [Complain!]!
 }
 
 input NearParkingSpotsInput {
@@ -280,5 +283,4 @@ input ComplainInput {
   description: String!
   pictureUrl: String
   parkingSpotId: ID!
-  userId: ID!
 }

@@ -10,7 +10,4 @@ export class ComplainInput {
 
   @Field(() => ID)
   parkingSpotId: number;
-
-  @Field(() => ID)
-  userId: number;
 }
