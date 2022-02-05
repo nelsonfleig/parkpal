@@ -2,11 +2,13 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import destinationReducer from './destination/destinationSlice';
 import parkingSpotReducer from './parkingSpot/parkingSpotSlice';
 import showRouteReducer from './showRoute/showRoute';
+import popupContentReducer from './popupContent/popupContentSlice';
 
 const rootReducer = combineReducers({
   parkingSpots: parkingSpotReducer,
   destination: destinationReducer,
   showRoute: showRouteReducer,
+  popupContent: popupContentReducer,
 });
 
 export const store = configureStore({
