@@ -1,3 +1,5 @@
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import ErrorIcon from '@mui/icons-material/Error';
 import { Popper } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -5,17 +7,17 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { NextComponentType } from 'next';
 import Image from 'next/image';
-import React from 'react';
 import Link from 'next/link';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import ErrorIcon from '@mui/icons-material/Error';
-import { StyledButton } from '../../common/dashboard';
-import { useAuth } from '../../../hooks/useAuth';
+import React from 'react';
 import { MeDocument, useLogoutMutation } from '../../../graphql/__generated__';
+import { useAuth } from '../../../hooks/useAuth';
+import { StyledButton } from '../../common/dashboard';
 import {
+  LogoTitle,
+  LogoWrapper,
+  PopperButton,
   StyledAvatar,
   StyledBurger,
-  PopperButton,
   StyledPopper,
   StyledProfilePaper,
 } from './styles';
@@ -43,10 +45,12 @@ export const NavBar: NextComponentType = () => {
       <AppBar position="static" sx={{ backgroundColor: '#fff' }}>
         <Toolbar>
           <StyledBurger />
-
-          <Box sx={{ flexGrow: 1 }}>
-            <Image src="/result.svg" alt="ParkPal Logo" width={280} height={66} />
-          </Box>
+          <LogoWrapper sx={{ flexGrow: 1, alignItems: 'center' }}>
+            <Image src="/logoPurple.svg" alt="ParkPal Logo" width={66} height={66} />
+            <LogoTitle variant="h1" color="primary" fontSize={52}>
+              ParkPal |<span> Renters</span>
+            </LogoTitle>
+          </LogoWrapper>
           <StyledProfilePaper onClick={handleClick}>
             <StyledAvatar
               alt="Avatar Picture"
