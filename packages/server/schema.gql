@@ -47,9 +47,11 @@ type Complain {
   createdAt: DateTime!
   updatedAt: DateTime!
   description: String!
-  pictureUrl: String!
+  pictureUrl: String
   user: User!
+  userId: Float!
   parkingSpot: ParkingSpot!
+  parkingSpotId: Float!
 }
 
 type Todo {
@@ -151,6 +153,12 @@ type Query {
 
   """Find user's ParkingSpots reservations and profit"""
   findCalendarInfo: [RenterCalendarResponse!]!
+
+  """Find all Complains"""
+  findAllComplains: [Complain!]!
+
+  """Find one Complain"""
+  findOneComplain(id: ID!): Complain!
 }
 
 input NearParkingSpotsInput {
@@ -209,6 +217,15 @@ type Mutation {
 
   """Delete ParkingSpot"""
   deleteParkingSpot(id: ID!): ParkingSpot!
+
+  """Create Complain"""
+  createComplain(input: ComplainInput!): Complain!
+
+  """Update Complain"""
+  updateComplain(input: ComplainInput!, id: ID!): Complain!
+
+  """Delete Complain"""
+  deleteComplain(id: ID!): Complain!
 }
 
 input LoginInput {
@@ -257,4 +274,11 @@ input ParkingSpotInput {
   daysAvailable: [Float!]!
   startHour: Float!
   endHour: Float!
+}
+
+input ComplainInput {
+  description: String!
+  pictureUrl: String
+  parkingSpotId: ID!
+  userId: ID!
 }
