@@ -1,22 +1,24 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { LocationObject } from 'expo-location';
 import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import { CustomButton } from '../Forms/button';
 import { changeDestination } from '../../redux/destination/destinationSlice';
 import { mapRef } from '../MapView/mapView';
+import { RootState } from '../../redux';
+import { showFindSpotButton } from '../../redux/findSpotButton/findSpotButtonSlice';
 
 type FindSpotsHereProps = {
   location: LocationObject | null;
-  findButton: boolean;
-  setFindButton: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-export const FindSpotsHere = ({ location, findButton, setFindButton }: FindSpotsHereProps) => {
+export const FindSpotsHere = ({ location }: FindSpotsHereProps) => {
+  const { showFindButton } = useSelector((state: RootState) => state.showFindSpotButton);
+
   const dispatch = useDispatch();
-  return findButton ? (
+  return showFindButton ? (
     <CustomButton
       press={() => {
-        setFindButton(false);
+        dispatch(showFindSpotButton(false));
         if (location) {
           dispatch(changeDestination(null));
           mapRef.current?.animateCamera(
@@ -47,7 +49,7 @@ export const FindSpotsHere = ({ location, findButton, setFindButton }: FindSpots
   ) : (
     <CustomButton
       press={() => {
-        setFindButton(true);
+        dispatch(showFindSpotButton(true));
         dispatch(changeDestination(null));
       }}
       type="discard"

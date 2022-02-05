@@ -4,18 +4,20 @@ import { useEffect, useState } from 'react';
 import { Keyboard, Text, View } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { BookingPopup } from '../../components/BookingPopup/bookingPopup';
 import { FindSpotsHere } from '../../components/FindSpotsHere/findSpotsHere';
 import { MapComponent, mapRef } from '../../components/MapView/mapView';
+import { RootState } from '../../redux';
 import { changeDestination } from '../../redux/destination/destinationSlice';
 import { landingStyles } from './landingStyles';
 
 export const LandingScreen = () => {
   const [location, setLocation] = useState(null as LocationObject | null); // Here we get the user's current location
   const [searchQuery, setSearchQuery] = useState(''); // We set the query on the searchbar
-  const [findButton, setFindButton] = useState(true);
   const dispatch = useDispatch();
+  const { showFindButton } = useSelector((state: RootState) => state.showFindSpotButton);
+
   // On change search query:
   const onChangeSearch = (query: string) => {
     setSearchQuery(query);
@@ -68,7 +70,7 @@ export const LandingScreen = () => {
   return (
     <View style={landingStyles.container}>
       <View>
-        {findButton && (
+        {showFindButton && (
           <Searchbar
             autoComplete
             placeholder="Enter a destination"
@@ -100,14 +102,9 @@ export const LandingScreen = () => {
           )}
         </View>
         <View style={landingStyles.findHere}>
-          <FindSpotsHere
-            location={location}
-            findButton={findButton}
-            setFindButton={setFindButton}
-          />
+          <FindSpotsHere location={location} />
         </View>
       </View>
-
       <BookingPopup />
     </View>
   );

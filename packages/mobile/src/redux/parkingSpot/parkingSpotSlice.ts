@@ -3,10 +3,12 @@ import { ParkingSpotDetailsFragment } from '../../graphql/__generated__';
 
 interface InitialStateInterface {
   currentSpot: ParkingSpotDetailsFragment | null;
+  bookingSpot: { lat: number; lng: number } | null;
 }
 
 const initialState: InitialStateInterface = {
   currentSpot: null,
+  bookingSpot: null,
 };
 
 export const parkingSpotSlice = createSlice({
@@ -16,9 +18,12 @@ export const parkingSpotSlice = createSlice({
     changeCurrentSpace: (state, action) => {
       state.currentSpot = action.payload;
     },
+    setBookingSpotRoute: (state, action) => {
+      state.bookingSpot = action.payload;
+    },
   },
 });
 
-export const { changeCurrentSpace } = parkingSpotSlice.actions;
+export const { changeCurrentSpace, setBookingSpotRoute } = parkingSpotSlice.actions;
 
 export default parkingSpotSlice.reducer;

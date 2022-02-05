@@ -7,13 +7,20 @@ import { CustomButton } from '../Forms/button';
 
 export const StartRoute = () => {
   const { currentSpot } = useSelector((state: RootState) => state.parkingSpots);
+  const { bookingSpot } = useSelector((state: RootState) => state.parkingSpots);
 
   return (
     <CustomButton
       press={() => {
-        Linking.openURL(
-          `https://www.google.com/maps/dir/?api=1&travelmode=driving&dir_action=navigate&destination=${currentSpot?.lat},${currentSpot?.lng}`
-        );
+        if (currentSpot) {
+          Linking.openURL(
+            `https://www.google.com/maps/dir/?api=1&travelmode=driving&dir_action=navigate&destination=${currentSpot.lat},${currentSpot.lng}`
+          );
+        } else if (bookingSpot) {
+          Linking.openURL(
+            `https://www.google.com/maps/dir/?api=1&travelmode=driving&dir_action=navigate&destination=${bookingSpot.lat},${bookingSpot.lng}`
+          );
+        }
       }}
       color="#0A2540"
       type="start">
