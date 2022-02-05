@@ -37,11 +37,11 @@ export class ParkingSpotService extends AbstractService<ParkingSpot> {
    *
    * IMPORTANT: Currently not very efficient because it queries all parking spots from DB and then applies a filter. Best to try and filter by a criteria first (ie. by city) to narrow down the search before applying the filter
    */
-  async findNearParkingSpots({
-    searchRadius,
-    ...coords
-  }: NearParkingSpotsInput) {
-    const parkingSpots = await super.find();
+  async findNearParkingSpots(
+    { searchRadius, ...coords }: NearParkingSpotsInput,
+    relations: string[] = []
+  ) {
+    const parkingSpots = await super.find({}, relations);
     const filtered = parkingSpots.filter((pSpot) =>
       filterByDistance(coords, { lat: pSpot.lat, lng: pSpot.lng }, searchRadius)
     );
