@@ -4,7 +4,7 @@ import { Role } from '../../../graphql/__generated__';
 import { useAuth } from '../../../hooks/useAuth';
 import { FullPageLoader } from '../../common/fullpage-loader.tsx';
 import { UpdateProfileModal } from '../../modals/update-profile/update-profile';
-import { DashboardSidebar } from './dashboardSidebar';
+import { DashboardSidebar } from './sidebar/dashboardSidebar';
 import { NavBar } from './navbar';
 import { DashboardBody, DashboardContent, DashboardWrapper } from './styles';
 
