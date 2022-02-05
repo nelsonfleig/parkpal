@@ -2,10 +2,10 @@ import { Box, CircularProgress, Typography } from '@mui/material';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import React, { FC } from 'react';
-import { useGetMyBusinessStatsQuery } from '../../../graphql/__generated__';
-import { enhanceTimeSeries } from '../../../helpers';
-import { StyledBox, StyledPaper } from '../../common/dashboard';
+import { useGetMyBusinessStatsQuery } from '../../graphql/__generated__';
+import { enhanceTimeSeries } from '../../helpers';
 import { buildChart } from './graph';
+import { StyledPaper, StyledBox } from './styles';
 
 export const DashboardInformation: FC = () => {
   const { data, loading } = useGetMyBusinessStatsQuery();

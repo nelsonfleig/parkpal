@@ -3,7 +3,7 @@ import moment from 'moment';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Box } from '@mui/material';
-import { useParkingSpotResTestQuery } from '../../../graphql/__generated__';
+import { useParkingSpotResTestQuery } from '../../graphql/__generated__';
 import { eventStyleGetter } from './calendarEventStyle';
 
 const DashboardCalendar: FC = () => {

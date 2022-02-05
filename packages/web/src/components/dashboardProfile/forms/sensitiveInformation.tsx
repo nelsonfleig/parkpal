@@ -1,6 +1,6 @@
 import { Typography, Box } from '@mui/material';
 import LockIcon from '@mui/icons-material/Lock';
-import { EditPen, InfoText } from '../../../common/dashboard';
+import { EditPen, InfoText } from '../../common/dashboard';
 
 type Props = {
   setOpenSensitive: (value: boolean) => void;

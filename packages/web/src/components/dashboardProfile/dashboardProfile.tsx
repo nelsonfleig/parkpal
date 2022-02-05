@@ -1,16 +1,16 @@
 import { Typography, Box } from '@mui/material';
 import React, { FC } from 'react';
-import { ProfileBox, StyledProfilePic, StyledProfileBox } from '../../common/dashboard';
-import { useAuth } from '../../../hooks/useAuth';
+import { useAuth } from '../../hooks/useAuth';
 import {
   useUpdateProfileMutation,
   useLoginMutation,
   MeDocument,
-} from '../../../graphql/__generated__';
-import { BasicProfileInformationModal } from '../../modals/profile/info-basic';
-import { SensitiveProfileInformationModal } from '../../modals/profile/info-sensitive';
+} from '../../graphql/__generated__';
+import { BasicProfileInformationModal } from '../modals/profile/info-basic';
+import { SensitiveProfileInformationModal } from '../modals/profile/info-sensitive';
 import { BasicProfileInformation } from './forms/basicInformation';
 import { SensitiveProfileInformation } from './forms/sensitiveInformation';
+import { StyledProfileBox, StyledProfilePic, ProfileBox } from './styles';
 
 export const DashboardProfile: FC = () => {
   const [openSensitive, setOpenSensitive] = React.useState(false);

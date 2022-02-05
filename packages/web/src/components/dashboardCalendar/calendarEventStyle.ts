@@ -1,4 +1,4 @@
-import { randomColorC } from '../../../helpers/calendar';
+import { randomColorC } from '../../helpers/calendar';
 
 export const eventStyleGetter = (event: any) => {
   const style = {

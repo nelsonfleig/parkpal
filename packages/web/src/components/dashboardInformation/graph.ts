@@ -1,4 +1,4 @@
-import { SeriesDataItem } from '../../../graphql/__generated__';
+import { SeriesDataItem } from '../../graphql/__generated__';
 
 export const buildChart = (timeSeries: Array<SeriesDataItem>) => ({
   title: {

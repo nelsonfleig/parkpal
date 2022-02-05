@@ -1,6 +1,6 @@
 import { Typography, Box } from '@mui/material';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { EditPen, InfoText } from '../../../common/dashboard';
+import { EditPen, InfoText } from '../../common/dashboard';
 
 type Props = {
   setOpenInfo: (value: boolean) => void;
