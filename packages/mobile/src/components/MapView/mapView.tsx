@@ -23,7 +23,7 @@ type MapComponentProps = {
 export const mapRef = createRef<MapView>();
 
 export const MapComponent = ({ latitude, longitude }: MapComponentProps) => {
-  const { currentSpot } = useSelector((state: RootState) => state.parkingSpots);
+  const { currentSpot, bookingSpot } = useSelector((state: RootState) => state.parkingSpots);
   const { destination } = useSelector((state: RootState) => state.destination);
   const { showRoute } = useSelector((state: RootState) => state.showRoute);
   const [origin, setOrigin] = useState({ latitude, longitude });
@@ -81,6 +81,35 @@ export const MapComponent = ({ latitude, longitude }: MapComponentProps) => {
       )}
       {showRoute && currentSpot && (
         <Marker coordinate={{ latitude: currentSpot.lat, longitude: currentSpot.lng }}>
+          <Image source={SpotIcon} style={{ width: 50, height: 50 }} />
+        </Marker>
+      )}
+      {showRoute && bookingSpot && (
+        <MapViewDirections
+          origin={origin}
+          destination={{ latitude: bookingSpot.lat, longitude: bookingSpot.lng }}
+          apikey={DIRECTIONS_API_KEY}
+          strokeWidth={10}
+          strokeColor="#7145D6"
+          onReady={() => {
+            mapRef.current?.animateCamera(
+              {
+                center: {
+                  latitude: (bookingSpot.lat + origin.latitude) / 2,
+                  longitude: (bookingSpot.lng + origin.longitude) / 2,
+                },
+                heading: 0,
+                zoom: 14,
+                pitch: 0,
+                altitude: 0,
+              },
+              { duration: 500 }
+            );
+          }}
+        />
+      )}
+      {showRoute && bookingSpot && (
+        <Marker coordinate={{ latitude: bookingSpot.lat, longitude: bookingSpot.lng }}>
           <Image source={SpotIcon} style={{ width: 50, height: 50 }} />
         </Marker>
       )}

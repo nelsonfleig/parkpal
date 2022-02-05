@@ -21,6 +21,7 @@ export const BookingsScreen = ({ navigation }: HomeProps) => {
               key={reservation.id}
               start={reservation.startDate}
               end={reservation.endDate}
+              coordinates={{ lat: reservation.parkingSpot.lat, lng: reservation.parkingSpot.lng }}
               navigation={navigation}
             />
           );
