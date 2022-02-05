@@ -23,9 +23,10 @@ type ParkingSpotInfoType = {
 
 export const ParkingSpotInfo = ({ setContent }: ParkingSpotInfoType) => {
   const { currentSpot } = useSelector((state: RootState) => state.parkingSpots);
+  const { selectedDate } = useSelector((state: RootState) => state.calendar);
 
   const dispatch = useDispatch();
-  const [selectedDate, setSelectedDate] = useState('');
+
   const [selectedTime, setSelectedTime] = useState('');
   const [duration, setDuration] = useState(0);
   const [createReservation] = useCreateReservationMutation({
@@ -36,8 +37,9 @@ export const ParkingSpotInfo = ({ setContent }: ParkingSpotInfoType) => {
   const reservationRequest = async () => {
     try {
       if (currentSpot) {
+        const date = Object.keys(selectedDate)[0];
         const req = createReservationObj(
-          selectedDate,
+          date,
           selectedTime,
           duration,
           currentSpot.id,
@@ -57,11 +59,7 @@ export const ParkingSpotInfo = ({ setContent }: ParkingSpotInfoType) => {
         <RenterInformation />
         <View style={styles.wrapper}>
           <RenterLocation />
-          <RenterCalendar
-            setSelectedDate={setSelectedDate}
-            setSelectedTime={setSelectedTime}
-            selectedTime={selectedTime}
-          />
+          <RenterCalendar setSelectedTime={setSelectedTime} selectedTime={selectedTime} />
           <RenterSlider setDuration={setDuration} />
           <CustomButton
             press={() => {
