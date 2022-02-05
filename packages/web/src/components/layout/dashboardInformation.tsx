@@ -1,42 +1,34 @@
-import { Box, CircularProgress, Modal, Typography } from '@mui/material';
-import { Form, Formik } from 'formik';
+import { Box, CircularProgress, Typography } from '@mui/material';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import React, { FC, useEffect } from 'react';
-import { toast } from 'react-toastify';
-import {
-  MeDocument,
-  Role,
-  SeriesDataItem,
-  useGetMyBusinessStatsQuery,
-  useUpdateProfileMutation,
-} from '../../graphql/__generated__';
-import { useAuth } from '../../hooks/useAuth';
-import { upgradeSchema } from '../../models/upgradeUser.form';
-import { CenteredPaper, ProfileLabel, StyledBox, StyledPaper } from '../common/dashboard';
-import { FormikSubmitProfile } from '../formik/formik-submit';
-import { FormikText } from '../formik/formik-text';
+import React, { FC } from 'react';
+import { SeriesDataItem, useGetMyBusinessStatsQuery } from '../../graphql/__generated__';
+import { enhanceTimeSeries } from '../../helpers';
+import { StyledBox, StyledPaper } from '../common/dashboard';
 
-const buildGraph = (timeSeries: Array<SeriesDataItem>) => ({
+const buildChart = (timeSeries: Array<SeriesDataItem>) => ({
   title: {
     text: 'Daily Revenue',
     style: {
       color: '#fff',
     },
   },
+  legend: {
+    itemStyle: { color: 'white' },
+  },
   series: [
     {
-      name: 'revenue',
+      name: 'Day',
       data: timeSeries.map(({ sum }) => sum),
     },
   ],
   xAxis: {
     title: {
+      // text: 'TEST',
       style: {
         color: 'white',
       },
     },
-    // categories: ['Monday', 'Tuesday', 'Wendesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
     categories: timeSeries.map(({ date }) => date),
     lineColor: '#fff',
     tickColor: '#fff',
@@ -50,6 +42,7 @@ const buildGraph = (timeSeries: Array<SeriesDataItem>) => ({
     gridLineWidth: 0,
     minorGridLineWidth: 0,
     title: {
+      text: 'EUR',
       style: {
         color: 'white',
       },
@@ -75,23 +68,9 @@ const buildGraph = (timeSeries: Array<SeriesDataItem>) => ({
 });
 
 export const DashboardInformation: FC = () => {
-  const [AddRenter, setAddRenter] = React.useState(false);
-  const { user, loading } = useAuth();
-  const [updateProfile] = useUpdateProfileMutation({
-    refetchQueries: [MeDocument],
-    awaitRefetchQueries: true,
-  });
-  const { data, loading: statsLoading } = useGetMyBusinessStatsQuery();
+  const { data, loading } = useGetMyBusinessStatsQuery();
 
-  useEffect(() => {
-    if (user) {
-      if (!user.roles.includes(Role.Renter)) {
-        setAddRenter(true);
-      }
-    }
-  }, [AddRenter, user, loading]);
-
-  if (statsLoading || !data) return <CircularProgress />;
+  if (loading || !data) return <CircularProgress />;
 
   return (
     <StyledBox>
@@ -114,47 +93,11 @@ export const DashboardInformation: FC = () => {
         </Typography>
       </StyledPaper>
       <Box style={{ width: '100%' }}>
-        <HighchartsReact highcharts={Highcharts} options={buildGraph(data.stats.timeSeries)} />
+        <HighchartsReact
+          highcharts={Highcharts}
+          options={buildChart(enhanceTimeSeries(data.stats.timeSeries))}
+        />
       </Box>
-      <Modal open={AddRenter} aria-labelledby="modal-modal-title">
-        <CenteredPaper>
-          <Formik
-            initialValues={{
-              phone: '',
-              bankInfo: '',
-            }}
-            validationSchema={upgradeSchema}
-            onSubmit={async (values, { setSubmitting }) => {
-              try {
-                await updateProfile({
-                  variables: {
-                    input: values,
-                  },
-                });
-                toast.success('Information Added!');
-                setAddRenter(false);
-              } catch (error) {
-                if (error instanceof Error) {
-                  toast.error(error.message);
-                }
-              } finally {
-                setSubmitting(false);
-              }
-            }}>
-            {({ isValid, isSubmitting }) => (
-              <Form>
-                <ProfileLabel>Phone Number</ProfileLabel>
-                <FormikText name="phone" fullWidth />
-                <ProfileLabel>Bank Information</ProfileLabel>
-                <FormikText name="bankInfo" fullWidth />
-                <FormikSubmitProfile loading={isSubmitting} disabled={!isValid || isSubmitting}>
-                  Add Information
-                </FormikSubmitProfile>
-              </Form>
-            )}
-          </Formik>
-        </CenteredPaper>
-      </Modal>
     </StyledBox>
   );
 };

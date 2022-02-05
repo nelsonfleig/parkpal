@@ -12,21 +12,23 @@ import {
   StyledProfileBox,
   CenteredPaper,
   ProfileLabel,
+  StyledButton,
 } from '../common/dashboard';
 import { FormikText } from '../formik/formik-text';
 import { FormikSubmitProfile } from '../formik/formik-submit';
 import { useAuth } from '../../hooks/useAuth';
-import { useUpdateProfileMutation, MeDocument } from '../../graphql/__generated__';
+import { useUpdateProfileMutation, useLoginMutation } from '../../graphql/__generated__';
+import { changePasswordSchema } from '../../models/change-password.form';
 
 export const DashboardProfile: FC = () => {
   const [openSensitive, setOpenSensitive] = React.useState(false);
   const [openInfo, setOpenInfo] = React.useState(false);
+  const [changePassword, setChangePassword] = React.useState(false);
   const { user, loading } = useAuth();
 
-  const [updateProfile] = useUpdateProfileMutation({
-    refetchQueries: [MeDocument],
-    awaitRefetchQueries: true,
-  });
+  const [login] = useLoginMutation({});
+
+  const [updateProfile] = useUpdateProfileMutation({});
 
   if (!user || loading) return <p>Loading State</p>;
 
@@ -99,42 +101,100 @@ export const DashboardProfile: FC = () => {
       </Box>
       <Modal
         open={openSensitive}
-        onClose={() => setOpenSensitive(false)}
+        onClose={() => {
+          setOpenSensitive(false);
+          setChangePassword(false);
+        }}
         aria-labelledby="modal-modal-title">
         <CenteredPaper>
-          <Formik
-            initialValues={{
-              bankInfo: user.bankInfo,
-            }}
-            onSubmit={async (values, { setSubmitting }) => {
-              try {
-                await updateProfile({
-                  variables: {
-                    input: values,
-                  },
-                });
-                toast.success('Information Updated!');
-                setOpenInfo(false);
-              } catch (error) {
-                if (error instanceof Error) {
-                  toast.error(error.message);
+          {changePassword ? (
+            <Formik
+              initialValues={{
+                changePasswordNew: '',
+                changePasswordConfirm: '',
+                changePasswordCurrent: '',
+              }}
+              validationSchema={changePasswordSchema}
+              onSubmit={async (values, { setSubmitting }) => {
+                try {
+                  await login({
+                    variables: {
+                      input: { password: values.changePasswordCurrent, email: user.email },
+                    },
+                  });
+                  await updateProfile({
+                    variables: {
+                      input: { password: values.changePasswordNew },
+                    },
+                  });
+                  setChangePassword(false);
+                  toast.success('Information Updated!');
+                  setOpenSensitive(false);
+                } catch (error) {
+                  if (error instanceof Error) {
+                    toast.error(error.message);
+                  }
+                } finally {
+                  setSubmitting(false);
                 }
-              } finally {
-                setSubmitting(false);
-              }
-            }}>
-            {({ isValid, isSubmitting }) => (
-              <Form>
-                <ProfileLabel>Current Password</ProfileLabel>
-                <FormikText name="password" fullWidth value="0000" type="password" disabled />
-                <ProfileLabel>Current Bank Information</ProfileLabel>
-                <FormikText name="bankInfo" fullWidth />
-                <FormikSubmitProfile loading={isSubmitting} disabled={!isValid || isSubmitting}>
-                  Save Changes
-                </FormikSubmitProfile>
-              </Form>
-            )}
-          </Formik>
+              }}>
+              {({ isValid, isSubmitting }) => (
+                <Form>
+                  <ProfileLabel>Current Password</ProfileLabel>
+                  <FormikText name="changePasswordCurrent" fullWidth type="password" required />
+                  <ProfileLabel>New </ProfileLabel>
+                  <FormikText name="changePasswordNew" fullWidth type="password" required />
+                  <ProfileLabel>Confirm </ProfileLabel>
+                  <FormikText name="changePasswordConfirm" fullWidth type="password" required />
+                  <FormikSubmitProfile loading={isSubmitting} disabled={!isValid || isSubmitting}>
+                    Save Password
+                  </FormikSubmitProfile>
+                </Form>
+              )}
+            </Formik>
+          ) : (
+            <Formik
+              initialValues={{
+                bankInfo: user.bankInfo,
+              }}
+              onSubmit={async (values, { setSubmitting }) => {
+                try {
+                  await updateProfile({
+                    variables: {
+                      input: values,
+                    },
+                  });
+                  toast.success('Information Updated!');
+                  setOpenSensitive(false);
+                } catch (error) {
+                  if (error instanceof Error) {
+                    toast.error(error.message);
+                  }
+                } finally {
+                  setSubmitting(false);
+                }
+              }}>
+              {({ isValid, isSubmitting }) => (
+                <Form>
+                  <StyledButton
+                    onClick={() => setChangePassword(true)}
+                    fullWidth
+                    sx={{
+                      backgroundColor: '#7145D6',
+                      marginBottom: '1rem',
+                      ':hover': { backgroundColor: '#7747e6' },
+                    }}>
+                    Change Password
+                  </StyledButton>
+                  <ProfileLabel>Current Bank Information</ProfileLabel>
+                  <FormikText name="bankInfo" fullWidth />
+                  <FormikSubmitProfile loading={isSubmitting} disabled={!isValid || isSubmitting}>
+                    Save Changes
+                  </FormikSubmitProfile>
+                </Form>
+              )}
+            </Formik>
+          )}
         </CenteredPaper>
       </Modal>
       <Modal open={openInfo} onClose={() => setOpenInfo(false)} aria-labelledby="modal-modal-title">

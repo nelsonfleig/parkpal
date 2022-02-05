@@ -6,7 +6,7 @@ import { RootState } from '../../redux';
 import { setMarker } from '../../redux/map/mapSlice';
 
 const ICON = icon({
-  iconUrl: '/images/marker.png',
+  iconUrl: '/images/spot-marker.png',
   iconSize: [32, 32],
 });
 

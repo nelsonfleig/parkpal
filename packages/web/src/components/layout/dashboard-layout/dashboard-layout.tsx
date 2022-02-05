@@ -1,7 +1,9 @@
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
+import { Role } from '../../../graphql/__generated__';
 import { useAuth } from '../../../hooks/useAuth';
 import { FullPageLoader } from '../../common/fullpage-loader.tsx';
+import { UpdateProfileModal } from '../../modals/update-profile/update-profile';
 import { DashboardSidebar } from './dashboardSidebar';
 import { NavBar } from './navbar';
 import { DashboardBody, DashboardContent, DashboardWrapper } from './styles';
@@ -11,14 +13,21 @@ type DashboardLayoutProps = {
 };
 
 export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
-  const { isAuthenticated, loading } = useAuth();
+  const { user, isAuthenticated, loading } = useAuth();
+  const [addRenter, setAddRenter] = React.useState(false);
+
   const router = useRouter();
 
   useEffect(() => {
     if (!loading && !isAuthenticated) {
       router.push('/');
     }
-  }, [isAuthenticated, loading, router]);
+    if (isAuthenticated) {
+      if (!user.roles.includes(Role.Renter)) {
+        setAddRenter(true);
+      }
+    }
+  }, [isAuthenticated, loading, router, user]);
 
   if (loading || !isAuthenticated) {
     return <FullPageLoader />;
@@ -29,7 +38,11 @@ export const DashboardLayout = ({ children }: DashboardLayoutProps) => {
       <NavBar />
       <DashboardContent>
         <DashboardSidebar />
-        <DashboardBody>{children}</DashboardBody>
+        {addRenter ? (
+          <UpdateProfileModal addRenter={addRenter} setAddRenter={setAddRenter} />
+        ) : (
+          <DashboardBody>{children}</DashboardBody>
+        )}
       </DashboardContent>
     </DashboardWrapper>
   );
