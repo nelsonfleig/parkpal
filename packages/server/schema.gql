@@ -156,6 +156,9 @@ type Query {
 input NearParkingSpotsInput {
   lat: Float!
   lng: Float!
+
+  """Radius in Km"""
+  searchRadius: Float!
 }
 
 type Mutation {

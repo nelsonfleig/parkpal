@@ -7,4 +7,7 @@ export class NearParkingSpotsInput {
 
   @Field()
   lng: number;
+
+  @Field({ description: 'Radius in Km' })
+  searchRadius: number;
 }
