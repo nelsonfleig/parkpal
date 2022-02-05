@@ -7,7 +7,7 @@ import { setMarker } from '../../redux/map/mapSlice';
 
 const ICON = icon({
   iconUrl: '/images/spot-marker.png',
-  iconSize: [32, 32],
+  iconSize: [45, 45],
 });
 
 export const MapElements = () => {
@@ -30,7 +30,8 @@ export const MapElements = () => {
       {marker && (
         <Marker icon={ICON} position={marker}>
           <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
+            lat: {marker.lat} <br />
+            lng: {marker.lng}
           </Popup>
         </Marker>
       )}
