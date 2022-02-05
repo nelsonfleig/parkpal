@@ -48,6 +48,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     marginBottom: 10,
   },
+
+  discard: {
+    backgroundColor: '#fff',
+    width: 60,
+    height: 60,
+    borderRadius: 60,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: 'grey',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.6,
+  },
 });
 
 export default styles;

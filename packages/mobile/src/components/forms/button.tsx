@@ -38,6 +38,12 @@ export const CustomButton = ({
     if (type === 'later') {
       return styles.laterButton;
     }
+    if (type === 'discard') {
+      return styles.discard;
+    }
+    if (type === 'findhere') {
+      return [styles.discard, { backgroundColor: '#0A2540' }];
+    }
     return null;
   };
   return (

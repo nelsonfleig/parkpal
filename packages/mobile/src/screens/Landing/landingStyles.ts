@@ -6,9 +6,11 @@ export const landingStyles = StyleSheet.create({
   },
   findHere: {
     position: 'absolute',
-    top: 90,
-    right: 20,
-    left: 20,
+    bottom: '10%',
+    right: '1.8%',
     zIndex: 3,
+    width: '35%',
+    alignItems: 'flex-end',
+    justifyContent: 'flex-start',
   },
 });

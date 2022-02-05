@@ -1,5 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { LocationObject } from 'expo-location';
+import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import { CustomButton } from '../Forms/button';
 import { changeDestination } from '../../redux/destination/destinationSlice';
 import { mapRef } from '../MapView/mapView';
@@ -39,9 +40,9 @@ export const FindSpotsHere = ({ location, findButton, setFindButton }: FindSpots
           );
         }
       }}
-      type="main"
-      color="white">
-      Find here
+      type="findhere"
+      color="#0A2540">
+      <MaterialCommunityIcons name="map-marker-radius" size={24} color="white" />
     </CustomButton>
   ) : (
     <CustomButton
@@ -49,9 +50,9 @@ export const FindSpotsHere = ({ location, findButton, setFindButton }: FindSpots
         setFindButton(true);
         dispatch(changeDestination(null));
       }}
-      type="main"
+      type="discard"
       color="white">
-      Remove
+      <Entypo name="cross" size={24} color="#0A2540" />
     </CustomButton>
   );
 };
