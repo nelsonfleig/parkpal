@@ -26,7 +26,7 @@ export const ParkingSpotInfo = ({ setContent }: ParkingSpotInfoType) => {
 
   const dispatch = useDispatch();
   const [selectedDate, setSelectedDate] = useState('');
-  const [selectedTime, setSelectedTime] = useState();
+  const [selectedTime, setSelectedTime] = useState('');
   const [duration, setDuration] = useState(0);
   const [createReservation] = useCreateReservationMutation({
     refetchQueries: [GetMyReservationsDocument],
@@ -35,15 +35,17 @@ export const ParkingSpotInfo = ({ setContent }: ParkingSpotInfoType) => {
 
   const reservationRequest = async () => {
     try {
-      const req = createReservationObj(
-        selectedDate,
-        selectedTime,
-        duration,
-        currentSpot.id,
-        currentSpot.price
-      );
+      if (currentSpot) {
+        const req = createReservationObj(
+          selectedDate,
+          selectedTime,
+          duration,
+          currentSpot.id,
+          currentSpot.price
+        );
 
-      await createReservation({ variables: { input: req } });
+        await createReservation({ variables: { input: req } });
+      }
     } catch (err) {
       throw new Error(err);
     }
