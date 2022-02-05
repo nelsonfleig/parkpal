@@ -13,6 +13,7 @@ import { HomeStackParams } from '../../../types/appStack';
 import { changeCurrentSpace, setBookingSpotRoute } from '../../redux/parkingSpot/parkingSpotSlice';
 import { changePopupContent } from '../../redux/popupContent/popupContentSlice';
 import { panelReference } from '../BookingPopup/bookingPopup';
+import { changeDestination } from '../../redux/destination/destinationSlice';
 
 type BookingTyleProps = {
   street: string;
@@ -38,6 +39,8 @@ export const BookingTile = ({ street, start, end, navigation, coordinates }: Boo
         </View>
         <CustomButton
           press={() => {
+            // We remove the cache of the destinations to not overlap data
+            dispatch(changeDestination(null));
             // We remove the cache just in case a current spot has been selected
             dispatch(changeCurrentSpace(null));
             // We allow to display the route

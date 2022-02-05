@@ -17,6 +17,7 @@ import { RenterLocation } from '../Renter/location';
 import { RenterCalendar } from '../Renter/calendar';
 import { RenterSlider } from '../Renter/slider';
 import { changePopupContent } from '../../redux/popupContent/popupContentSlice';
+import { setBookingSpotRoute } from '../../redux/parkingSpot/parkingSpotSlice';
 
 export const ParkingSpotInfo = () => {
   const { currentSpot } = useSelector((state: RootState) => state.parkingSpots);
@@ -62,6 +63,8 @@ export const ParkingSpotInfo = () => {
           <RenterSlider setDuration={setDuration} />
           <CustomButton
             press={() => {
+              // We clean my bookings cache
+              dispatch(setBookingSpotRoute(null));
               // Remove all parking spots except the selected one
               dispatch(changeDestination(null));
               // Create route with the selected one and display it in the map
