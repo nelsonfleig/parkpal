@@ -9,16 +9,16 @@ import React from 'react';
 import Link from 'next/link';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ErrorIcon from '@mui/icons-material/Error';
-import {
-  StyledButton,
-  PopperButton,
-  StyledAvatar,
-  StyledBurger,
-  StyledPopper,
-  StyledProfilePaper,
-} from '../../common/dashboard';
+import { StyledButton } from '../../common/dashboard';
 import { useAuth } from '../../../hooks/useAuth';
 import { MeDocument, useLogoutMutation } from '../../../graphql/__generated__';
+import {
+  StyledAvatar,
+  StyledBurger,
+  PopperButton,
+  StyledPopper,
+  StyledProfilePaper,
+} from './styles';
 
 export const NavBar: NextComponentType = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
