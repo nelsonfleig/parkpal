@@ -6,3 +6,7 @@ mutation updateProfile($input: ProfileInput!) {
 mutation logout {
   logout
 }
+
+mutation UpdateProfilePicture($image: Upload!) {
+  updateProfilePicture(image: $image)
+}

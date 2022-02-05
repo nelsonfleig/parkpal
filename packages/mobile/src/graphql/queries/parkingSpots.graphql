@@ -17,3 +17,9 @@ query GetSpots {
     }
   }
 }
+
+query FindNearParkingSpots($input: NearParkingSpotsInput!) {
+  parkingSpots: findNearParkingSpots(input: $input) {
+    ...ParkingSpotDetails
+  }
+}

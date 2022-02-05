@@ -35,7 +35,7 @@ export const ParkingCreateForm = () => {
   const dispatch = useDispatch();
 
   const [createParkingSpot] = useCreateParkingSpotMutation({
-    refetchQueries: [FindMyParkingSpotsDocument],
+    refetchQueries: [{ query: FindMyParkingSpotsDocument }],
     awaitRefetchQueries: true,
   });
 
@@ -48,7 +48,7 @@ export const ParkingCreateForm = () => {
         initialValues={initialValues}
         validationSchema={createParkingSchema}
         enableReinitialize
-        onSubmit={async (values, { setSubmitting, resetForm }) => {
+        onSubmit={async (values, { resetForm }) => {
           if (!marker) {
             toast.error('Please set a marker');
             return;
@@ -76,8 +76,6 @@ export const ParkingCreateForm = () => {
             if (error instanceof Error) {
               toast.error(error.message);
             }
-          } finally {
-            setSubmitting(false);
           }
         }}>
         {({ isValid, isSubmitting }) => (

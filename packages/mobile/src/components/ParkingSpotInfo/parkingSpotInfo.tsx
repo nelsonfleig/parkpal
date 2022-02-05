@@ -67,7 +67,7 @@ export const ParkingSpotInfo = ({ setContent }: ParkingSpotInfoType) => {
               dispatch(changeDestination(null));
               // Create route with the selected one and display it in the map
               dispatch(displayRoute(true));
-              setContent('start');
+              setContent('payment');
               // Make reservations
               reservationRequest();
             }}

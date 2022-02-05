@@ -14,6 +14,7 @@ const ParkingItemWrapper = styled.div`
   padding: 10px;
   margin: 10px 0;
   cursor: pointer;
+  border-radius: 4px;
   &:hover {
     background: ${(props) => props.theme.palette.secondary.light};
   },

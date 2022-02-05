@@ -13,6 +13,7 @@ type RenterCalendarProps = {
 
 export const RenterCalendar = ({ setSelectedTime, selectedTime }: RenterCalendarProps) => {
   const { currentSpot } = useSelector((state: RootState) => state.parkingSpots);
+
   return (
     currentSpot && (
       <View style={styles.calendar}>
@@ -20,7 +21,7 @@ export const RenterCalendar = ({ setSelectedTime, selectedTime }: RenterCalendar
 
         <CalendarComponent disabledDayIndexes={currentSpot.daysAvailable} />
         <TimePicker
-          hours={[currentSpot.startHour, currentSpot.endHour]}
+          hours={[currentSpot.startHour as number, currentSpot.endHour as number]}
           setSelectedTime={setSelectedTime}
           selectedTime={selectedTime}
         />

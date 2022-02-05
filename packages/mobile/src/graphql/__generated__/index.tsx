@@ -25,6 +25,14 @@ export type AuthResponse = {
   user: User;
 };
 
+export type BusinessStatsResponse = {
+  __typename?: 'BusinessStatsResponse';
+  timeSeries: Array<SeriesDataItem>;
+  totalComplaints: Scalars['Float'];
+  totalReservations: Scalars['Float'];
+  totalRevenue: Scalars['Float'];
+};
+
 export type Complain = {
   __typename?: 'Complain';
   createdAt: Scalars['DateTime'];
@@ -141,6 +149,13 @@ export type MutationUpdateUserArgs = {
   input: UserInput;
 };
 
+export type NearParkingSpotsInput = {
+  lat: Scalars['Float'];
+  lng: Scalars['Float'];
+  /** Radius in Km */
+  searchRadius: Scalars['Float'];
+};
+
 export type ParkingSpot = {
   __typename?: 'ParkingSpot';
   city?: Maybe<Scalars['String']>;
@@ -176,6 +191,7 @@ export type ProfileInput = {
   bankInfo?: InputMaybe<Scalars['String']>;
   firstName?: InputMaybe<Scalars['String']>;
   lastName?: InputMaybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
   phone?: InputMaybe<Scalars['String']>;
 };
 
@@ -189,10 +205,14 @@ export type Query = {
   findAllTodos: Array<Todo>;
   /** List all Users */
   findAllUsers: Array<User>;
+  /** Find user's ParkingSpots reservations and profit */
+  findCalendarInfo: Array<RenterCalendarResponse>;
   /** Find logged in user's ParkingSpots */
   findMyParkingSpots: Array<ParkingSpot>;
   /** Find Drivers reservations */
   findMyReservations: Array<Reservation>;
+  /** Find parking spots near coords */
+  findNearParkingSpots: Array<ParkingSpot>;
   /** Find one ParkingSpot */
   findOneParkingSpot: ParkingSpot;
   /** Find one Reservation */
@@ -201,10 +221,14 @@ export type Query = {
   findOneTodo: Todo;
   /** Find one User */
   findOneUser: User;
+  getMyBusinessStats: BusinessStatsResponse;
   /** Get logged in user */
   me?: Maybe<User>;
   protect: Scalars['String'];
-  testGeocoding: Scalars['String'];
+};
+
+export type QueryFindNearParkingSpotsArgs = {
+  input: NearParkingSpotsInput;
 };
 
 export type QueryFindOneParkingSpotArgs = {
@@ -230,6 +254,14 @@ export type RegisterInput = {
   password: Scalars['String'];
 };
 
+export type RenterCalendarResponse = {
+  __typename?: 'RenterCalendarResponse';
+  endHour: Scalars['Float'];
+  name: Scalars['String'];
+  spot: Scalars['Float'];
+  startHour: Scalars['Float'];
+};
+
 export type Reservation = {
   __typename?: 'Reservation';
   createdAt: Scalars['DateTime'];
@@ -239,6 +271,7 @@ export type Reservation = {
   parkingSpotId: Scalars['Float'];
   startDate: Scalars['String'];
   stripeChargeId?: Maybe<Scalars['String']>;
+  total: Scalars['Float'];
   updatedAt: Scalars['DateTime'];
   user: User;
   userId: Scalars['Float'];
@@ -248,6 +281,7 @@ export type ReservationInput = {
   endDate: Scalars['String'];
   parkingSpotId: Scalars['ID'];
   startDate: Scalars['String'];
+  total: Scalars['Float'];
 };
 
 export enum Role {
@@ -255,6 +289,12 @@ export enum Role {
   Renter = 'RENTER',
   User = 'USER',
 }
+
+export type SeriesDataItem = {
+  __typename?: 'SeriesDataItem';
+  date: Scalars['String'];
+  sum: Scalars['Float'];
+};
 
 export type Todo = {
   __typename?: 'Todo';
@@ -305,8 +345,8 @@ export type ParkingSpotDetailsFragment = {
   lng: number;
   price: number;
   daysAvailable: Array<number>;
-  startHour: number;
-  endHour: number;
+  startHour?: number | null | undefined;
+  endHour?: number | null | undefined;
   street?: string | null | undefined;
   zipCode?: string | null | undefined;
   city?: string | null | undefined;
@@ -358,6 +398,56 @@ export type CreateReservationMutation = {
 
 export type GetSpotsQueryVariables = Exact<{ [key: string]: never }>;
 
+export type GetSpotsQuery = {
+  __typename?: 'Query';
+  spaces: Array<{
+    __typename?: 'ParkingSpot';
+    price: number;
+    startHour?: number | null | undefined;
+    endHour?: number | null | undefined;
+    lat: number;
+    lng: number;
+    id: string;
+    daysAvailable: Array<number>;
+    street?: string | null | undefined;
+    zipCode?: string | null | undefined;
+    city?: string | null | undefined;
+    user: {
+      __typename?: 'User';
+      firstName: string;
+      lastName: string;
+      phone?: string | null | undefined;
+    };
+  }>;
+};
+
+export type FindNearParkingSpotsQueryVariables = Exact<{
+  input: NearParkingSpotsInput;
+}>;
+
+export type FindNearParkingSpotsQuery = {
+  __typename?: 'Query';
+  parkingSpots: Array<{
+    __typename?: 'ParkingSpot';
+    id: string;
+    lat: number;
+    lng: number;
+    price: number;
+    daysAvailable: Array<number>;
+    startHour?: number | null | undefined;
+    endHour?: number | null | undefined;
+    street?: string | null | undefined;
+    zipCode?: string | null | undefined;
+    city?: string | null | undefined;
+    user: {
+      __typename?: 'User';
+      firstName: string;
+      lastName: string;
+      phone?: string | null | undefined;
+    };
+  }>;
+};
+
 export type GetMyReservationsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetMyReservationsQuery = {
@@ -372,29 +462,6 @@ export type GetMyReservationsQuery = {
       street?: string | null | undefined;
       lat: number;
       lng: number;
-    };
-  }>;
-};
-
-export type GetSpotsQuery = {
-  __typename?: 'Query';
-  spaces: Array<{
-    __typename?: 'ParkingSpot';
-    price: number;
-    startHour: number;
-    endHour: number;
-    lat: number;
-    lng: number;
-    id: string;
-    daysAvailable: Array<number>;
-    street?: string | null | undefined;
-    zipCode?: string | null | undefined;
-    city?: string | null | undefined;
-    user: {
-      __typename?: 'User';
-      firstName: string;
-      lastName: string;
-      phone?: string | null | undefined;
     };
   }>;
 };
@@ -633,6 +700,63 @@ export function useGetSpotsLazyQuery(
 export type GetSpotsQueryHookResult = ReturnType<typeof useGetSpotsQuery>;
 export type GetSpotsLazyQueryHookResult = ReturnType<typeof useGetSpotsLazyQuery>;
 export type GetSpotsQueryResult = Apollo.QueryResult<GetSpotsQuery, GetSpotsQueryVariables>;
+export const FindNearParkingSpotsDocument = gql`
+  query FindNearParkingSpots($input: NearParkingSpotsInput!) {
+    parkingSpots: findNearParkingSpots(input: $input) {
+      ...ParkingSpotDetails
+    }
+  }
+  ${ParkingSpotDetailsFragmentDoc}
+`;
+
+/**
+ * __useFindNearParkingSpotsQuery__
+ *
+ * To run a query within a React component, call `useFindNearParkingSpotsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindNearParkingSpotsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindNearParkingSpotsQuery({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useFindNearParkingSpotsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    FindNearParkingSpotsQuery,
+    FindNearParkingSpotsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FindNearParkingSpotsQuery, FindNearParkingSpotsQueryVariables>(
+    FindNearParkingSpotsDocument,
+    options
+  );
+}
+export function useFindNearParkingSpotsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindNearParkingSpotsQuery,
+    FindNearParkingSpotsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<FindNearParkingSpotsQuery, FindNearParkingSpotsQueryVariables>(
+    FindNearParkingSpotsDocument,
+    options
+  );
+}
+export type FindNearParkingSpotsQueryHookResult = ReturnType<typeof useFindNearParkingSpotsQuery>;
+export type FindNearParkingSpotsLazyQueryHookResult = ReturnType<
+  typeof useFindNearParkingSpotsLazyQuery
+>;
+export type FindNearParkingSpotsQueryResult = Apollo.QueryResult<
+  FindNearParkingSpotsQuery,
+  FindNearParkingSpotsQueryVariables
+>;
 export const GetMyReservationsDocument = gql`
   query GetMyReservations {
     reservations: findMyReservations {

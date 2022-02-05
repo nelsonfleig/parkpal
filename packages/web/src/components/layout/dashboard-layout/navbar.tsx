@@ -1,3 +1,5 @@
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import ErrorIcon from '@mui/icons-material/Error';
 import { Popper } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -5,20 +7,20 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { NextComponentType } from 'next';
 import Image from 'next/image';
-import React from 'react';
 import Link from 'next/link';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import ErrorIcon from '@mui/icons-material/Error';
+import React from 'react';
+import { MeDocument, useLogoutMutation } from '../../../graphql/__generated__';
+import { useAuth } from '../../../hooks/useAuth';
+import { StyledButton } from '../../common/dashboard';
 import {
-  StyledButton,
+  LogoTitle,
+  LogoWrapper,
   PopperButton,
   StyledAvatar,
   StyledBurger,
   StyledPopper,
   StyledProfilePaper,
-} from '../../common/dashboard';
-import { useAuth } from '../../../hooks/useAuth';
-import { MeDocument, useLogoutMutation } from '../../../graphql/__generated__';
+} from './styles';
 
 export const NavBar: NextComponentType = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -43,12 +45,17 @@ export const NavBar: NextComponentType = () => {
       <AppBar position="static" sx={{ backgroundColor: '#fff' }}>
         <Toolbar>
           <StyledBurger />
-
-          <Box sx={{ flexGrow: 1 }}>
-            <Image src="/result.svg" alt="ParkPal Logo" width={280} height={66} />
-          </Box>
+          <LogoWrapper sx={{ flexGrow: 1, alignItems: 'center' }}>
+            <Image src="/logoPurple.svg" alt="ParkPal Logo" width={66} height={66} />
+            <LogoTitle variant="h1" color="primary" fontSize={52}>
+              ParkPal |<span> Renters</span>
+            </LogoTitle>
+          </LogoWrapper>
           <StyledProfilePaper onClick={handleClick}>
-            <StyledAvatar alt="Avatar Picture" src="/static/images/avatar/1.jpg" />
+            <StyledAvatar
+              alt="Avatar Picture"
+              src={user.pictureUrl || '/static/images/avatar/1.jpg'}
+            />
             <Box>
               <Typography sx={{ color: 'black', fontWeight: '600' }} variant="h6">
                 {`${user.firstName} ${user.lastName}`}
