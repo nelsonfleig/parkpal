@@ -1,7 +1,7 @@
 // @ts-expect-error
 import { DIRECTIONS_API_KEY } from '@env';
 import { createRef, useEffect, useState } from 'react';
-import { Image, View } from 'react-native';
+import { Image } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import { useSelector } from 'react-redux';
@@ -50,10 +50,10 @@ export const MapComponent = ({ latitude, longitude }: MapComponentProps) => {
         altitude: 0,
       }}>
       {destination && (
-        <View>
+        <>
           <DestinationMarker mapDest={destination} />
           <ParkingSpots />
-        </View>
+        </>
       )}
       {showRoute && currentSpot && (
         <MapViewDirections
