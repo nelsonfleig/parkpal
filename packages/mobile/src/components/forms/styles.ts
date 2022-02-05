@@ -51,9 +51,9 @@ const styles = StyleSheet.create({
 
   discard: {
     backgroundColor: '#fff',
-    width: 60,
-    height: 60,
-    borderRadius: 60,
+    width: 65,
+    height: 65,
+    borderRadius: 100,
     alignItems: 'center',
     justifyContent: 'center',
     shadowColor: 'grey',
