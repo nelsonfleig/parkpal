@@ -1,4 +1,4 @@
-import { Avatar, Box, Paper } from '@mui/material';
+import { Avatar, Box, Paper, Typography } from '@mui/material';
 import { styled as styledMUI } from '@mui/material/styles';
 import styled from 'styled-components';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -78,3 +78,20 @@ export const StyledProfilePaper = styled(Paper)(() => ({
     cursor: 'pointer',
   },
 }));
+
+export const LogoWrapper = styled(Box)`
+  display: flex;
+  padding: 0 10px;
+`;
+
+export const LogoTitle = styled(Typography)`
+  padding: 0 10px;
+  font-size: 40px;
+  display: flex;
+  span {
+    margin-left: 7px;
+    align-self: center;
+    font-size: 32px;
+    font-weight: 400;
+  }
+`;
