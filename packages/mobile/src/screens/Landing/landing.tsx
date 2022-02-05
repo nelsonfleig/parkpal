@@ -65,36 +65,31 @@ export const LandingScreen = () => {
 
   return (
     <View style={landingStyles.container}>
-      <View>
-        <Searchbar
-          autoComplete
-          placeholder="Enter a destination"
-          iconColor="#7145D6"
-          theme={{ colors: { text: 'black' } }}
-          style={{
-            position: 'absolute',
-            top: 60,
-            right: 20,
-            left: 20,
-            zIndex: 3,
-          }}
-          autoCapitalize="words"
-          onChangeText={onChangeSearch}
-          value={searchQuery}
-          onSubmitEditing={onSubmitEditing}
-        />
-        <View onTouchEnd={() => Keyboard.dismiss()}>
-          {location ? (
-            <MapComponent
-              latitude={location.coords.latitude}
-              longitude={location.coords.longitude}
-            />
-          ) : (
-            <SafeAreaView>
-              <Text>Warm lentils alert! You have to enable the location to use ParkPal.</Text>
-            </SafeAreaView>
-          )}
-        </View>
+      <Searchbar
+        autoComplete
+        placeholder="Enter a destination"
+        iconColor="#7145D6"
+        theme={{ colors: { text: 'black' } }}
+        style={{
+          position: 'absolute',
+          top: 60,
+          right: 20,
+          left: 20,
+          zIndex: 3,
+        }}
+        autoCapitalize="words"
+        onChangeText={onChangeSearch}
+        value={searchQuery}
+        onSubmitEditing={onSubmitEditing}
+      />
+      <View onTouchEnd={() => Keyboard.dismiss()}>
+        {location ? (
+          <MapComponent latitude={location.coords.latitude} longitude={location.coords.longitude} />
+        ) : (
+          <SafeAreaView>
+            <Text>Warm lentils alert! You have to enable the location to use ParkPal.</Text>
+          </SafeAreaView>
+        )}
       </View>
       <BookingPopup />
     </View>
