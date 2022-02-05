@@ -1,4 +1,4 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/common/constants/role.enum';
@@ -9,6 +9,7 @@ import { ParkingSpotService } from './parking-spot.service';
 import { RenterCalendarResponse } from './types/calendar.response';
 import { NearParkingSpotsInput } from './types/near-parking-spots.input';
 import { ParkingSpotInput } from './types/parking-spot.input';
+ID;
 
 @Resolver()
 export class ParkingSpotResolver extends AbstractResolver(
@@ -25,6 +26,14 @@ export class ParkingSpotResolver extends AbstractResolver(
   })
   findAll() {
     return this.parkingSpotService.find({}, ['user']);
+  }
+
+  @Query(() => ParkingSpot, {
+    name: `findOneParkingSpot`,
+    description: `Find one parking spot for reservations`,
+  })
+  findOne(@Args('id', { type: () => ID }) id: number) {
+    return this.parkingSpotService.findOne({ id }, ['reservations']);
   }
 
   @Roles(Role.RENTER)

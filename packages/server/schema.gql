@@ -140,7 +140,7 @@ type Query {
   """Find all ParkingSpots"""
   findAllParkingSpots: [ParkingSpot!]!
 
-  """Find one ParkingSpot"""
+  """Find one parking spot for reservations"""
   findOneParkingSpot(id: ID!): ParkingSpot!
 
   """Find logged in user's ParkingSpots"""
