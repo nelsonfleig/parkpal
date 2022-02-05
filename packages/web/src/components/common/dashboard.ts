@@ -2,20 +2,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Avatar, Box, Button, Paper, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-
-const usedIDs: Array<[string, number]> = [];
-export function randomColorC(n: any) {
-  const isIn = usedIDs.find((el) => el[1] === n);
-  if (!isIn) {
-    let res = '#';
-    for (let i = 0; i < 6; i += 1) {
-      res += Math.floor(Math.random() * 10);
-    }
-    usedIDs.push([res, n]);
-    return res;
-  }
-  return isIn[0];
-}
+import { randomColor } from '../../helpers/navbar';
 
 export const CenteredPaper = styled(Paper)(() => ({
   maxWidth: '360px',
@@ -113,15 +100,6 @@ export const InfoText = styled(Box)(() => ({
   alignItems: 'baseline',
   margin: '.8rem 0rem',
 }));
-
-let color: string;
-export function randomColor() {
-  if (!color) {
-    const hex = Math.floor(Math.random() * 0xffffff);
-    color = `#${hex.toString(16)}`;
-  }
-  return color;
-}
 
 export const StyledAvatar = styled(Avatar)(() => ({
   margin: '20px',
