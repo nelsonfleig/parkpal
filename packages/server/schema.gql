@@ -217,6 +217,7 @@ input ProfileInput {
   lastName: String
   phone: String
   bankInfo: String
+  password: String
 }
 
 input UserInput {

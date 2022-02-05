@@ -13,4 +13,7 @@ export class ProfileInput {
 
   @Field({ nullable: true })
   bankInfo: string;
+
+  @Field({ nullable: true })
+  password: string;
 }

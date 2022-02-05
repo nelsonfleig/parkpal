@@ -199,6 +199,7 @@ export type ProfileInput = {
   bankInfo?: InputMaybe<Scalars['String']>;
   firstName?: InputMaybe<Scalars['String']>;
   lastName?: InputMaybe<Scalars['String']>;
+  password?: InputMaybe<Scalars['String']>;
   phone?: InputMaybe<Scalars['String']>;
 };
 
