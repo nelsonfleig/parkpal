@@ -14,6 +14,7 @@ import { changeCurrentSpace, setBookingSpotRoute } from '../../redux/parkingSpot
 import { changePopupContent } from '../../redux/popupContent/popupContentSlice';
 import { panelReference } from '../BookingPopup/bookingPopup';
 import { changeDestination } from '../../redux/destination/destinationSlice';
+import { showFindSpotButton } from '../../redux/findSpotButton/findSpotButtonSlice';
 
 type BookingTyleProps = {
   street: string;
@@ -29,6 +30,28 @@ export const BookingTile = ({ street, start, end, navigation, coordinates }: Boo
   const closeMenu = () => setVisible(false);
   const { startTime, endTime, date } = formatBookingDates(start, end);
   const dispatch = useDispatch();
+
+  // View route function:
+  const viewRoute = () => {
+    // We set the find here button as true
+    dispatch(showFindSpotButton(true));
+    // We remove the cache of the destinations to not overlap data
+    dispatch(changeDestination(null));
+    // We remove the cache just in case a current spot has been selected
+    dispatch(changeCurrentSpace(null));
+    // We allow to display the route
+    dispatch(displayRoute(true));
+    // We set the destination of the route to our booking spot
+    dispatch(setBookingSpotRoute({ lat: coordinates.lat, lng: coordinates.lng }));
+    // Now we are displaying the route but we want to let the user choose if
+    // he/she wants to start the navigation with Google Maps.
+    // So, we display the popup panel with the needed content
+    panelReference.current.show(500);
+    dispatch(changePopupContent('start'));
+    // And we go the the landing page where all the previous will be displayed
+    navigation.navigate('Landing');
+  };
+
   return (
     <View>
       <Surface style={styles.tile}>
@@ -39,21 +62,7 @@ export const BookingTile = ({ street, start, end, navigation, coordinates }: Boo
         </View>
         <CustomButton
           press={() => {
-            // We remove the cache of the destinations to not overlap data
-            dispatch(changeDestination(null));
-            // We remove the cache just in case a current spot has been selected
-            dispatch(changeCurrentSpace(null));
-            // We allow to display the route
-            dispatch(displayRoute(true));
-            // We set the destination of the route to our booking spot
-            dispatch(setBookingSpotRoute({ lat: coordinates.lat, lng: coordinates.lng }));
-            // Now we are displaying the route but we want to let the user choose if
-            // he/she wants to start the navigation with Google Maps.
-            // So, we display the popup panel with the needed content
-            panelReference.current.show(500);
-            dispatch(changePopupContent('start'));
-            // And we go the the landing page where all the previous will be displayed
-            navigation.navigate('Landing');
+            viewRoute();
           }}
           type="booking"
           color="#fff"
