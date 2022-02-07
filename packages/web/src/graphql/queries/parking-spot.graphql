@@ -12,3 +12,14 @@ query ParkingSpotResTest {
     name
   }
 }
+
+query ParkingSpotComplains {
+  complains: findComplainInfo {
+    id
+    city
+    street
+    createdAt
+    description
+    pictureUrl
+  }
+}

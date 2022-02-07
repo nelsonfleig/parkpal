@@ -16,7 +16,6 @@ export const DashboardProfile: FC = () => {
   const [openSensitive, setOpenSensitive] = React.useState(false);
   const [openInfo, setOpenInfo] = React.useState(false);
   const { user, loading } = useAuth();
-
   const [login] = useLoginMutation({});
 
   const [updateProfile] = useUpdateProfileMutation({

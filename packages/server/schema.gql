@@ -112,6 +112,15 @@ type RenterCalendarResponse {
   name: String!
 }
 
+type RenterComplainResponse {
+  id: Float!
+  city: String!
+  street: String!
+  createdAt: String!
+  description: String!
+  pictureUrl: String
+}
+
 type Query {
   """Get logged in user"""
   me: User
@@ -153,6 +162,9 @@ type Query {
 
   """Find user's ParkingSpots reservations and profit"""
   findCalendarInfo: [RenterCalendarResponse!]!
+
+  """Find user's Complains"""
+  findComplainInfo: [RenterComplainResponse!]!
 
   """Find all Complains"""
   findAllComplains: [Complain!]!

@@ -39,9 +39,17 @@ export type Complain = {
   description: Scalars['String'];
   id: Scalars['ID'];
   parkingSpot: ParkingSpot;
-  pictureUrl: Scalars['String'];
+  parkingSpotId: Scalars['Float'];
+  pictureUrl?: Maybe<Scalars['String']>;
   updatedAt: Scalars['DateTime'];
   user: User;
+  userId: Scalars['Float'];
+};
+
+export type ComplainInput = {
+  description: Scalars['String'];
+  parkingSpotId: Scalars['ID'];
+  pictureUrl?: InputMaybe<Scalars['String']>;
 };
 
 export type LoginInput = {
@@ -51,6 +59,8 @@ export type LoginInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  /** Create Complain */
+  createComplain: Complain;
   /** Create ParkingSpot */
   createParkingSpot: ParkingSpot;
   /** Create Reservation */
@@ -59,6 +69,8 @@ export type Mutation = {
   createTodo: Todo;
   /** Create User */
   createUser: User;
+  /** Delete Complain */
+  deleteComplain: Complain;
   /** Delete ParkingSpot */
   deleteParkingSpot: ParkingSpot;
   /** Delete Reservation */
@@ -73,6 +85,8 @@ export type Mutation = {
   logout: Scalars['Boolean'];
   /** Register user */
   register: User;
+  /** Update Complain */
+  updateComplain: Complain;
   /** Update ParkingSpot */
   updateParkingSpot: ParkingSpot;
   /** Logout user */
@@ -83,6 +97,11 @@ export type Mutation = {
   updateTodo: Todo;
   /** Update User */
   updateUser: User;
+};
+
+
+export type MutationCreateComplainArgs = {
+  input: ComplainInput;
 };
 
 
@@ -103,6 +122,11 @@ export type MutationCreateTodoArgs = {
 
 export type MutationCreateUserArgs = {
   input: UserInput;
+};
+
+
+export type MutationDeleteComplainArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -136,6 +160,12 @@ export type MutationRegisterArgs = {
 };
 
 
+export type MutationUpdateComplainArgs = {
+  id: Scalars['ID'];
+  input: ComplainInput;
+};
+
+
 export type MutationUpdateParkingSpotArgs = {
   id: Scalars['ID'];
   input: ParkingSpotInput;
@@ -162,6 +192,13 @@ export type MutationUpdateTodoArgs = {
 export type MutationUpdateUserArgs = {
   id: Scalars['ID'];
   input: UserInput;
+};
+
+export type NearParkingSpotsInput = {
+  lat: Scalars['Float'];
+  lng: Scalars['Float'];
+  /** Radius in Km */
+  searchRadius: Scalars['Float'];
 };
 
 export type ParkingSpot = {
@@ -205,6 +242,8 @@ export type ProfileInput = {
 
 export type Query = {
   __typename?: 'Query';
+  /** Find all Complains */
+  findAllComplains: Array<Complain>;
   /** Find all ParkingSpots */
   findAllParkingSpots: Array<ParkingSpot>;
   /** Find all Reservations */
@@ -215,10 +254,18 @@ export type Query = {
   findAllUsers: Array<User>;
   /** Find user's ParkingSpots reservations and profit */
   findCalendarInfo: Array<RenterCalendarResponse>;
+  /** Find user's Complains */
+  findComplainInfo: Array<RenterComplainResponse>;
+  /** Find Complains about renters parking spaces */
+  findMyComplains: Array<Complain>;
   /** Find logged in user's ParkingSpots */
   findMyParkingSpots: Array<ParkingSpot>;
   /** Find Drivers reservations */
   findMyReservations: Array<Reservation>;
+  /** Find parking spots near coords */
+  findNearParkingSpots: Array<ParkingSpot>;
+  /** Find one Complain */
+  findOneComplain: Complain;
   /** Find one ParkingSpot */
   findOneParkingSpot: ParkingSpot;
   /** Find one Reservation */
@@ -231,6 +278,16 @@ export type Query = {
   /** Get logged in user */
   me?: Maybe<User>;
   protect: Scalars['String'];
+};
+
+
+export type QueryFindNearParkingSpotsArgs = {
+  input: NearParkingSpotsInput;
+};
+
+
+export type QueryFindOneComplainArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -266,6 +323,16 @@ export type RenterCalendarResponse = {
   name: Scalars['String'];
   spot: Scalars['Float'];
   startHour: Scalars['Float'];
+};
+
+export type RenterComplainResponse = {
+  __typename?: 'RenterComplainResponse';
+  city: Scalars['String'];
+  createdAt: Scalars['String'];
+  description: Scalars['String'];
+  id: Scalars['Float'];
+  pictureUrl?: Maybe<Scalars['String']>;
+  street: Scalars['String'];
 };
 
 export type Reservation = {
@@ -397,6 +464,11 @@ export type ParkingSpotResTestQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type ParkingSpotResTestQuery = { __typename?: 'Query', parkingSpots: Array<{ __typename?: 'RenterCalendarResponse', spot: number, startHour: number, endHour: number, name: string }> };
+
+export type ParkingSpotComplainsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ParkingSpotComplainsQuery = { __typename?: 'Query', complains: Array<{ __typename?: 'RenterComplainResponse', id: number, city: string, street: string, createdAt: string, description: string, pictureUrl?: string | null | undefined }> };
 
 export type FindAllTodosQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -709,6 +781,45 @@ export function useParkingSpotResTestLazyQuery(baseOptions?: Apollo.LazyQueryHoo
 export type ParkingSpotResTestQueryHookResult = ReturnType<typeof useParkingSpotResTestQuery>;
 export type ParkingSpotResTestLazyQueryHookResult = ReturnType<typeof useParkingSpotResTestLazyQuery>;
 export type ParkingSpotResTestQueryResult = Apollo.QueryResult<ParkingSpotResTestQuery, ParkingSpotResTestQueryVariables>;
+export const ParkingSpotComplainsDocument = gql`
+    query ParkingSpotComplains {
+  complains: findComplainInfo {
+    id
+    city
+    street
+    createdAt
+    description
+    pictureUrl
+  }
+}
+    `;
+
+/**
+ * __useParkingSpotComplainsQuery__
+ *
+ * To run a query within a React component, call `useParkingSpotComplainsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useParkingSpotComplainsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useParkingSpotComplainsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useParkingSpotComplainsQuery(baseOptions?: Apollo.QueryHookOptions<ParkingSpotComplainsQuery, ParkingSpotComplainsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<ParkingSpotComplainsQuery, ParkingSpotComplainsQueryVariables>(ParkingSpotComplainsDocument, options);
+      }
+export function useParkingSpotComplainsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ParkingSpotComplainsQuery, ParkingSpotComplainsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<ParkingSpotComplainsQuery, ParkingSpotComplainsQueryVariables>(ParkingSpotComplainsDocument, options);
+        }
+export type ParkingSpotComplainsQueryHookResult = ReturnType<typeof useParkingSpotComplainsQuery>;
+export type ParkingSpotComplainsLazyQueryHookResult = ReturnType<typeof useParkingSpotComplainsLazyQuery>;
+export type ParkingSpotComplainsQueryResult = Apollo.QueryResult<ParkingSpotComplainsQuery, ParkingSpotComplainsQueryVariables>;
 export const FindAllTodosDocument = gql`
     query FindAllTodos {
   todos: findAllTodos {
