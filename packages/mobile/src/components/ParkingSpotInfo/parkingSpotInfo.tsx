@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { useState } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux';
@@ -25,17 +25,17 @@ type ParkingSpotInfoProps = {
 
 export const ParkingSpotInfo = ({ setTotal }: ParkingSpotInfoProps) => {
   const { currentSpot } = useSelector((state: RootState) => state.parkingSpots);
-  const { selectedDate } = useSelector((state: RootState) => state.calendar);
+  const { selectedDate, selectedTime, duration } = useSelector(
+    (state: RootState) => state.calendar
+  );
 
   const dispatch = useDispatch();
 
-  const [selectedTime, setSelectedTime] = useState('');
-  const [duration, setDuration] = useState(0);
   const [createReservation] = useCreateReservationMutation({
     refetchQueries: [GetMyReservationsDocument],
     awaitRefetchQueries: true,
   });
-
+  // ADD THIS TO PAYMENT:
   const reservationRequest = async () => {
     try {
       if (currentSpot) {
@@ -61,8 +61,8 @@ export const ParkingSpotInfo = ({ setTotal }: ParkingSpotInfoProps) => {
         <RenterInformation />
         <View style={styles.wrapper}>
           <RenterLocation />
-          <RenterCalendar setSelectedTime={setSelectedTime} selectedTime={selectedTime} />
-          <RenterSlider setDuration={setDuration} />
+          <RenterCalendar />
+          <RenterSlider />
           <CustomButton
             press={() => {
               // We clean my bookings cache
