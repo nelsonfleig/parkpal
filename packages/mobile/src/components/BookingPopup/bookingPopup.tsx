@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View } from 'react-native';
 import SlidingUpPanel from 'rn-sliding-up-panel';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ParkingSpotInfo } from '../ParkingSpotInfo/parkingSpotInfo';
 import { StartRoute } from '../StartRoutePopup/startRoute';
 import styles from './bookingPopupStyles';
@@ -9,16 +9,20 @@ import { displayRoute } from '../../redux/showRoute/showRoute';
 import { changeCurrentSpace } from '../../redux/parkingSpot/parkingSpotSlice';
 import { CustomButton } from '../Forms/button';
 import { Payment } from '../Payment/payment';
+import { RootState } from '../../redux';
+import { changePopupContent } from '../../redux/popupContent/popupContentSlice';
 
 export const panelReference = React.createRef<any>();
 
 export const BookingPopup = () => {
-  const [content, setContent] = useState('booking');
+  // const [content, setContent] = useState('booking');
+  const { content } = useSelector((state: RootState) => state.popupContent);
+
   const dispatch = useDispatch();
   // On discard navigation function:
   const onDiscard = () => {
     if (content === 'start') {
-      setContent('booking');
+      dispatch(changePopupContent('booking'));
       // We remove the route if the user discards going to navigation mode
       dispatch(displayRoute(false));
       dispatch(changeCurrentSpace(null));
@@ -29,10 +33,10 @@ export const BookingPopup = () => {
   // eslint-disable-next-line consistent-return
   const changeContent = () => {
     if (content === 'booking') {
-      return <ParkingSpotInfo setContent={setContent} />;
+      return <ParkingSpotInfo />;
     }
     if (content === 'payment') {
-      return <Payment setContent={setContent} />;
+      return <Payment />;
     }
     if (content === 'start') {
       return (
@@ -51,7 +55,7 @@ export const BookingPopup = () => {
       ref={panelReference}
       draggableRange={{ top: 500, bottom: 0 }}
       allowDragging={content !== 'start'}
-      backdropOpacity={content === 'start' ? 0.01 : 0.5}
+      backdropOpacity={content === 'start' ? 0.3 : 0.5}
       onBottomReached={onDiscard}>
       {changeContent()}
     </SlidingUpPanel>

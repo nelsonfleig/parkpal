@@ -1,0 +1,10 @@
+fragment ReservationDetails on Reservation {
+  startDate
+  endDate
+  id
+  parkingSpot {
+    street
+    lat
+    lng
+  }
+}

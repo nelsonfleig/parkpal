@@ -1,6 +1,7 @@
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { useTheme } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { HomeStackParams } from '../../types/appStack';
 import { LandingScreen, BookingsScreen, ProfileScreen } from '../screens/homeIndex';
 
 const iconOptions = (icon: string, color?: string) => (
@@ -9,7 +10,7 @@ const iconOptions = (icon: string, color?: string) => (
 
 export const HomeScreen = () => {
   const { colors } = useTheme();
-  const HomeStack = createMaterialBottomTabNavigator();
+  const HomeStack = createMaterialBottomTabNavigator<HomeStackParams>();
 
   return (
     <HomeStack.Navigator
