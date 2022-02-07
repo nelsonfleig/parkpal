@@ -3,12 +3,8 @@ FROM node:16 AS BUILD_IMAGE
 
 WORKDIR /usr/src/app
 
-RUN pwd
-
 # copy all files
 COPY . .
-
-
 
 # install dependencies
 RUN yarn
@@ -26,7 +22,7 @@ WORKDIR /usr/src/app
 # copy from build image
 COPY --from=BUILD_IMAGE /usr/src/app/dist ./dist
 COPY --from=BUILD_IMAGE /usr/src/app/package.json .
-COPY --from=BUILD_IMAGE /usr/src/app/ormconfig.json .
+COPY --from=BUILD_IMAGE /usr/src/app/ormconfig.js .
 
 RUN yarn install --prod
 RUN yarn schema:sync:prod
