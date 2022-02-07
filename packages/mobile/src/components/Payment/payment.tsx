@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { CardField, useConfirmPayment } from '@stripe/stripe-react-native';
 import { useState } from 'react';
-import { Keyboard, View } from 'react-native';
+import { Keyboard, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   GetMyReservationsDocument,
@@ -10,10 +10,17 @@ import {
 } from '../../graphql/__generated__';
 import createReservationObj from '../../helpers/createReservationObj';
 import { useAuth } from '../../hooks/useAuth';
+// Redux
 import { RootState } from '../../redux';
 import { changeDestination } from '../../redux/destination/destinationSlice';
 import { setBookingSpotRoute } from '../../redux/parkingSpot/parkingSpotSlice';
 import { changePopupContent } from '../../redux/popupContent/popupContentSlice';
+import {
+  updateDuration,
+  updateSelectedDate,
+  updateSelectedTime,
+} from '../../redux/scheduling/calendarSlice';
+// Components
 import { displayRoute } from '../../redux/showRoute/showRoute';
 import { CustomButton } from '../Forms/button';
 import { paymentStyles } from './paymentStyles';
@@ -55,40 +62,57 @@ export const Payment = () => {
       throw new Error(`${err}`);
     }
   };
+
   const onPress = async () => {
-    // We get the client secret from our server
     if (currentSpot) {
       const total = duration * currentSpot.price;
       const billingDetails = {
         email: user?.email,
       };
+      // Get the client secret from our server
       const { data } = await createPaymentIntent({
         variables: { input: { total } },
       });
-
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      // Handle the payment
       const paymentObject =
         data &&
         (await confirmPayment(data.createPaymentIntent, {
           type: 'Card',
           billingDetails,
         }));
-      // We clean my bookings cache
-      dispatch(setBookingSpotRoute(null));
-      // Remove all parking spots except the selected one
-      dispatch(changeDestination(null));
-      // Create route with the selected one and display it in the map
-      dispatch(displayRoute(true));
-      dispatch(changePopupContent('start'));
-      // Make reservations
       if (paymentObject?.paymentIntent) {
+        // Make reservations
         reservationRequest(paymentObject.paymentIntent.id);
+        dispatch(changePopupContent('start'));
+        dispatch(updateSelectedDate(null));
+        dispatch(updateDuration(null));
+        // Clean my bookings routes cache
+        dispatch(setBookingSpotRoute(null));
+        // Remove all parking spots except the selected one
+        dispatch(changeDestination(null));
+        // Create route with the selected one and display it in the map
+        dispatch(displayRoute(true));
+        dispatch(updateSelectedTime(null));
       }
     }
   };
-
+  const endHour = parseInt(selectedTime.split(':')[0], 10) + duration;
   return (
     <View style={paymentStyles.slideContent} onTouchEnd={() => Keyboard.dismiss()}>
+      {currentSpot && (
+        <View style={paymentStyles.cardTitleView}>
+          <Text style={paymentStyles.title}>Booking Summary</Text>
+          <Text style={paymentStyles.checkoutText}>{`${selectedTime}h - ${endHour}:00h`}</Text>
+          <Text style={paymentStyles.checkoutText}>{`${currentSpot.price} €/h`}</Text>
+          <Text style={paymentStyles.checkoutText}>
+            Total:{' '}
+            <Text style={paymentStyles.money}>{(duration * currentSpot.price).toFixed(2)}€</Text>
+          </Text>
+        </View>
+      )}
+      <View style={paymentStyles.cardTitleView}>
+        <Text style={paymentStyles.cardTitle}>Add Credit Card Details</Text>
+      </View>
       <CardField
         postalCodeEnabled={false}
         placeholder={{
@@ -101,7 +125,6 @@ export const Payment = () => {
         style={{
           width: '80%',
           height: 90,
-          marginVertical: 30,
           padding: 5,
         }}
         onCardChange={(cardDetails) => {

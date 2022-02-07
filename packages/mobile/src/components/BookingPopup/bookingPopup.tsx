@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { KeyboardAvoidingView, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import SlidingUpPanel from 'rn-sliding-up-panel';
 import { RootState } from '../../redux';
@@ -8,6 +8,7 @@ import { changePopupContent } from '../../redux/popupContent/popupContentSlice';
 import { displayRoute } from '../../redux/showRoute/showRoute';
 import { CustomButton } from '../Forms/button';
 import { ParkingSpotInfo } from '../ParkingSpotInfo/parkingSpotInfo';
+// eslint-disable-next-line import/no-cycle
 import { Payment } from '../Payment/payment';
 import { StartRoute } from '../StartRoutePopup/startRoute';
 import styles from './bookingPopupStyles';
@@ -21,7 +22,7 @@ export const BookingPopup = () => {
   const dispatch = useDispatch();
   // On discard navigation function:
   const onDiscard = () => {
-    if (content === 'start') {
+    if (content !== 'booking') {
       dispatch(changePopupContent('booking'));
       // We remove the route if the user discards going to navigation mode
       dispatch(displayRoute(false));
@@ -51,13 +52,15 @@ export const BookingPopup = () => {
   };
 
   return (
-    <SlidingUpPanel
-      ref={panelReference}
-      draggableRange={{ top: 500, bottom: 0 }}
-      allowDragging={content !== 'start'}
-      backdropOpacity={content === 'start' ? 0.3 : 0.5}
-      onBottomReached={onDiscard}>
-      {changeContent()}
-    </SlidingUpPanel>
+    <KeyboardAvoidingView contentContainerStyle={{ paddingTop: 200 }}>
+      <SlidingUpPanel
+        ref={panelReference}
+        draggableRange={{ top: 500, bottom: 0 }}
+        allowDragging={content !== 'start'}
+        backdropOpacity={content === 'start' ? 0.3 : 0.5}
+        onBottomReached={onDiscard}>
+        {changeContent()}
+      </SlidingUpPanel>
+    </KeyboardAvoidingView>
   );
 };
