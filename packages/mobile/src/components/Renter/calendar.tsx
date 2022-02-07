@@ -13,7 +13,6 @@ export const RenterCalendar = () => {
     currentSpot && (
       <View style={styles.calendar}>
         <MaterialCommunityIcons name="calendar" size={40} color="#7145D6" style={styles.icon} />
-
         <CalendarComponent disabledDayIndexes={currentSpot.daysAvailable} />
         <TimePicker hours={[currentSpot.startHour as number, currentSpot.endHour as number]} />
       </View>

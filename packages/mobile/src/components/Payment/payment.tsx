@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
-import { CardField, CardForm, useConfirmPayment } from '@stripe/stripe-react-native';
+import { CardField, useConfirmPayment } from '@stripe/stripe-react-native';
+import { useState } from 'react';
 import { Keyboard, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -19,8 +20,9 @@ import { paymentStyles } from './paymentStyles';
 
 export const Payment = () => {
   const { user } = useAuth();
+  const [completed, setCompleted] = useState(false);
+
   const [createPaymentIntent] = useCreatePaymentIntentMutation();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { confirmPayment, loading } = useConfirmPayment();
 
   const dispatch = useDispatch();
@@ -35,7 +37,7 @@ export const Payment = () => {
     awaitRefetchQueries: true,
   });
 
-  const reservationRequest = async () => {
+  const reservationRequest = async (stripeChargeId: string) => {
     try {
       if (currentSpot) {
         const date = Object.keys(selectedDate)[0];
@@ -44,7 +46,8 @@ export const Payment = () => {
           selectedTime,
           duration,
           currentSpot.id,
-          currentSpot.price
+          currentSpot.price,
+          stripeChargeId
         );
         await createReservation({ variables: { input: req } });
       }
@@ -78,7 +81,9 @@ export const Payment = () => {
       dispatch(displayRoute(true));
       dispatch(changePopupContent('start'));
       // Make reservations
-      reservationRequest();
+      if (paymentObject?.paymentIntent) {
+        reservationRequest(paymentObject.paymentIntent.id);
+      }
     }
   };
 
@@ -90,7 +95,7 @@ export const Payment = () => {
           number: '4242 4242 4242 4242',
         }}
         cardStyle={{
-          backgroundColor: 'blue',
+          backgroundColor: '#FFFFFF',
           textColor: '#000000',
         }}
         style={{
@@ -100,15 +105,16 @@ export const Payment = () => {
           padding: 5,
         }}
         onCardChange={(cardDetails) => {
-          console.log('cardDetails', cardDetails);
-        }}
-        onFocus={(focusedField) => {
-          console.log('focusField', focusedField);
+          setCompleted(cardDetails.complete);
         }}
       />
-      <CardForm style={{ height: 200, width: 200 }} />
       <View style={paymentStyles.payButton}>
-        <CustomButton press={onPress} color="white" type="main">
+        <CustomButton
+          press={onPress}
+          color="white"
+          type="main"
+          loading={loading}
+          disabled={!completed}>
           Pay
         </CustomButton>
       </View>
