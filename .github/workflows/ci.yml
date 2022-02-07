@@ -1,8 +1,5 @@
 name: Build Docker compose
 on:
-  push:
-    branches:
-      - feat/docker-ci
   workflow_dispatch:
     inputs:
       NODE_ENV:

@@ -1,30 +1,30 @@
-name: Build Containers for Prod & Push to Dockerhub
-on:
-  push:
-    branches:
-      - feat/docker-ci
+# name: Build Containers for Prod & Push to Dockerhub
+# on:
+#   push:
+#     branches:
+#       - feat/docker-ci
 
-jobs:
-  build-and-deploy-server:
-    name: Build and Deploy Backend
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out the repo
-        uses: actions/checkout@v2
-      # - name: Docker meta
-      #   id: meta
-      #   uses: docker/metadata-action@v3
-      #   with:
-      #     images: nfleig/docker-cicd
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v2
-        with:
-          context: ./packages/server
-          push: true
-          tags: nfleig/parkpal-backend:latest
-          # labels: ${{ steps.meta.outputs.labels }}
+# jobs:
+#   build-and-deploy-server:
+#     name: Build and Deploy Backend
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Check out the repo
+#         uses: actions/checkout@v2
+#       # - name: Docker meta
+#       #   id: meta
+#       #   uses: docker/metadata-action@v3
+#       #   with:
+#       #     images: nfleig/docker-cicd
+#       - name: Login to DockerHub
+#         uses: docker/login-action@v1
+#         with:
+#           username: ${{ secrets.DOCKERHUB_USERNAME }}
+#           password: ${{ secrets.DOCKERHUB_PASSWORD }}
+#       - name: Build and push Docker image
+#         uses: docker/build-push-action@v2
+#         with:
+#           context: ./packages/server
+#           push: true
+#           tags: nfleig/parkpal-backend:latest
+#           # labels: ${{ steps.meta.outputs.labels }}
