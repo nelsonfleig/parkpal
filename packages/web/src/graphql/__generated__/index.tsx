@@ -17,6 +17,8 @@ export type Scalars = {
   Float: number;
   /** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
   DateTime: any;
+  /** The `Upload` scalar type represents a file upload. */
+  Upload: any;
 };
 
 export type AuthResponse = {
@@ -91,103 +93,91 @@ export type Mutation = {
   updateParkingSpot: ParkingSpot;
   /** Logout user */
   updateProfile: AuthResponse;
+  updateProfilePicture: Scalars['String'];
   /** Update Reservation */
   updateReservation: Reservation;
   /** Update Todo */
   updateTodo: Todo;
   /** Update User */
   updateUser: User;
+  uploadFile: Scalars['String'];
 };
-
 
 export type MutationCreateComplainArgs = {
   input: ComplainInput;
 };
 
-
 export type MutationCreateParkingSpotArgs = {
   input: ParkingSpotInput;
 };
-
 
 export type MutationCreateReservationArgs = {
   input: ReservationInput;
 };
 
-
 export type MutationCreateTodoArgs = {
   input: TodoInput;
 };
-
 
 export type MutationCreateUserArgs = {
   input: UserInput;
 };
 
-
 export type MutationDeleteComplainArgs = {
   id: Scalars['ID'];
 };
-
 
 export type MutationDeleteParkingSpotArgs = {
   id: Scalars['ID'];
 };
 
-
 export type MutationDeleteReservationArgs = {
   id: Scalars['ID'];
 };
-
 
 export type MutationDeleteTodoArgs = {
   id: Scalars['ID'];
 };
 
-
 export type MutationDeleteUserArgs = {
   id: Scalars['ID'];
 };
-
 
 export type MutationLoginArgs = {
   input: LoginInput;
 };
 
-
 export type MutationRegisterArgs = {
   input: RegisterInput;
 };
-
 
 export type MutationUpdateComplainArgs = {
   id: Scalars['ID'];
   input: ComplainInput;
 };
 
-
 export type MutationUpdateParkingSpotArgs = {
   id: Scalars['ID'];
   input: ParkingSpotInput;
 };
 
-
 export type MutationUpdateProfileArgs = {
   input: ProfileInput;
 };
 
+export type MutationUpdateProfilePictureArgs = {
+  image: Scalars['Upload'];
+};
 
 export type MutationUpdateReservationArgs = {
   id: Scalars['ID'];
   input: ReservationInput;
 };
 
-
 export type MutationUpdateTodoArgs = {
   id: Scalars['ID'];
   input: TodoInput;
 };
-
 
 export type MutationUpdateUserArgs = {
   id: Scalars['ID'];
@@ -280,31 +270,25 @@ export type Query = {
   protect: Scalars['String'];
 };
 
-
 export type QueryFindNearParkingSpotsArgs = {
   input: NearParkingSpotsInput;
 };
-
 
 export type QueryFindOneComplainArgs = {
   id: Scalars['ID'];
 };
 
-
 export type QueryFindOneParkingSpotArgs = {
   id: Scalars['ID'];
 };
-
 
 export type QueryFindOneReservationArgs = {
   id: Scalars['ID'];
 };
 
-
 export type QueryFindOneTodoArgs = {
   id: Scalars['ID'];
 };
-
 
 export type QueryFindOneUserArgs = {
   id: Scalars['ID'];
@@ -360,7 +344,7 @@ export type ReservationInput = {
 export enum Role {
   Admin = 'ADMIN',
   Renter = 'RENTER',
-  User = 'USER'
+  User = 'USER',
 }
 
 export type SeriesDataItem = {
@@ -411,123 +395,249 @@ export type UserInput = {
   password: Scalars['String'];
 };
 
-export type ParkingSpotDetailsFragment = { __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour?: number | null | undefined, endHour?: number | null | undefined, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, country?: string | null | undefined, userId: number };
+export type ParkingSpotDetailsFragment = {
+  __typename?: 'ParkingSpot';
+  id: string;
+  lat: number;
+  lng: number;
+  price: number;
+  daysAvailable: Array<number>;
+  startHour?: number | null | undefined;
+  endHour?: number | null | undefined;
+  street?: string | null | undefined;
+  zipCode?: string | null | undefined;
+  city?: string | null | undefined;
+  country?: string | null | undefined;
+  userId: number;
+};
 
-export type TodoExcerptFragment = { __typename?: 'Todo', id: string, title: string, completed?: boolean | null | undefined };
+export type TodoExcerptFragment = {
+  __typename?: 'Todo';
+  id: string;
+  title: string;
+  completed?: boolean | null | undefined;
+};
 
-export type UserExcerptFragment = { __typename?: 'User', id: string, firstName: string, lastName: string, email: string, roles: Array<Role>, phone?: string | null | undefined, bankInfo?: string | null | undefined };
+export type UserExcerptFragment = {
+  __typename?: 'User';
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  roles: Array<Role>;
+  phone?: string | null | undefined;
+  bankInfo?: string | null | undefined;
+  pictureUrl?: string | null | undefined;
+};
 
 export type LoginMutationVariables = Exact<{
   input: LoginInput;
 }>;
 
-
-export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'AuthResponse', accessToken: string } };
+export type LoginMutation = {
+  __typename?: 'Mutation';
+  login: { __typename?: 'AuthResponse'; accessToken: string };
+};
 
 export type RegisterMutationVariables = Exact<{
   input: RegisterInput;
 }>;
 
-
-export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'User', id: string } };
+export type RegisterMutation = {
+  __typename?: 'Mutation';
+  register: { __typename?: 'User'; id: string };
+};
 
 export type CreateParkingSpotMutationVariables = Exact<{
   input: ParkingSpotInput;
 }>;
 
-
-export type CreateParkingSpotMutation = { __typename?: 'Mutation', createParkingSpot: { __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour?: number | null | undefined, endHour?: number | null | undefined, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, country?: string | null | undefined, userId: number } };
+export type CreateParkingSpotMutation = {
+  __typename?: 'Mutation';
+  createParkingSpot: {
+    __typename?: 'ParkingSpot';
+    id: string;
+    lat: number;
+    lng: number;
+    price: number;
+    daysAvailable: Array<number>;
+    startHour?: number | null | undefined;
+    endHour?: number | null | undefined;
+    street?: string | null | undefined;
+    zipCode?: string | null | undefined;
+    city?: string | null | undefined;
+    country?: string | null | undefined;
+    userId: number;
+  };
+};
 
 export type DeleteComplainMutationVariables = Exact<{
   input: Scalars['ID'];
 }>;
 
-
-export type DeleteComplainMutation = { __typename?: 'Mutation', deleteComplain: { __typename: 'Complain' } };
+export type DeleteComplainMutation = {
+  __typename?: 'Mutation';
+  deleteComplain: { __typename: 'Complain' };
+};
 
 export type UpdateProfileMutationVariables = Exact<{
   input: ProfileInput;
 }>;
 
+export type UpdateProfileMutation = {
+  __typename?: 'Mutation';
+  updateProfile: { __typename?: 'AuthResponse'; accessToken: string };
+};
 
-export type UpdateProfileMutation = { __typename?: 'Mutation', updateProfile: { __typename?: 'AuthResponse', accessToken: string } };
+export type LogoutMutationVariables = Exact<{ [key: string]: never }>;
 
-export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
+export type LogoutMutation = { __typename?: 'Mutation'; logout: boolean };
 
+export type UpdateProfilePictureMutationVariables = Exact<{
+  image: Scalars['Upload'];
+}>;
 
-export type LogoutMutation = { __typename?: 'Mutation', logout: boolean };
+export type UpdateProfilePictureMutation = {
+  __typename?: 'Mutation';
+  updateProfilePicture: string;
+};
 
-export type MeQueryVariables = Exact<{ [key: string]: never; }>;
+export type MeQueryVariables = Exact<{ [key: string]: never }>;
 
+export type MeQuery = {
+  __typename?: 'Query';
+  me?:
+    | {
+        __typename?: 'User';
+        id: string;
+        firstName: string;
+        lastName: string;
+        email: string;
+        roles: Array<Role>;
+        phone?: string | null | undefined;
+        bankInfo?: string | null | undefined;
+        pictureUrl?: string | null | undefined;
+      }
+    | null
+    | undefined;
+};
 
-export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, firstName: string, lastName: string, email: string, roles: Array<Role>, phone?: string | null | undefined, bankInfo?: string | null | undefined } | null | undefined };
+export type FindMyParkingSpotsQueryVariables = Exact<{ [key: string]: never }>;
 
-export type FindMyParkingSpotsQueryVariables = Exact<{ [key: string]: never; }>;
+export type FindMyParkingSpotsQuery = {
+  __typename?: 'Query';
+  parkingSpots: Array<{
+    __typename?: 'ParkingSpot';
+    id: string;
+    lat: number;
+    lng: number;
+    price: number;
+    daysAvailable: Array<number>;
+    startHour?: number | null | undefined;
+    endHour?: number | null | undefined;
+    street?: string | null | undefined;
+    zipCode?: string | null | undefined;
+    city?: string | null | undefined;
+    country?: string | null | undefined;
+    userId: number;
+  }>;
+};
 
+export type ParkingSpotResTestQueryVariables = Exact<{ [key: string]: never }>;
 
-export type FindMyParkingSpotsQuery = { __typename?: 'Query', parkingSpots: Array<{ __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour?: number | null | undefined, endHour?: number | null | undefined, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, country?: string | null | undefined, userId: number }> };
+export type ParkingSpotResTestQuery = {
+  __typename?: 'Query';
+  parkingSpots: Array<{
+    __typename?: 'RenterCalendarResponse';
+    spot: number;
+    startHour: number;
+    endHour: number;
+    name: string;
+  }>;
+};
 
-export type ParkingSpotResTestQueryVariables = Exact<{ [key: string]: never; }>;
+export type ParkingSpotComplainsQueryVariables = Exact<{ [key: string]: never }>;
 
+export type ParkingSpotComplainsQuery = {
+  __typename?: 'Query';
+  complains: Array<{
+    __typename?: 'RenterComplainResponse';
+    id: number;
+    city: string;
+    street: string;
+    createdAt: string;
+    description: string;
+    pictureUrl?: string | null | undefined;
+  }>;
+};
 
-export type ParkingSpotResTestQuery = { __typename?: 'Query', parkingSpots: Array<{ __typename?: 'RenterCalendarResponse', spot: number, startHour: number, endHour: number, name: string }> };
+export type FindAllTodosQueryVariables = Exact<{ [key: string]: never }>;
 
-export type ParkingSpotComplainsQueryVariables = Exact<{ [key: string]: never; }>;
+export type FindAllTodosQuery = {
+  __typename?: 'Query';
+  todos: Array<{
+    __typename?: 'Todo';
+    id: string;
+    title: string;
+    completed?: boolean | null | undefined;
+  }>;
+};
 
+export type GetMyBusinessStatsQueryVariables = Exact<{ [key: string]: never }>;
 
-export type ParkingSpotComplainsQuery = { __typename?: 'Query', complains: Array<{ __typename?: 'RenterComplainResponse', id: number, city: string, street: string, createdAt: string, description: string, pictureUrl?: string | null | undefined }> };
-
-export type FindAllTodosQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type FindAllTodosQuery = { __typename?: 'Query', todos: Array<{ __typename?: 'Todo', id: string, title: string, completed?: boolean | null | undefined }> };
-
-export type GetMyBusinessStatsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetMyBusinessStatsQuery = { __typename?: 'Query', stats: { __typename?: 'BusinessStatsResponse', totalRevenue: number, totalComplaints: number, totalReservations: number, timeSeries: Array<{ __typename?: 'SeriesDataItem', date: string, sum: number }> } };
+export type GetMyBusinessStatsQuery = {
+  __typename?: 'Query';
+  stats: {
+    __typename?: 'BusinessStatsResponse';
+    totalRevenue: number;
+    totalComplaints: number;
+    totalReservations: number;
+    timeSeries: Array<{ __typename?: 'SeriesDataItem'; date: string; sum: number }>;
+  };
+};
 
 export const ParkingSpotDetailsFragmentDoc = gql`
-    fragment ParkingSpotDetails on ParkingSpot {
-  id
-  lat
-  lng
-  price
-  daysAvailable
-  startHour
-  endHour
-  street
-  zipCode
-  city
-  country
-  userId
-}
-    `;
-export const TodoExcerptFragmentDoc = gql`
-    fragment TodoExcerpt on Todo {
-  id
-  title
-  completed
-}
-    `;
-export const UserExcerptFragmentDoc = gql`
-    fragment UserExcerpt on User {
-  id
-  firstName
-  lastName
-  email
-  roles
-  phone
-  bankInfo
-}
-    `;
-export const LoginDocument = gql`
-    mutation Login($input: LoginInput!) {
-  login(input: $input) {
-    accessToken
+  fragment ParkingSpotDetails on ParkingSpot {
+    id
+    lat
+    lng
+    price
+    daysAvailable
+    startHour
+    endHour
+    street
+    zipCode
+    city
+    country
+    userId
   }
-}
-    `;
+`;
+export const TodoExcerptFragmentDoc = gql`
+  fragment TodoExcerpt on Todo {
+    id
+    title
+    completed
+  }
+`;
+export const UserExcerptFragmentDoc = gql`
+  fragment UserExcerpt on User {
+    id
+    firstName
+    lastName
+    email
+    roles
+    phone
+    bankInfo
+    pictureUrl
+  }
+`;
+export const LoginDocument = gql`
+  mutation Login($input: LoginInput!) {
+    login(input: $input) {
+      accessToken
+    }
+  }
+`;
 export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
 
 /**
@@ -547,21 +657,29 @@ export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutati
  *   },
  * });
  */
-export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
-      }
+export function useLoginMutation(
+  baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
+}
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
-export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
+export type LoginMutationOptions = Apollo.BaseMutationOptions<
+  LoginMutation,
+  LoginMutationVariables
+>;
 export const RegisterDocument = gql`
-    mutation Register($input: RegisterInput!) {
-  register(input: $input) {
-    id
+  mutation Register($input: RegisterInput!) {
+    register(input: $input) {
+      id
+    }
   }
-}
-    `;
-export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, RegisterMutationVariables>;
+`;
+export type RegisterMutationFn = Apollo.MutationFunction<
+  RegisterMutation,
+  RegisterMutationVariables
+>;
 
 /**
  * __useRegisterMutation__
@@ -580,21 +698,30 @@ export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, Regis
  *   },
  * });
  */
-export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<RegisterMutation, RegisterMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument, options);
-      }
+export function useRegisterMutation(
+  baseOptions?: Apollo.MutationHookOptions<RegisterMutation, RegisterMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument, options);
+}
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
-export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export type RegisterMutationOptions = Apollo.BaseMutationOptions<
+  RegisterMutation,
+  RegisterMutationVariables
+>;
 export const CreateParkingSpotDocument = gql`
-    mutation CreateParkingSpot($input: ParkingSpotInput!) {
-  createParkingSpot(input: $input) {
-    ...ParkingSpotDetails
+  mutation CreateParkingSpot($input: ParkingSpotInput!) {
+    createParkingSpot(input: $input) {
+      ...ParkingSpotDetails
+    }
   }
-}
-    ${ParkingSpotDetailsFragmentDoc}`;
-export type CreateParkingSpotMutationFn = Apollo.MutationFunction<CreateParkingSpotMutation, CreateParkingSpotMutationVariables>;
+  ${ParkingSpotDetailsFragmentDoc}
+`;
+export type CreateParkingSpotMutationFn = Apollo.MutationFunction<
+  CreateParkingSpotMutation,
+  CreateParkingSpotMutationVariables
+>;
 
 /**
  * __useCreateParkingSpotMutation__
@@ -613,21 +740,35 @@ export type CreateParkingSpotMutationFn = Apollo.MutationFunction<CreateParkingS
  *   },
  * });
  */
-export function useCreateParkingSpotMutation(baseOptions?: Apollo.MutationHookOptions<CreateParkingSpotMutation, CreateParkingSpotMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateParkingSpotMutation, CreateParkingSpotMutationVariables>(CreateParkingSpotDocument, options);
-      }
+export function useCreateParkingSpotMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    CreateParkingSpotMutation,
+    CreateParkingSpotMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<CreateParkingSpotMutation, CreateParkingSpotMutationVariables>(
+    CreateParkingSpotDocument,
+    options
+  );
+}
 export type CreateParkingSpotMutationHookResult = ReturnType<typeof useCreateParkingSpotMutation>;
 export type CreateParkingSpotMutationResult = Apollo.MutationResult<CreateParkingSpotMutation>;
-export type CreateParkingSpotMutationOptions = Apollo.BaseMutationOptions<CreateParkingSpotMutation, CreateParkingSpotMutationVariables>;
+export type CreateParkingSpotMutationOptions = Apollo.BaseMutationOptions<
+  CreateParkingSpotMutation,
+  CreateParkingSpotMutationVariables
+>;
 export const DeleteComplainDocument = gql`
-    mutation DeleteComplain($input: ID!) {
-  deleteComplain(id: $input) {
-    __typename
+  mutation DeleteComplain($input: ID!) {
+    deleteComplain(id: $input) {
+      __typename
+    }
   }
-}
-    `;
-export type DeleteComplainMutationFn = Apollo.MutationFunction<DeleteComplainMutation, DeleteComplainMutationVariables>;
+`;
+export type DeleteComplainMutationFn = Apollo.MutationFunction<
+  DeleteComplainMutation,
+  DeleteComplainMutationVariables
+>;
 
 /**
  * __useDeleteComplainMutation__
@@ -646,21 +787,32 @@ export type DeleteComplainMutationFn = Apollo.MutationFunction<DeleteComplainMut
  *   },
  * });
  */
-export function useDeleteComplainMutation(baseOptions?: Apollo.MutationHookOptions<DeleteComplainMutation, DeleteComplainMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<DeleteComplainMutation, DeleteComplainMutationVariables>(DeleteComplainDocument, options);
-      }
+export function useDeleteComplainMutation(
+  baseOptions?: Apollo.MutationHookOptions<DeleteComplainMutation, DeleteComplainMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<DeleteComplainMutation, DeleteComplainMutationVariables>(
+    DeleteComplainDocument,
+    options
+  );
+}
 export type DeleteComplainMutationHookResult = ReturnType<typeof useDeleteComplainMutation>;
 export type DeleteComplainMutationResult = Apollo.MutationResult<DeleteComplainMutation>;
-export type DeleteComplainMutationOptions = Apollo.BaseMutationOptions<DeleteComplainMutation, DeleteComplainMutationVariables>;
+export type DeleteComplainMutationOptions = Apollo.BaseMutationOptions<
+  DeleteComplainMutation,
+  DeleteComplainMutationVariables
+>;
 export const UpdateProfileDocument = gql`
-    mutation updateProfile($input: ProfileInput!) {
-  updateProfile(input: $input) {
-    accessToken
+  mutation updateProfile($input: ProfileInput!) {
+    updateProfile(input: $input) {
+      accessToken
+    }
   }
-}
-    `;
-export type UpdateProfileMutationFn = Apollo.MutationFunction<UpdateProfileMutation, UpdateProfileMutationVariables>;
+`;
+export type UpdateProfileMutationFn = Apollo.MutationFunction<
+  UpdateProfileMutation,
+  UpdateProfileMutationVariables
+>;
 
 /**
  * __useUpdateProfileMutation__
@@ -679,18 +831,26 @@ export type UpdateProfileMutationFn = Apollo.MutationFunction<UpdateProfileMutat
  *   },
  * });
  */
-export function useUpdateProfileMutation(baseOptions?: Apollo.MutationHookOptions<UpdateProfileMutation, UpdateProfileMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<UpdateProfileMutation, UpdateProfileMutationVariables>(UpdateProfileDocument, options);
-      }
+export function useUpdateProfileMutation(
+  baseOptions?: Apollo.MutationHookOptions<UpdateProfileMutation, UpdateProfileMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<UpdateProfileMutation, UpdateProfileMutationVariables>(
+    UpdateProfileDocument,
+    options
+  );
+}
 export type UpdateProfileMutationHookResult = ReturnType<typeof useUpdateProfileMutation>;
 export type UpdateProfileMutationResult = Apollo.MutationResult<UpdateProfileMutation>;
-export type UpdateProfileMutationOptions = Apollo.BaseMutationOptions<UpdateProfileMutation, UpdateProfileMutationVariables>;
+export type UpdateProfileMutationOptions = Apollo.BaseMutationOptions<
+  UpdateProfileMutation,
+  UpdateProfileMutationVariables
+>;
 export const LogoutDocument = gql`
-    mutation logout {
-  logout
-}
-    `;
+  mutation logout {
+    logout
+  }
+`;
 export type LogoutMutationFn = Apollo.MutationFunction<LogoutMutation, LogoutMutationVariables>;
 
 /**
@@ -709,20 +869,74 @@ export type LogoutMutationFn = Apollo.MutationFunction<LogoutMutation, LogoutMut
  *   },
  * });
  */
-export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<LogoutMutation, LogoutMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument, options);
-      }
+export function useLogoutMutation(
+  baseOptions?: Apollo.MutationHookOptions<LogoutMutation, LogoutMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument, options);
+}
 export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
-export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
-export const MeDocument = gql`
-    query Me {
-  me {
-    ...UserExcerpt
+export type LogoutMutationOptions = Apollo.BaseMutationOptions<
+  LogoutMutation,
+  LogoutMutationVariables
+>;
+export const UpdateProfilePictureDocument = gql`
+  mutation UpdateProfilePicture($image: Upload!) {
+    updateProfilePicture(image: $image)
   }
+`;
+export type UpdateProfilePictureMutationFn = Apollo.MutationFunction<
+  UpdateProfilePictureMutation,
+  UpdateProfilePictureMutationVariables
+>;
+
+/**
+ * __useUpdateProfilePictureMutation__
+ *
+ * To run a mutation, you first call `useUpdateProfilePictureMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateProfilePictureMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateProfilePictureMutation, { data, loading, error }] = useUpdateProfilePictureMutation({
+ *   variables: {
+ *      image: // value for 'image'
+ *   },
+ * });
+ */
+export function useUpdateProfilePictureMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    UpdateProfilePictureMutation,
+    UpdateProfilePictureMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<UpdateProfilePictureMutation, UpdateProfilePictureMutationVariables>(
+    UpdateProfilePictureDocument,
+    options
+  );
 }
-    ${UserExcerptFragmentDoc}`;
+export type UpdateProfilePictureMutationHookResult = ReturnType<
+  typeof useUpdateProfilePictureMutation
+>;
+export type UpdateProfilePictureMutationResult =
+  Apollo.MutationResult<UpdateProfilePictureMutation>;
+export type UpdateProfilePictureMutationOptions = Apollo.BaseMutationOptions<
+  UpdateProfilePictureMutation,
+  UpdateProfilePictureMutationVariables
+>;
+export const MeDocument = gql`
+  query Me {
+    me {
+      ...UserExcerpt
+    }
+  }
+  ${UserExcerptFragmentDoc}
+`;
 
 /**
  * __useMeQuery__
@@ -740,23 +954,26 @@ export const MeDocument = gql`
  * });
  */
 export function useMeQuery(baseOptions?: Apollo.QueryHookOptions<MeQuery, MeQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, options);
-      }
-export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
-        }
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+}
+export function useMeLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+}
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;
 export const FindMyParkingSpotsDocument = gql`
-    query FindMyParkingSpots {
-  parkingSpots: findMyParkingSpots {
-    ...ParkingSpotDetails
+  query FindMyParkingSpots {
+    parkingSpots: findMyParkingSpots {
+      ...ParkingSpotDetails
+    }
   }
-}
-    ${ParkingSpotDetailsFragmentDoc}`;
+  ${ParkingSpotDetailsFragmentDoc}
+`;
 
 /**
  * __useFindMyParkingSpotsQuery__
@@ -773,27 +990,45 @@ export const FindMyParkingSpotsDocument = gql`
  *   },
  * });
  */
-export function useFindMyParkingSpotsQuery(baseOptions?: Apollo.QueryHookOptions<FindMyParkingSpotsQuery, FindMyParkingSpotsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindMyParkingSpotsQuery, FindMyParkingSpotsQueryVariables>(FindMyParkingSpotsDocument, options);
-      }
-export function useFindMyParkingSpotsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindMyParkingSpotsQuery, FindMyParkingSpotsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindMyParkingSpotsQuery, FindMyParkingSpotsQueryVariables>(FindMyParkingSpotsDocument, options);
-        }
-export type FindMyParkingSpotsQueryHookResult = ReturnType<typeof useFindMyParkingSpotsQuery>;
-export type FindMyParkingSpotsLazyQueryHookResult = ReturnType<typeof useFindMyParkingSpotsLazyQuery>;
-export type FindMyParkingSpotsQueryResult = Apollo.QueryResult<FindMyParkingSpotsQuery, FindMyParkingSpotsQueryVariables>;
-export const ParkingSpotResTestDocument = gql`
-    query ParkingSpotResTest {
-  parkingSpots: findCalendarInfo {
-    spot
-    startHour
-    endHour
-    name
-  }
+export function useFindMyParkingSpotsQuery(
+  baseOptions?: Apollo.QueryHookOptions<FindMyParkingSpotsQuery, FindMyParkingSpotsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FindMyParkingSpotsQuery, FindMyParkingSpotsQueryVariables>(
+    FindMyParkingSpotsDocument,
+    options
+  );
 }
-    `;
+export function useFindMyParkingSpotsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    FindMyParkingSpotsQuery,
+    FindMyParkingSpotsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<FindMyParkingSpotsQuery, FindMyParkingSpotsQueryVariables>(
+    FindMyParkingSpotsDocument,
+    options
+  );
+}
+export type FindMyParkingSpotsQueryHookResult = ReturnType<typeof useFindMyParkingSpotsQuery>;
+export type FindMyParkingSpotsLazyQueryHookResult = ReturnType<
+  typeof useFindMyParkingSpotsLazyQuery
+>;
+export type FindMyParkingSpotsQueryResult = Apollo.QueryResult<
+  FindMyParkingSpotsQuery,
+  FindMyParkingSpotsQueryVariables
+>;
+export const ParkingSpotResTestDocument = gql`
+  query ParkingSpotResTest {
+    parkingSpots: findCalendarInfo {
+      spot
+      startHour
+      endHour
+      name
+    }
+  }
+`;
 
 /**
  * __useParkingSpotResTestQuery__
@@ -810,29 +1045,47 @@ export const ParkingSpotResTestDocument = gql`
  *   },
  * });
  */
-export function useParkingSpotResTestQuery(baseOptions?: Apollo.QueryHookOptions<ParkingSpotResTestQuery, ParkingSpotResTestQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ParkingSpotResTestQuery, ParkingSpotResTestQueryVariables>(ParkingSpotResTestDocument, options);
-      }
-export function useParkingSpotResTestLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ParkingSpotResTestQuery, ParkingSpotResTestQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ParkingSpotResTestQuery, ParkingSpotResTestQueryVariables>(ParkingSpotResTestDocument, options);
-        }
-export type ParkingSpotResTestQueryHookResult = ReturnType<typeof useParkingSpotResTestQuery>;
-export type ParkingSpotResTestLazyQueryHookResult = ReturnType<typeof useParkingSpotResTestLazyQuery>;
-export type ParkingSpotResTestQueryResult = Apollo.QueryResult<ParkingSpotResTestQuery, ParkingSpotResTestQueryVariables>;
-export const ParkingSpotComplainsDocument = gql`
-    query ParkingSpotComplains {
-  complains: findComplainInfo {
-    id
-    city
-    street
-    createdAt
-    description
-    pictureUrl
-  }
+export function useParkingSpotResTestQuery(
+  baseOptions?: Apollo.QueryHookOptions<ParkingSpotResTestQuery, ParkingSpotResTestQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<ParkingSpotResTestQuery, ParkingSpotResTestQueryVariables>(
+    ParkingSpotResTestDocument,
+    options
+  );
 }
-    `;
+export function useParkingSpotResTestLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    ParkingSpotResTestQuery,
+    ParkingSpotResTestQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<ParkingSpotResTestQuery, ParkingSpotResTestQueryVariables>(
+    ParkingSpotResTestDocument,
+    options
+  );
+}
+export type ParkingSpotResTestQueryHookResult = ReturnType<typeof useParkingSpotResTestQuery>;
+export type ParkingSpotResTestLazyQueryHookResult = ReturnType<
+  typeof useParkingSpotResTestLazyQuery
+>;
+export type ParkingSpotResTestQueryResult = Apollo.QueryResult<
+  ParkingSpotResTestQuery,
+  ParkingSpotResTestQueryVariables
+>;
+export const ParkingSpotComplainsDocument = gql`
+  query ParkingSpotComplains {
+    complains: findComplainInfo {
+      id
+      city
+      street
+      createdAt
+      description
+      pictureUrl
+    }
+  }
+`;
 
 /**
  * __useParkingSpotComplainsQuery__
@@ -849,24 +1102,46 @@ export const ParkingSpotComplainsDocument = gql`
  *   },
  * });
  */
-export function useParkingSpotComplainsQuery(baseOptions?: Apollo.QueryHookOptions<ParkingSpotComplainsQuery, ParkingSpotComplainsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<ParkingSpotComplainsQuery, ParkingSpotComplainsQueryVariables>(ParkingSpotComplainsDocument, options);
-      }
-export function useParkingSpotComplainsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ParkingSpotComplainsQuery, ParkingSpotComplainsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<ParkingSpotComplainsQuery, ParkingSpotComplainsQueryVariables>(ParkingSpotComplainsDocument, options);
-        }
-export type ParkingSpotComplainsQueryHookResult = ReturnType<typeof useParkingSpotComplainsQuery>;
-export type ParkingSpotComplainsLazyQueryHookResult = ReturnType<typeof useParkingSpotComplainsLazyQuery>;
-export type ParkingSpotComplainsQueryResult = Apollo.QueryResult<ParkingSpotComplainsQuery, ParkingSpotComplainsQueryVariables>;
-export const FindAllTodosDocument = gql`
-    query FindAllTodos {
-  todos: findAllTodos {
-    ...TodoExcerpt
-  }
+export function useParkingSpotComplainsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    ParkingSpotComplainsQuery,
+    ParkingSpotComplainsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<ParkingSpotComplainsQuery, ParkingSpotComplainsQueryVariables>(
+    ParkingSpotComplainsDocument,
+    options
+  );
 }
-    ${TodoExcerptFragmentDoc}`;
+export function useParkingSpotComplainsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    ParkingSpotComplainsQuery,
+    ParkingSpotComplainsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<ParkingSpotComplainsQuery, ParkingSpotComplainsQueryVariables>(
+    ParkingSpotComplainsDocument,
+    options
+  );
+}
+export type ParkingSpotComplainsQueryHookResult = ReturnType<typeof useParkingSpotComplainsQuery>;
+export type ParkingSpotComplainsLazyQueryHookResult = ReturnType<
+  typeof useParkingSpotComplainsLazyQuery
+>;
+export type ParkingSpotComplainsQueryResult = Apollo.QueryResult<
+  ParkingSpotComplainsQuery,
+  ParkingSpotComplainsQueryVariables
+>;
+export const FindAllTodosDocument = gql`
+  query FindAllTodos {
+    todos: findAllTodos {
+      ...TodoExcerpt
+    }
+  }
+  ${TodoExcerptFragmentDoc}
+`;
 
 /**
  * __useFindAllTodosQuery__
@@ -883,30 +1158,43 @@ export const FindAllTodosDocument = gql`
  *   },
  * });
  */
-export function useFindAllTodosQuery(baseOptions?: Apollo.QueryHookOptions<FindAllTodosQuery, FindAllTodosQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindAllTodosQuery, FindAllTodosQueryVariables>(FindAllTodosDocument, options);
-      }
-export function useFindAllTodosLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindAllTodosQuery, FindAllTodosQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindAllTodosQuery, FindAllTodosQueryVariables>(FindAllTodosDocument, options);
-        }
+export function useFindAllTodosQuery(
+  baseOptions?: Apollo.QueryHookOptions<FindAllTodosQuery, FindAllTodosQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<FindAllTodosQuery, FindAllTodosQueryVariables>(
+    FindAllTodosDocument,
+    options
+  );
+}
+export function useFindAllTodosLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<FindAllTodosQuery, FindAllTodosQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<FindAllTodosQuery, FindAllTodosQueryVariables>(
+    FindAllTodosDocument,
+    options
+  );
+}
 export type FindAllTodosQueryHookResult = ReturnType<typeof useFindAllTodosQuery>;
 export type FindAllTodosLazyQueryHookResult = ReturnType<typeof useFindAllTodosLazyQuery>;
-export type FindAllTodosQueryResult = Apollo.QueryResult<FindAllTodosQuery, FindAllTodosQueryVariables>;
+export type FindAllTodosQueryResult = Apollo.QueryResult<
+  FindAllTodosQuery,
+  FindAllTodosQueryVariables
+>;
 export const GetMyBusinessStatsDocument = gql`
-    query GetMyBusinessStats {
-  stats: getMyBusinessStats {
-    totalRevenue
-    totalComplaints
-    totalReservations
-    timeSeries {
-      date
-      sum
+  query GetMyBusinessStats {
+    stats: getMyBusinessStats {
+      totalRevenue
+      totalComplaints
+      totalReservations
+      timeSeries {
+        date
+        sum
+      }
     }
   }
-}
-    `;
+`;
 
 /**
  * __useGetMyBusinessStatsQuery__
@@ -923,14 +1211,32 @@ export const GetMyBusinessStatsDocument = gql`
  *   },
  * });
  */
-export function useGetMyBusinessStatsQuery(baseOptions?: Apollo.QueryHookOptions<GetMyBusinessStatsQuery, GetMyBusinessStatsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetMyBusinessStatsQuery, GetMyBusinessStatsQueryVariables>(GetMyBusinessStatsDocument, options);
-      }
-export function useGetMyBusinessStatsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMyBusinessStatsQuery, GetMyBusinessStatsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetMyBusinessStatsQuery, GetMyBusinessStatsQueryVariables>(GetMyBusinessStatsDocument, options);
-        }
+export function useGetMyBusinessStatsQuery(
+  baseOptions?: Apollo.QueryHookOptions<GetMyBusinessStatsQuery, GetMyBusinessStatsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetMyBusinessStatsQuery, GetMyBusinessStatsQueryVariables>(
+    GetMyBusinessStatsDocument,
+    options
+  );
+}
+export function useGetMyBusinessStatsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetMyBusinessStatsQuery,
+    GetMyBusinessStatsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetMyBusinessStatsQuery, GetMyBusinessStatsQueryVariables>(
+    GetMyBusinessStatsDocument,
+    options
+  );
+}
 export type GetMyBusinessStatsQueryHookResult = ReturnType<typeof useGetMyBusinessStatsQuery>;
-export type GetMyBusinessStatsLazyQueryHookResult = ReturnType<typeof useGetMyBusinessStatsLazyQuery>;
-export type GetMyBusinessStatsQueryResult = Apollo.QueryResult<GetMyBusinessStatsQuery, GetMyBusinessStatsQueryVariables>;
+export type GetMyBusinessStatsLazyQueryHookResult = ReturnType<
+  typeof useGetMyBusinessStatsLazyQuery
+>;
+export type GetMyBusinessStatsQueryResult = Apollo.QueryResult<
+  GetMyBusinessStatsQuery,
+  GetMyBusinessStatsQueryVariables
+>;

@@ -1,17 +1,15 @@
 /* eslint-disable no-console */
-import { CardField, useStripe, CardForm } from '@stripe/stripe-react-native';
+import { CardField, CardForm, useStripe } from '@stripe/stripe-react-native';
 import { Keyboard, View } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { changePopupContent } from '../../redux/popupContent/popupContentSlice';
 import { CustomButton } from '../Forms/button';
 import { paymentStyles } from './paymentStyles';
 
-type PaymentType = {
-  setContent: React.Dispatch<React.SetStateAction<string>>;
-};
-
-export const Payment = ({ setContent }: PaymentType) => {
+export const Payment = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { confirmPayment } = useStripe();
-
+  const dispatch = useDispatch();
   return (
     <View style={paymentStyles.slideContent} onTouchEnd={() => Keyboard.dismiss()}>
       <CardField
@@ -40,7 +38,7 @@ export const Payment = ({ setContent }: PaymentType) => {
       <View style={paymentStyles.payButton}>
         <CustomButton
           press={() => {
-            setContent('start');
+            dispatch(changePopupContent('start'));
           }}
           color="white"
           type="main">

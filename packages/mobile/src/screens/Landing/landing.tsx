@@ -4,9 +4,11 @@ import { useEffect, useState } from 'react';
 import { Keyboard, Text, View } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { BookingPopup } from '../../components/BookingPopup/bookingPopup';
+import { FindSpotsHere } from '../../components/FindSpotsHere/findSpotsHere';
 import { MapComponent, mapRef } from '../../components/MapView/mapView';
+import { RootState } from '../../redux';
 import { changeDestination } from '../../redux/destination/destinationSlice';
 import { landingStyles } from './landingStyles';
 
@@ -14,6 +16,8 @@ export const LandingScreen = () => {
   const [location, setLocation] = useState(null as LocationObject | null); // Here we get the user's current location
   const [searchQuery, setSearchQuery] = useState(''); // We set the query on the searchbar
   const dispatch = useDispatch();
+  const { showFindButton } = useSelector((state: RootState) => state.showFindSpotButton);
+
   // On change search query:
   const onChangeSearch = (query: string) => {
     setSearchQuery(query);
@@ -65,31 +69,41 @@ export const LandingScreen = () => {
 
   return (
     <View style={landingStyles.container}>
-      <Searchbar
-        autoComplete
-        placeholder="Enter a destination"
-        iconColor="#7145D6"
-        theme={{ colors: { text: 'black' } }}
-        style={{
-          position: 'absolute',
-          top: 60,
-          right: 20,
-          left: 20,
-          zIndex: 3,
-        }}
-        autoCapitalize="words"
-        onChangeText={onChangeSearch}
-        value={searchQuery}
-        onSubmitEditing={onSubmitEditing}
-      />
-      <View onTouchEnd={() => Keyboard.dismiss()}>
-        {location ? (
-          <MapComponent latitude={location.coords.latitude} longitude={location.coords.longitude} />
-        ) : (
-          <SafeAreaView>
-            <Text>Warm lentils alert! You have to enable the location to use ParkPal.</Text>
-          </SafeAreaView>
+      <View>
+        {showFindButton && (
+          <Searchbar
+            autoComplete
+            placeholder="Enter a destination"
+            iconColor="#7145D6"
+            theme={{ colors: { text: 'black' } }}
+            style={{
+              position: 'absolute',
+              top: 60,
+              right: 20,
+              left: 20,
+              zIndex: 3,
+            }}
+            autoCapitalize="words"
+            onChangeText={onChangeSearch}
+            value={searchQuery}
+            onSubmitEditing={onSubmitEditing}
+          />
         )}
+        <View onTouchEnd={() => Keyboard.dismiss()}>
+          {location ? (
+            <MapComponent
+              latitude={location.coords.latitude}
+              longitude={location.coords.longitude}
+            />
+          ) : (
+            <SafeAreaView>
+              <Text>Warm lentils alert! You have to enable the location to use ParkPal.</Text>
+            </SafeAreaView>
+          )}
+        </View>
+        <View style={landingStyles.findHere}>
+          <FindSpotsHere location={location} />
+        </View>
       </View>
       <BookingPopup />
     </View>

@@ -1,11 +1,12 @@
 import { ScrollView } from 'react-native';
 import { Title } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { HomeProps } from '../../../types/appStack';
 import { BookingTile } from '../../components/Bookings/bookingTile';
 import { useGetMyReservationsQuery } from '../../graphql/__generated__';
 import styles from './bookingScreenStyles';
 
-export const BookingsScreen = () => {
+export const BookingsScreen = ({ navigation }: HomeProps) => {
   const { data } = useGetMyReservationsQuery();
 
   return (
@@ -20,6 +21,8 @@ export const BookingsScreen = () => {
               key={reservation.id}
               start={reservation.startDate}
               end={reservation.endDate}
+              coordinates={{ lat: reservation.parkingSpot.lat, lng: reservation.parkingSpot.lng }}
+              navigation={navigation}
             />
           );
         })}

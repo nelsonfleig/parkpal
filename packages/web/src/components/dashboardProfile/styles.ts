@@ -18,6 +18,7 @@ export const StyledProfilePic = styled(Avatar)(() => ({
   color: 'inherit',
   height: '300px',
   width: '300px',
+  marginBottom: '20px',
   ':hover': {
     opacity: '0.5',
   },

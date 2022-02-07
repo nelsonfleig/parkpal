@@ -205,6 +205,7 @@ type Mutation {
 
   """Delete User"""
   deleteUser(id: ID!): User!
+  updateProfilePicture(image: Upload!): String!
 
   """Custom Create Todo"""
   createTodo(input: TodoInput!): Todo!
@@ -214,6 +215,7 @@ type Mutation {
 
   """Delete Todo"""
   deleteTodo(id: ID!): Todo!
+  uploadFile(file: Upload!): String!
 
   """Create Reservation"""
   createReservation(input: ReservationInput!): Reservation!
@@ -269,6 +271,9 @@ input UserInput {
   email: String!
   password: String!
 }
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
 
 input TodoInput {
   title: String

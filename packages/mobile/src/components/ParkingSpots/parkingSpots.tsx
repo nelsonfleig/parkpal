@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Image, Keyboard, View } from 'react-native';
+import { Image, Keyboard } from 'react-native';
 import { Marker } from 'react-native-maps';
 import { useDispatch, useSelector } from 'react-redux';
 import SpotIcon from '../../../assets/images/Spot-icon.png';
@@ -30,11 +30,11 @@ export const ParkingSpots = () => {
   if (!destination || !data) return null;
 
   return (
-    <View>
+    <>
       {data.parkingSpots.map((spot) => (
         <Marker
           coordinate={{ latitude: spot.lat, longitude: spot.lng }}
-          key={`${spot.id}-${Date.now()}`}
+          key={`${spot.id}`}
           style={{ zIndex: 4 }}
           onPress={() => {
             dispatch(changeCurrentSpace(spot));
@@ -44,6 +44,6 @@ export const ParkingSpots = () => {
           <Image source={SpotIcon} style={{ width: 50, height: 50 }} />
         </Marker>
       ))}
-    </View>
+    </>
   );
 };

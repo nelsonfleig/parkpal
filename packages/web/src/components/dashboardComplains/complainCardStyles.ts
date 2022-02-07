@@ -6,7 +6,7 @@ export const ComplainPaper = styled(Paper)(() => ({
   padding: '1rem',
   backgroundColor: '#e63946',
   color: '#fff',
-  maxWidth: '380px',
+  width: '49%',
   display: 'flex',
   flexDirection: 'column',
   gap: '1rem',

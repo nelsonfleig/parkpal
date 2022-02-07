@@ -50,15 +50,15 @@ export const ComplainCard = ({ complain }: Props) => {
         <Image
           src={complain.pictureUrl}
           alt="Complaint Proof"
-          width={300}
-          height={200}
+          width={400}
+          height={240}
           objectFit="contain"
         />
       ) : null}
       <Typography variant="h6" style={{ marginBottom: '3rem' }}>
         {complain.description}
       </Typography>
-      <ComplainButton onClick={() => HandleDelete(complain.id)}>Noted.</ComplainButton>
+      <ComplainButton onClick={() => HandleDelete(complain.id)}>Noted</ComplainButton>
     </ComplainPaper>
   );
 };

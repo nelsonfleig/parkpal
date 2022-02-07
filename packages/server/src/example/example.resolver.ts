@@ -19,6 +19,8 @@ import { TodoInput } from './types/todo.input';
 import { UserLoader } from '../common/dataloaders/user.loader';
 import { Loader } from '@tracworx/nestjs-dataloader';
 import DataLoader from 'dataloader';
+import { AWSUploadService } from 'src/common/upload/s3-uploader.service';
+import { FileUpload, GraphQLUpload } from 'graphql-upload';
 
 /**
  * Use this Resolver only for experimenting and testing out functionality
@@ -27,7 +29,8 @@ import DataLoader from 'dataloader';
 export class ExampleResolver extends AbstractResolver(Todo, TodoInput) {
   constructor(
     protected todoService: TodoService,
-    protected userService: UserService
+    protected userService: UserService,
+    protected awsUploadService: AWSUploadService
   ) {
     super(todoService);
   }
@@ -48,6 +51,11 @@ export class ExampleResolver extends AbstractResolver(Todo, TodoInput) {
       ...input,
       userId: user.id,
     });
+  }
+
+  @Mutation(() => String)
+  uploadFile(@Args('file', { type: () => GraphQLUpload }) file: FileUpload) {
+    return this.awsUploadService.upload(file);
   }
 
   @ResolveField(() => User)
