@@ -1,0 +1,58 @@
+name: Build Docker compose
+on:
+  workflow_dispatch:
+    inputs:
+      NODE_ENV:
+        description: 'Node environment'
+        required: true
+        default: 'production'
+      PORT:
+        description: 'Server port'
+        required: true
+        default: '5000'
+      SSH_HOST:
+        description: 'SSH Host'
+        required: true
+        default: '159.65.88.149'
+      SSH_USERNAME:
+        description: 'SSH User'
+        required: true
+        default: 'root'
+      DB_HOST:
+        description: 'DB Host'
+        required: true
+        default: 'postgres'
+
+jobs:
+  build-and-deploy-docker-compose-prod:
+    name: Build and Deploy Docker Compose To Production
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Make envfile
+        uses: SpicyPizza/create-envfile@v1
+        with:
+          envkey_NODE_ENV: ${{ github.event.inputs.NODE_ENV }}
+          envkey_PORT: ${{ github.event.inputs.PORT }}
+          envkey_DB_HOST: ${{ github.event.inputs.DB_HOST }}
+          directory: ./packages/server
+          file_name: .env
+      - name: Copy file .env via ssh password
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ github.event.inputs.SSH_HOST }}
+          username: ${{ github.event.inputs.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          source: './.env'
+          target: '/root/parkpal/'
+      - name: copy file docker-compose via ssh password
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ github.event.inputs.SSH_HOST }}
+          username: ${{ github.event.inputs.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          source: './packages/server/docker-compose.yml'
+          target: '/root/parkpal/'
