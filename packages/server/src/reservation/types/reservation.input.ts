@@ -13,4 +13,7 @@ export class ReservationInput {
 
   @Field(() => ID)
   parkingSpotId: number;
+
+  @Field()
+  stripeChargeId: string;
 }

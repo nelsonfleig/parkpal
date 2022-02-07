@@ -226,6 +226,9 @@ type Mutation {
   """Delete Reservation"""
   deleteReservation(id: ID!): Reservation!
 
+  """Create a Payment Intent"""
+  createPaymentIntent(input: PaymentInput!): String!
+
   """Create ParkingSpot"""
   createParkingSpot(input: ParkingSpotInput!): ParkingSpot!
 
@@ -285,6 +288,11 @@ input ReservationInput {
   endDate: String!
   total: Float!
   parkingSpotId: ID!
+  stripeChargeId: String!
+}
+
+input PaymentInput {
+  total: Float!
 }
 
 input ParkingSpotInput {

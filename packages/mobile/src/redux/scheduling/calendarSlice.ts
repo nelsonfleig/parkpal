@@ -5,12 +5,16 @@ interface CalendarInterface {
   selectedDate: DatesObjType;
   markedDates: DatesObjType;
   disabledDates: DatesObjType;
+  selectedTime: string;
+  duration: number;
 }
 
 const initialState: CalendarInterface = {
   selectedDate: {},
   markedDates: {},
   disabledDates: {},
+  selectedTime: '',
+  duration: 0,
 };
 
 export const calendarSlice = createSlice({
@@ -26,9 +30,21 @@ export const calendarSlice = createSlice({
     updateDisabledDates: (state, action) => {
       state.disabledDates = action.payload;
     },
+    updateSelectedTime: (state, action) => {
+      state.selectedTime = action.payload;
+    },
+    updateDuration: (state, action) => {
+      state.duration = action.payload;
+    },
   },
 });
 
-export const { updateSelectedDate, updateDisabledDates, updateMarkedDates } = calendarSlice.actions;
+export const {
+  updateSelectedDate,
+  updateDisabledDates,
+  updateMarkedDates,
+  updateSelectedTime,
+  updateDuration,
+} = calendarSlice.actions;
 
 export default calendarSlice.reducer;

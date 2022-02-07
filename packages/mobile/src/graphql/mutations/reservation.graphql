@@ -3,3 +3,7 @@ mutation CreateReservation($input: ReservationInput!) {
     id
   }
 }
+
+mutation CreatePaymentIntent($input: PaymentInput!) {
+  createPaymentIntent(input:$input)
+}
