@@ -1,26 +1,34 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { DatesObjType } from '../../../types/datesObj';
 
-interface CalandarInterface {
-  markedDates: DatesObjType | null;
-  disabledDates: DatesObjType | null;
+interface CalendarInterface {
+  selectedDate: DatesObjType;
+  markedDates: DatesObjType;
+  disabledDates: DatesObjType;
 }
 
-const initialState: CalandarInterface = {
-  markedDates: null,
-  disabledDates: null,
+const initialState: CalendarInterface = {
+  selectedDate: {},
+  markedDates: {},
+  disabledDates: {},
 };
 
-export const parkingSpotSlice = createSlice({
+export const calendarSlice = createSlice({
   name: 'calendar',
   initialState,
   reducers: {
+    updateSelectedDate: (state, action) => {
+      state.selectedDate = action.payload;
+    },
     updateMarkedDates: (state, action) => {
-      state.currentSpot = action.payload;
+      state.markedDates = action.payload;
+    },
+    updateDisabledDates: (state, action) => {
+      state.disabledDates = action.payload;
     },
   },
 });
 
-export const { changeCurrentSpace } = parkingSpotSlice.actions;
+export const { updateSelectedDate, updateDisabledDates, updateMarkedDates } = calendarSlice.actions;
 
-export default parkingSpotSlice.reducer;
+export default calendarSlice.reducer;
