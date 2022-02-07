@@ -74,4 +74,26 @@ export class ParkingSpotService extends AbstractService<ParkingSpot> {
       }
     }
   }
+
+  async findComplainInfo(
+    id: { userId: number },
+    options: string[]
+  ): Promise<any> {
+    try {
+      const res = await super.find(id, options);
+      const arr = [];
+      res.forEach((spot) => {
+        spot.complains.forEach((el) => {
+          el['city'] = spot.city;
+          el['street'] = spot.street;
+          arr.push(el);
+        });
+      });
+      return arr;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(error.message);
+      }
+    }
+  }
 }
