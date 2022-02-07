@@ -27,7 +27,9 @@ export const BookingPopup = () => {
       // We remove the route if the user discards going to navigation mode
       dispatch(displayRoute(false));
       dispatch(changeCurrentSpace(null));
-      dispatch(showFindSpotButton(true));
+      if (content === 'start') {
+        dispatch(showFindSpotButton(true));
+      }
       dispatch(changePopupContent('booking'));
     }
   };
