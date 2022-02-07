@@ -25,7 +25,6 @@ COPY --from=BUILD_IMAGE /usr/src/app/package.json .
 COPY --from=BUILD_IMAGE /usr/src/app/ormconfig.js .
 
 RUN yarn install --prod
-RUN yarn schema:sync:prod
 
 EXPOSE 5000
 
