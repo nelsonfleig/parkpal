@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 import SlidingUpPanel from 'rn-sliding-up-panel';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,6 +17,7 @@ export const panelReference = React.createRef<any>();
 export const BookingPopup = () => {
   // const [content, setContent] = useState('booking');
   const { content } = useSelector((state: RootState) => state.popupContent);
+  const [total, setTotal] = useState(0);
 
   const dispatch = useDispatch();
   // On discard navigation function:
@@ -33,10 +34,10 @@ export const BookingPopup = () => {
   // eslint-disable-next-line consistent-return
   const changeContent = () => {
     if (content === 'booking') {
-      return <ParkingSpotInfo />;
+      return <ParkingSpotInfo setTotal={setTotal} />;
     }
     if (content === 'payment') {
-      return <Payment />;
+      return <Payment total={total} />;
     }
     if (content === 'start') {
       return (

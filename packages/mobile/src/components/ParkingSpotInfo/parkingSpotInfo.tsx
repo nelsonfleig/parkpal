@@ -19,7 +19,11 @@ import { RenterSlider } from '../Renter/slider';
 import { changePopupContent } from '../../redux/popupContent/popupContentSlice';
 import { setBookingSpotRoute } from '../../redux/parkingSpot/parkingSpotSlice';
 
-export const ParkingSpotInfo = () => {
+type ParkingSpotInfoProps = {
+  setTotal: React.Dispatch<React.SetStateAction<number>>;
+};
+
+export const ParkingSpotInfo = ({ setTotal }: ParkingSpotInfoProps) => {
   const { currentSpot } = useSelector((state: RootState) => state.parkingSpots);
 
   const dispatch = useDispatch();
@@ -41,7 +45,7 @@ export const ParkingSpotInfo = () => {
           currentSpot.id,
           currentSpot.price
         );
-
+        setTotal(req.total);
         await createReservation({ variables: { input: req } });
       }
     } catch (err) {
