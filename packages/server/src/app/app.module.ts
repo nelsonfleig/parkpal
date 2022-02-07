@@ -45,11 +45,11 @@ import { AppService } from './app.service';
       autoSchemaFile: 'schema.gql',
       playground: true,
       introspection: true,
-      plugins: [
-        process.env.NODE_ENV === 'production'
-          ? ApolloServerPluginLandingPageProductionDefault()
-          : ApolloServerPluginLandingPageGraphQLPlayground(),
-      ],
+      // plugins: [
+      //   process.env.NODE_ENV === 'production'
+      //     ? ApolloServerPluginLandingPageProductionDefault()
+      //     : ApolloServerPluginLandingPageGraphQLPlayground(),
+      // ],
       cors: { origin: true, credentials: true },
       context: ({ req, res }: Ctx) => ({ req, res }),
       formatError: (error: GraphQLError) => {
