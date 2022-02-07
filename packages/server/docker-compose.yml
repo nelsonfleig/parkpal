@@ -1,0 +1,30 @@
+version: '3'
+services:
+  backend:
+    container_name: backend
+    image: index.docker.io/nfleig/parkpal-backend:latest
+    ports:
+      - '5000:5000'
+    depends_on:
+      - postgres
+    environment:
+      - NODE_ENV
+      - PORT
+      - DB_HOST
+    networks:
+      - parkpal
+  postgres:
+    image: postgres:14.1-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=parkpaldb
+    ports:
+      - 5432:5432
+    volumes:
+      - .dbdata:/var/lib/postgresql/data
+    networks:
+      - parkpal
+networks:
+  parkpal:
+    driver: bridge

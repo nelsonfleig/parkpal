@@ -29,7 +29,7 @@ import { AppService } from './app.service';
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
+      host: process.env.DB_HOST, // dev: localhost, prod: postgres
       port: 5432,
       username: 'postgres',
       password: 'postgres',
