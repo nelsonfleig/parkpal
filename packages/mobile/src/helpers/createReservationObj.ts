@@ -4,7 +4,7 @@ const createReservationObj = (
   date: string,
   time: string,
   duration: number,
-  id: number,
+  id: string,
   price: number
 ) => {
   const startDate = dayjs(`${date} ${time}`).toISOString();

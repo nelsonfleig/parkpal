@@ -1,23 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View } from 'react-native';
-import SlidingUpPanel from 'rn-sliding-up-panel';
 import { useDispatch, useSelector } from 'react-redux';
+import SlidingUpPanel from 'rn-sliding-up-panel';
+import { RootState } from '../../redux';
+import { changeCurrentSpace } from '../../redux/parkingSpot/parkingSpotSlice';
+import { changePopupContent } from '../../redux/popupContent/popupContentSlice';
+import { displayRoute } from '../../redux/showRoute/showRoute';
+import { CustomButton } from '../Forms/button';
 import { ParkingSpotInfo } from '../ParkingSpotInfo/parkingSpotInfo';
+import { Payment } from '../Payment/payment';
 import { StartRoute } from '../StartRoutePopup/startRoute';
 import styles from './bookingPopupStyles';
-import { displayRoute } from '../../redux/showRoute/showRoute';
-import { changeCurrentSpace } from '../../redux/parkingSpot/parkingSpotSlice';
-import { CustomButton } from '../Forms/button';
-import { Payment } from '../Payment/payment';
-import { RootState } from '../../redux';
-import { changePopupContent } from '../../redux/popupContent/popupContentSlice';
 
 export const panelReference = React.createRef<any>();
 
 export const BookingPopup = () => {
   // const [content, setContent] = useState('booking');
   const { content } = useSelector((state: RootState) => state.popupContent);
-  const [total, setTotal] = useState(0);
 
   const dispatch = useDispatch();
   // On discard navigation function:
@@ -34,10 +33,10 @@ export const BookingPopup = () => {
   // eslint-disable-next-line consistent-return
   const changeContent = () => {
     if (content === 'booking') {
-      return <ParkingSpotInfo setTotal={setTotal} />;
+      return <ParkingSpotInfo />;
     }
     if (content === 'payment') {
-      return <Payment total={total} />;
+      return <Payment />;
     }
     if (content === 'start') {
       return (
