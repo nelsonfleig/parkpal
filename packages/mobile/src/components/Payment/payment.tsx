@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { CardField, CardForm, useStripe } from '@stripe/stripe-react-native';
+import { CardField, CardForm, useConfirmPayment } from '@stripe/stripe-react-native';
 import { Keyboard, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -8,6 +8,7 @@ import {
   useCreateReservationMutation,
 } from '../../graphql/__generated__';
 import createReservationObj from '../../helpers/createReservationObj';
+import { useAuth } from '../../hooks/useAuth';
 import { RootState } from '../../redux';
 import { changeDestination } from '../../redux/destination/destinationSlice';
 import { setBookingSpotRoute } from '../../redux/parkingSpot/parkingSpotSlice';
@@ -17,10 +18,10 @@ import { CustomButton } from '../Forms/button';
 import { paymentStyles } from './paymentStyles';
 
 export const Payment = () => {
+  const { user } = useAuth();
+  const [createPaymentIntent] = useCreatePaymentIntentMutation();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [createPaymentIntent, { data }] = useCreatePaymentIntentMutation();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { confirmPayment } = useStripe();
+  const { confirmPayment, loading } = useConfirmPayment();
 
   const dispatch = useDispatch();
 
@@ -33,7 +34,7 @@ export const Payment = () => {
     refetchQueries: [GetMyReservationsDocument],
     awaitRefetchQueries: true,
   });
-  // ADD THIS TO PAYMENT:
+
   const reservationRequest = async () => {
     try {
       if (currentSpot) {
@@ -49,6 +50,35 @@ export const Payment = () => {
       }
     } catch (err) {
       throw new Error(`${err}`);
+    }
+  };
+  const onPress = async () => {
+    // We get the client secret from our server
+    if (currentSpot) {
+      const total = duration * currentSpot.price;
+      const billingDetails = {
+        email: user?.email,
+      };
+      const { data } = await createPaymentIntent({
+        variables: { input: { total } },
+      });
+
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const paymentObject =
+        data &&
+        (await confirmPayment(data.createPaymentIntent, {
+          type: 'Card',
+          billingDetails,
+        }));
+      // We clean my bookings cache
+      dispatch(setBookingSpotRoute(null));
+      // Remove all parking spots except the selected one
+      dispatch(changeDestination(null));
+      // Create route with the selected one and display it in the map
+      dispatch(displayRoute(true));
+      dispatch(changePopupContent('start'));
+      // Make reservations
+      reservationRequest();
     }
   };
 
@@ -78,20 +108,7 @@ export const Payment = () => {
       />
       <CardForm style={{ height: 200, width: 200 }} />
       <View style={paymentStyles.payButton}>
-        <CustomButton
-          press={() => {
-            // We clean my bookings cache
-            dispatch(setBookingSpotRoute(null));
-            // Remove all parking spots except the selected one
-            dispatch(changeDestination(null));
-            // Create route with the selected one and display it in the map
-            dispatch(displayRoute(true));
-            dispatch(changePopupContent('start'));
-            // Make reservations
-            reservationRequest();
-          }}
-          color="white"
-          type="main">
+        <CustomButton press={onPress} color="white" type="main">
           Pay
         </CustomButton>
       </View>
