@@ -1,5 +1,17 @@
 version: '3'
 services:
+  backend:
+    container_name: backend
+    image: index.docker.io/nfleig/parkpal-backend:latest
+    ports:
+      - '5000:5000'
+    depends_on:
+      - postgres
+    environment:
+      - NODE_ENV
+      - PORT
+    # networks:
+    #   - lomas
   postgres:
     image: postgres:14.1-alpine
     environment:
