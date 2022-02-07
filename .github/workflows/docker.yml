@@ -2,7 +2,7 @@ name: Build Containers for Prod & Push to Dockerhub
 on:
   push:
     branches:
-      - feat/docker-ci
+      - master
 
 jobs:
   build-and-deploy-server:
