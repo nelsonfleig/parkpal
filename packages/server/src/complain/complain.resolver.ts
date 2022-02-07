@@ -38,10 +38,25 @@ export class ComplainResolver extends AbstractResolver(
     name: 'createComplain',
     description: 'Create Complain',
   })
-  create(@CurrentUser() user: UserJwt, @Args('input') input: ComplainInput) {
-    return this.complainService.create({
-      ...input,
-      userId: user.id,
-    });
+  async create(
+    @CurrentUser() user: UserJwt,
+    @Args('input') input: ComplainInput
+  ) {
+    if (input.pictureUrl) {
+      const savedPicture = await this.uploadService.upload(
+        input.pictureUrl,
+        'complaints'
+      );
+      return this.complainService.create({
+        ...input,
+        pictureUrl: savedPicture,
+        userId: user.id,
+      });
+    } else {
+      return this.complainService.create({
+        ...input,
+        userId: user.id,
+      });
+    }
   }
 }

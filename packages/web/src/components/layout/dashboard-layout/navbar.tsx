@@ -74,7 +74,7 @@ export const NavBar: NextComponentType = () => {
                     </Typography>
                   </PopperButton>
                 </Link>
-                <Link href="/dashboard/complains" passHref>
+                <Link href="/dashboard/complaints" passHref>
                   <PopperButton>
                     <ErrorIcon color="primary" fontSize="large" />
                     <Typography variant="h5" fontSize="1.1rem">

@@ -3,16 +3,19 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import Link from 'next/link';
 import React, { FC } from 'react';
-import { useGetMyBusinessStatsQuery } from '../../graphql/__generated__';
+import {
+  useGetMyBusinessStatsQuery,
+  useParkingSpotComplainsQuery,
+} from '../../graphql/__generated__';
 import { enhanceTimeSeries } from '../../helpers';
 import { buildChart } from './graph';
 import { StyledPaper, StyledBox } from './styles';
 
 export const DashboardInformation: FC = () => {
   const { data, loading } = useGetMyBusinessStatsQuery();
+  const { data: complains } = useParkingSpotComplainsQuery();
 
-  if (loading || !data) return <CircularProgress />;
-
+  if (loading || !data || !complains) return <CircularProgress />;
   return (
     <StyledBox>
       <StyledPaper>
@@ -29,11 +32,11 @@ export const DashboardInformation: FC = () => {
           </Typography>
         </StyledPaper>
       </Link>
-      <Link href="/dashboard/complains" passHref>
+      <Link href="/dashboard/complaints" passHref>
         <StyledPaper>
-          <Typography variant="body2">Total Complains This Week</Typography>
+          <Typography variant="body2">Total Complaints This Week</Typography>
           <Typography variant="h3" color="white">
-            {data.stats.totalComplaints}
+            {complains.complains.length}
           </Typography>
         </StyledPaper>
       </Link>

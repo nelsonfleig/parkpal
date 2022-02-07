@@ -9,7 +9,7 @@ export const DashboardComplains: FC = () => {
   if (!data || loading) return <FullPageLoader />;
 
   return (
-    <Masonry columns={3} spacing={1}>
+    <Masonry columns={2} spacing={1}>
       {data.complains.map((el) => (
         <ComplainCard key={el.id} complain={el} />
       ))}
