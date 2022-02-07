@@ -56,7 +56,6 @@ export class ParkingSpotService extends AbstractService<ParkingSpot> {
       const res = await super.find(id, options);
       const arr = [];
       res.forEach((spot) => {
-        console.log(spot);
         if (spot.reservations.length) {
           return spot.reservations.forEach((el) => {
             arr.push({

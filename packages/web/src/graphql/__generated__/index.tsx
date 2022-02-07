@@ -438,6 +438,13 @@ export type CreateParkingSpotMutationVariables = Exact<{
 
 export type CreateParkingSpotMutation = { __typename?: 'Mutation', createParkingSpot: { __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour?: number | null | undefined, endHour?: number | null | undefined, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, country?: string | null | undefined, userId: number } };
 
+export type DeleteComplainMutationVariables = Exact<{
+  input: Scalars['ID'];
+}>;
+
+
+export type DeleteComplainMutation = { __typename?: 'Mutation', deleteComplain: { __typename: 'Complain' } };
+
 export type UpdateProfileMutationVariables = Exact<{
   input: ProfileInput;
 }>;
@@ -613,6 +620,39 @@ export function useCreateParkingSpotMutation(baseOptions?: Apollo.MutationHookOp
 export type CreateParkingSpotMutationHookResult = ReturnType<typeof useCreateParkingSpotMutation>;
 export type CreateParkingSpotMutationResult = Apollo.MutationResult<CreateParkingSpotMutation>;
 export type CreateParkingSpotMutationOptions = Apollo.BaseMutationOptions<CreateParkingSpotMutation, CreateParkingSpotMutationVariables>;
+export const DeleteComplainDocument = gql`
+    mutation DeleteComplain($input: ID!) {
+  deleteComplain(id: $input) {
+    __typename
+  }
+}
+    `;
+export type DeleteComplainMutationFn = Apollo.MutationFunction<DeleteComplainMutation, DeleteComplainMutationVariables>;
+
+/**
+ * __useDeleteComplainMutation__
+ *
+ * To run a mutation, you first call `useDeleteComplainMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteComplainMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteComplainMutation, { data, loading, error }] = useDeleteComplainMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useDeleteComplainMutation(baseOptions?: Apollo.MutationHookOptions<DeleteComplainMutation, DeleteComplainMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<DeleteComplainMutation, DeleteComplainMutationVariables>(DeleteComplainDocument, options);
+      }
+export type DeleteComplainMutationHookResult = ReturnType<typeof useDeleteComplainMutation>;
+export type DeleteComplainMutationResult = Apollo.MutationResult<DeleteComplainMutation>;
+export type DeleteComplainMutationOptions = Apollo.BaseMutationOptions<DeleteComplainMutation, DeleteComplainMutationVariables>;
 export const UpdateProfileDocument = gql`
     mutation updateProfile($input: ProfileInput!) {
   updateProfile(input: $input) {
