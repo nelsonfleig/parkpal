@@ -40,6 +40,7 @@ import { AppService } from './app.service';
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema.gql',
       playground: true,
+      introspection: true,
       cors: { origin: true, credentials: true },
       context: ({ req, res }: Ctx) => ({ req, res }),
       formatError: (error: GraphQLError) => {
