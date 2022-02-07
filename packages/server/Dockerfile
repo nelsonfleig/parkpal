@@ -3,8 +3,12 @@ FROM node:16 AS BUILD_IMAGE
 
 WORKDIR /usr/src/app
 
+RUN pwd
+
 # copy all files
 COPY . .
+
+
 
 # install dependencies
 RUN yarn
