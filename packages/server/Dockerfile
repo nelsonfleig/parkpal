@@ -4,7 +4,7 @@ FROM node:16 AS BUILD_IMAGE
 WORKDIR /usr/src/app
 
 # copy all files
-COPY ./packages/server .
+COPY . .
 
 # install dependencies
 RUN yarn
