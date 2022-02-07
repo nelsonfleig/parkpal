@@ -3,6 +3,7 @@ import { KeyboardAvoidingView, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import SlidingUpPanel from 'rn-sliding-up-panel';
 import { RootState } from '../../redux';
+import { showFindSpotButton } from '../../redux/findSpotButton/findSpotButtonSlice';
 import { changeCurrentSpace } from '../../redux/parkingSpot/parkingSpotSlice';
 import { changePopupContent } from '../../redux/popupContent/popupContentSlice';
 import { displayRoute } from '../../redux/showRoute/showRoute';
@@ -23,10 +24,11 @@ export const BookingPopup = () => {
   // On discard navigation function:
   const onDiscard = () => {
     if (content !== 'booking') {
-      dispatch(changePopupContent('booking'));
       // We remove the route if the user discards going to navigation mode
       dispatch(displayRoute(false));
       dispatch(changeCurrentSpace(null));
+      dispatch(showFindSpotButton(true));
+      dispatch(changePopupContent('booking'));
     }
   };
 
