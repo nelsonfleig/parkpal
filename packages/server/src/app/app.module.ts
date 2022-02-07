@@ -4,6 +4,10 @@ import {
   NestModule,
   RequestMethod,
 } from '@nestjs/common';
+import {
+  ApolloServerPluginLandingPageGraphQLPlayground,
+  ApolloServerPluginLandingPageProductionDefault,
+} from 'apollo-server-core';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { GraphQLModule } from '@nestjs/graphql';
@@ -41,6 +45,11 @@ import { AppService } from './app.service';
       autoSchemaFile: 'schema.gql',
       playground: true,
       introspection: true,
+      plugins: [
+        process.env.NODE_ENV === 'production'
+          ? ApolloServerPluginLandingPageProductionDefault()
+          : ApolloServerPluginLandingPageGraphQLPlayground(),
+      ],
       cors: { origin: true, credentials: true },
       context: ({ req, res }: Ctx) => ({ req, res }),
       formatError: (error: GraphQLError) => {
