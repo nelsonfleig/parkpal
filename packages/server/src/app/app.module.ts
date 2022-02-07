@@ -4,10 +4,6 @@ import {
   NestModule,
   RequestMethod,
 } from '@nestjs/common';
-import {
-  ApolloServerPluginLandingPageGraphQLPlayground,
-  ApolloServerPluginLandingPageProductionDefault,
-} from 'apollo-server-core';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { GraphQLModule } from '@nestjs/graphql';

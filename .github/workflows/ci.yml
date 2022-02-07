@@ -38,8 +38,6 @@ jobs:
           envkey_DB_HOST: ${{ github.event.inputs.DB_HOST }}
           directory: ./
           file_name: .env
-      - name: Show env
-        run: cat .env
       - name: Copy file .env via ssh password
         uses: appleboy/scp-action@master
         with:
