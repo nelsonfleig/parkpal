@@ -46,8 +46,8 @@ jobs:
       - name: Copy file .env via ssh password
         uses: appleboy/scp-action@master
         with:
-          host: ${{ github.event.inputs.SSH_HOST }}
-          username: ${{ github.event.inputs.SSH_USERNAME }}
+          host: '159.65.88.149'
+          username: 'root'
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           source: './.env'
