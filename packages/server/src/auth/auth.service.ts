@@ -46,7 +46,8 @@ export class AuthService {
       httpOnly: true,
       domain: process.env.NODE_ENV === 'production' ? 'vercel' : 'localhost',
       sameSite: 'lax',
-      secure: process.env.NODE_ENV === 'production',
+      // secure: process.env.NODE_ENV === 'production',
+      secure: false,
     });
     // TODO: sign a refresh token to send to client
 
@@ -73,9 +74,10 @@ export class AuthService {
     );
     context.res.cookie('accessToken', accessToken, {
       httpOnly: true,
-      domain: 'localhost',
-      sameSite: 'strict',
-      secure: process.env.NODE_ENV === 'production',
+      domain: process.env.NODE_ENV === 'production' ? 'vercel' : 'localhost',
+      sameSite: 'lax',
+      // secure: process.env.NODE_ENV === 'production',
+      secure: false,
     });
     return accessToken;
   }
