@@ -13,7 +13,7 @@ import {
 export const useSetCalendar = () => {
   const { colors } = useTheme();
   const dispatch = useDispatch();
-  const now = dayjs(Date.now()).add(2, 'day').format('YYYY-MM-DD');
+  const now = dayjs(Date.now()).format('YYYY-MM-DD');
   const focusedOptions = { selected: true, selectedColor: colors.primary, disabled: true };
   const today = {
     [now]: focusedOptions,

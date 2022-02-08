@@ -8,8 +8,8 @@ const createReservationObj = (
   price: number,
   stripeChargeId: string
 ) => {
-  const startDate = dayjs(`${date} ${time}`).toISOString();
-  const endDate = dayjs(startDate).add(duration, 'hour').toISOString();
+  const startDate = dayjs(`${date} ${time}`).format();
+  const endDate = dayjs(startDate).add(duration, 'hour').format();
   const total = price * duration;
   return {
     startDate,

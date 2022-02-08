@@ -33,7 +33,6 @@ export const RenterSlider = () => {
         min={1}
         max={24}
         optionsArray={hoursInDay()}
-        // showSteps
         enableLabel
       />
     </ScrollView>

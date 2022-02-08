@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Calendar } from 'react-native-calendars';
 import { View } from 'react-native';
+import dayjs from 'dayjs';
 import styles from './calendarStyles';
 import getDisabledDays from '../../helpers/disabledDays';
 import {
@@ -29,6 +30,7 @@ const CalendarComponent = ({ disabledDayIndexes }: CalendarPropTypes) => {
 
   const openCalendar = () => setVisible(true);
   const closeCalendar = () => setVisible(false);
+  const dateString = dayjs(Object.keys(selectedDate)[0]).format('DD-MMM');
 
   // Mark disabled dates for current month
 
@@ -41,7 +43,7 @@ const CalendarComponent = ({ disabledDayIndexes }: CalendarPropTypes) => {
         }}
         anchor={
           <Button style={styles.button} onPress={openCalendar} color="black">
-            Date
+            {dateString}
           </Button>
         }>
         <Calendar

@@ -20,10 +20,11 @@ export const TimePicker = ({ hours }: TimePickerProps) => {
 
   const openTimePicker = () => setVisible(true);
   const closeTimePicker = () => setVisible(false);
+  const { currentSpot } = useSelector((state: RootState) => state.parkingSpots);
 
   useEffect(() => {
-    setAvailableTimes(getAvailableTimes(hours));
-  }, [hours]);
+    setAvailableTimes(getAvailableTimes(hours, currentSpot?.reservations as Reservation[]));
+  }, [hours, currentSpot?.reservations]);
 
   return availableTimes.length ? (
     <View>
@@ -32,7 +33,7 @@ export const TimePicker = ({ hours }: TimePickerProps) => {
         onDismiss={closeTimePicker}
         anchor={
           <Button style={styles.button} onPress={openTimePicker} color="black">
-            Time
+            {selectedTime}
           </Button>
         }
         style={styles.menu}>
