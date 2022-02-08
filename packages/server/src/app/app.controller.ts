@@ -12,6 +12,6 @@ export class AppController {
 
   @Get('/ping')
   ping(): string {
-    return 'All good here!';
+    return 'Ping is working!';
   }
 }
