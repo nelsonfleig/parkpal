@@ -3,7 +3,7 @@ import { CardField, useConfirmPayment } from '@stripe/stripe-react-native';
 import { useState } from 'react';
 import { Keyboard, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { errorToast } from '..';
+import { errorToast, sucessToast } from '..';
 import {
   GetMyReservationsDocument,
   useCreatePaymentIntentMutation,
@@ -84,6 +84,7 @@ export const Payment = () => {
           }));
         if (paymentObject?.paymentIntent) {
           // Make reservations
+          sucessToast('Cool Beans! You have booked the spot!');
           reservationRequest(paymentObject.paymentIntent.id);
           dispatch(changePopupContent('start'));
           // Clean date, time and duration cache
