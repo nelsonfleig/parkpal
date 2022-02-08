@@ -14,7 +14,7 @@ const getAvailableTimes = (
   selectedDate: string
 ): string[] => {
   const availableHours = [];
-  for (let i = hours[0]; i <= hours[1]; i += 1) {
+  for (let i = hours[0]; i < hours[1]; i += 1) {
     availableHours.push(`${i < 10 ? '0' : ''}${i}:00`);
   }
 
@@ -34,7 +34,6 @@ const getAvailableTimes = (
       }
     }
   });
-
   return availableHours.filter((hour) => !hoursTaken.includes(hour));
 };
 
