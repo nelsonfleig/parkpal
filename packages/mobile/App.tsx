@@ -1,4 +1,6 @@
 /* eslint-disable global-require */
+// @ts-expect-error
+import { STRIPE_KEY } from '@env';
 import { useFonts } from 'expo-font';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
@@ -6,6 +8,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ApolloProvider } from '@apollo/client';
 import Toast from 'react-native-toast-message';
 import { Provider as StoreProvider } from 'react-redux';
+import { StripeProvider } from '@stripe/stripe-react-native';
 import apolloClient from './src/lib/apolloClient';
 import theme from './src/styles/theme';
 import { RootStackParams } from './types/rootStack';
@@ -22,26 +25,27 @@ export default function App() {
   });
 
   if (!loaded) return null;
-  // CHANGE ORDER OF HOME
-  return (
-    <ApolloProvider client={apolloClient}>
-      <StoreProvider store={store}>
-        <PaperProvider theme={theme}>
-          <NavigationContainer>
-            <RootStack.Navigator
-              screenOptions={{
-                headerShown: false,
-              }}>
-              <RootStack.Screen name="Welcome" component={WelcomeScreen} />
-              <RootStack.Screen name="Login" component={LoginScreen} />
-              <RootStack.Screen name="Register" component={RegisterScreen} />
-              <RootStack.Screen name="Home" component={HomeScreen} />
-            </RootStack.Navigator>
-          </NavigationContainer>
 
-          <Toast />
-        </PaperProvider>
-      </StoreProvider>
-    </ApolloProvider>
+  return (
+    <StripeProvider publishableKey={STRIPE_KEY}>
+      <ApolloProvider client={apolloClient}>
+        <StoreProvider store={store}>
+          <PaperProvider theme={theme}>
+            <NavigationContainer>
+              <RootStack.Navigator
+                screenOptions={{
+                  headerShown: false,
+                }}>
+                <RootStack.Screen name="Welcome" component={WelcomeScreen} />
+                <RootStack.Screen name="Login" component={LoginScreen} />
+                <RootStack.Screen name="Register" component={RegisterScreen} />
+                <RootStack.Screen name="Home" component={HomeScreen} />
+              </RootStack.Navigator>
+            </NavigationContainer>
+            <Toast />
+          </PaperProvider>
+        </StoreProvider>
+      </ApolloProvider>
+    </StripeProvider>
   );
 }

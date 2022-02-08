@@ -7,6 +7,7 @@ import { UserJwt } from 'src/common/types/user-jwt.type';
 import { ParkingSpot } from './parking-spot.entity';
 import { ParkingSpotService } from './parking-spot.service';
 import { RenterCalendarResponse } from './types/calendar.response';
+import { RenterComplainResponse } from './types/complain.response';
 import { NearParkingSpotsInput } from './types/near-parking-spots.input';
 import { ParkingSpotInput } from './types/parking-spot.input';
 ID;
@@ -78,6 +79,19 @@ export class ParkingSpotResolver extends AbstractResolver(
     return this.parkingSpotService.findCalendarInfo({ userId: user.id }, [
       'reservations',
       'user',
+      'complains',
+    ]);
+  }
+
+  @Roles(Role.RENTER)
+  @Query(() => [RenterComplainResponse], {
+    name: 'findComplainInfo',
+    description: "Find user's Complains",
+  })
+  findComplainInfo(@CurrentUser() user: UserJwt) {
+    return this.parkingSpotService.findComplainInfo({ userId: user.id }, [
+      'user',
+      'complains',
     ]);
   }
 }

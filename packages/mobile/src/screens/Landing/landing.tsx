@@ -5,7 +5,7 @@ import { Keyboard, Text, View } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
-import { BookingPopup } from '../../components/BookingPopup/bookingPopup';
+import { BookingPopup, panelReference } from '../../components/BookingPopup/bookingPopup';
 import { FindSpotsHere } from '../../components/FindSpotsHere/findSpotsHere';
 import { MapComponent, mapRef } from '../../components/MapView/mapView';
 import { RootState } from '../../redux';
@@ -89,7 +89,11 @@ export const LandingScreen = () => {
             onSubmitEditing={onSubmitEditing}
           />
         )}
-        <View onTouchEnd={() => Keyboard.dismiss()}>
+        <View
+          onTouchEnd={() => {
+            Keyboard.dismiss();
+            panelReference.current.hide();
+          }}>
           {location ? (
             <MapComponent
               latitude={location.coords.latitude}

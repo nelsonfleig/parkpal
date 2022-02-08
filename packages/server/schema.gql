@@ -47,9 +47,11 @@ type Complain {
   createdAt: DateTime!
   updatedAt: DateTime!
   description: String!
-  pictureUrl: String!
+  pictureUrl: String
   user: User!
+  userId: Float!
   parkingSpot: ParkingSpot!
+  parkingSpotId: Float!
 }
 
 type Todo {
@@ -110,6 +112,15 @@ type RenterCalendarResponse {
   name: String!
 }
 
+type RenterComplainResponse {
+  id: Float!
+  city: String!
+  street: String!
+  createdAt: String!
+  description: String!
+  pictureUrl: String
+}
+
 type Query {
   """Get logged in user"""
   me: User
@@ -151,6 +162,18 @@ type Query {
 
   """Find user's ParkingSpots reservations and profit"""
   findCalendarInfo: [RenterCalendarResponse!]!
+
+  """Find user's Complains"""
+  findComplainInfo: [RenterComplainResponse!]!
+
+  """Find all Complains"""
+  findAllComplains: [Complain!]!
+
+  """Find one Complain"""
+  findOneComplain(id: ID!): Complain!
+
+  """Find Complains about renters parking spaces"""
+  findMyComplains: [Complain!]!
 }
 
 input NearParkingSpotsInput {
@@ -203,6 +226,9 @@ type Mutation {
   """Delete Reservation"""
   deleteReservation(id: ID!): Reservation!
 
+  """Create a Payment Intent"""
+  createPaymentIntent(input: PaymentInput!): String!
+
   """Create ParkingSpot"""
   createParkingSpot(input: ParkingSpotInput!): ParkingSpot!
 
@@ -211,6 +237,15 @@ type Mutation {
 
   """Delete ParkingSpot"""
   deleteParkingSpot(id: ID!): ParkingSpot!
+
+  """Create Complain"""
+  createComplain(input: ComplainInput!): Complain!
+
+  """Update Complain"""
+  updateComplain(input: ComplainInput!, id: ID!): Complain!
+
+  """Delete Complain"""
+  deleteComplain(id: ID!): Complain!
 }
 
 input LoginInput {
@@ -253,6 +288,11 @@ input ReservationInput {
   endDate: String!
   total: Float!
   parkingSpotId: ID!
+  stripeChargeId: String!
+}
+
+input PaymentInput {
+  total: Float!
 }
 
 input ParkingSpotInput {
@@ -262,4 +302,10 @@ input ParkingSpotInput {
   daysAvailable: [Float!]!
   startHour: Float!
   endHour: Float!
+}
+
+input ComplainInput {
+  description: String!
+  pictureUrl: String
+  parkingSpotId: ID!
 }

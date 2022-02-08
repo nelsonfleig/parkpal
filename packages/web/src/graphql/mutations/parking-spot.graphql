@@ -3,3 +3,9 @@ mutation CreateParkingSpot($input: ParkingSpotInput!) {
     ...ParkingSpotDetails
   }
 }
+
+mutation DeleteComplain($input: ID!) {
+  deleteComplain(id: $input) {
+    __typename
+  }
+}

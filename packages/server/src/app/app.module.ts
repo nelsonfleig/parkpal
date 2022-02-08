@@ -16,6 +16,7 @@ import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { AuthMiddleware } from 'src/auth/middleware/auth.middleware';
 import { dataloaders } from 'src/common/dataloaders';
 import { Ctx } from 'src/common/types/context.type';
+import { ComplainModule } from 'src/complain/complain.module';
 import { ExampleModule } from 'src/example/example.module';
 import { ParkingSpotModule } from 'src/parking-spot/parking-spot.module';
 import { ReservationModule } from 'src/reservation/reservation.module';
@@ -28,7 +29,7 @@ import { AppService } from './app.service';
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
+      host: process.env.DB_HOST, // dev: localhost, prod: postgres
       port: 5432,
       username: 'postgres',
       password: 'postgres',
@@ -40,6 +41,12 @@ import { AppService } from './app.service';
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema.gql',
       playground: true,
+      introspection: true,
+      // plugins: [
+      //   process.env.NODE_ENV === 'production'
+      //     ? ApolloServerPluginLandingPageProductionDefault()
+      //     : ApolloServerPluginLandingPageGraphQLPlayground(),
+      // ],
       cors: { origin: true, credentials: true },
       context: ({ req, res }: Ctx) => ({ req, res }),
       formatError: (error: GraphQLError) => {
@@ -58,6 +65,7 @@ import { AppService } from './app.service';
     UserModule,
     ReservationModule,
     ParkingSpotModule,
+    ComplainModule,
     ExampleModule,
   ],
   controllers: [AppController],

@@ -8,6 +8,9 @@ const withTM = require('next-transpile-modules')([
 
 module.exports = withTM({
   reactStrictMode: true,
+  images: {
+    domains: ['artifice-dev.s3.eu-west-2.amazonaws.com'],
+  },
   webpack: (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,
