@@ -28,7 +28,7 @@ export const LoginScreen = ({ navigation }: WelcomeProps) => {
                 await AsyncStorage.setItem('accessToken', data?.login.accessToken!);
                 navigation.dispatch(
                   CommonActions.reset({
-                    index: 1,
+                    index: 0,
                     routes: [{ name: 'Home' }],
                   })
                 );
