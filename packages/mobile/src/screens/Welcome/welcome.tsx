@@ -4,7 +4,7 @@ import { WelcomeProps } from '../../../types/rootStack';
 import { CustomButton } from '../../components/Forms/button';
 import { StartScreen } from '../../components/StartScreen/startScreen';
 import { AuthLayout } from '../../components/Layouts/authLayout';
-
+// DELETE ME
 export const WelcomeScreen = ({ navigation }: WelcomeProps) => {
   const signInPage = () => {
     navigation.navigate('Login');
