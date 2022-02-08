@@ -41,9 +41,17 @@ export type Complain = {
   description: Scalars['String'];
   id: Scalars['ID'];
   parkingSpot: ParkingSpot;
-  pictureUrl: Scalars['String'];
+  parkingSpotId: Scalars['Float'];
+  pictureUrl?: Maybe<Scalars['String']>;
   updatedAt: Scalars['DateTime'];
   user: User;
+  userId: Scalars['Float'];
+};
+
+export type ComplainInput = {
+  description: Scalars['String'];
+  parkingSpotId: Scalars['ID'];
+  pictureUrl?: InputMaybe<Scalars['String']>;
 };
 
 export type LoginInput = {
@@ -53,6 +61,8 @@ export type LoginInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  /** Create Complain */
+  createComplain: Complain;
   /** Create ParkingSpot */
   createParkingSpot: ParkingSpot;
   /** Create a Payment Intent */
@@ -63,6 +73,8 @@ export type Mutation = {
   createTodo: Todo;
   /** Create User */
   createUser: User;
+  /** Delete Complain */
+  deleteComplain: Complain;
   /** Delete ParkingSpot */
   deleteParkingSpot: ParkingSpot;
   /** Delete Reservation */
@@ -77,6 +89,8 @@ export type Mutation = {
   logout: Scalars['Boolean'];
   /** Register user */
   register: User;
+  /** Update Complain */
+  updateComplain: Complain;
   /** Update ParkingSpot */
   updateParkingSpot: ParkingSpot;
   /** Logout user */
@@ -90,6 +104,12 @@ export type Mutation = {
   updateUser: User;
   uploadFile: Scalars['String'];
 };
+
+
+export type MutationCreateComplainArgs = {
+  input: ComplainInput;
+};
+
 
 export type MutationCreateParkingSpotArgs = {
   input: ParkingSpotInput;
@@ -110,6 +130,12 @@ export type MutationCreateTodoArgs = {
 export type MutationCreateUserArgs = {
   input: UserInput;
 };
+
+
+export type MutationDeleteComplainArgs = {
+  id: Scalars['ID'];
+};
+
 
 export type MutationDeleteParkingSpotArgs = {
   id: Scalars['ID'];
@@ -134,6 +160,13 @@ export type MutationLoginArgs = {
 export type MutationRegisterArgs = {
   input: RegisterInput;
 };
+
+
+export type MutationUpdateComplainArgs = {
+  id: Scalars['ID'];
+  input: ComplainInput;
+};
+
 
 export type MutationUpdateParkingSpotArgs = {
   id: Scalars['ID'];
@@ -219,6 +252,8 @@ export type ProfileInput = {
 
 export type Query = {
   __typename?: 'Query';
+  /** Find all Complains */
+  findAllComplains: Array<Complain>;
   /** Find all ParkingSpots */
   findAllParkingSpots: Array<ParkingSpot>;
   /** Find all Reservations */
@@ -229,12 +264,18 @@ export type Query = {
   findAllUsers: Array<User>;
   /** Find user's ParkingSpots reservations and profit */
   findCalendarInfo: Array<RenterCalendarResponse>;
+  /** Find user's Complains */
+  findComplainInfo: Array<RenterComplainResponse>;
+  /** Find Complains about renters parking spaces */
+  findMyComplains: Array<Complain>;
   /** Find logged in user's ParkingSpots */
   findMyParkingSpots: Array<ParkingSpot>;
   /** Find Drivers reservations */
   findMyReservations: Array<Reservation>;
   /** Find parking spots near coords */
   findNearParkingSpots: Array<ParkingSpot>;
+  /** Find one Complain */
+  findOneComplain: Complain;
   /** Find one parking spot for reservations */
   findOneParkingSpot: ParkingSpot;
   /** Find one Reservation */
@@ -252,6 +293,12 @@ export type Query = {
 export type QueryFindNearParkingSpotsArgs = {
   input: NearParkingSpotsInput;
 };
+
+
+export type QueryFindOneComplainArgs = {
+  id: Scalars['ID'];
+};
+
 
 export type QueryFindOneParkingSpotArgs = {
   id: Scalars['ID'];
@@ -282,6 +329,16 @@ export type RenterCalendarResponse = {
   name: Scalars['String'];
   spot: Scalars['Float'];
   startHour: Scalars['Float'];
+};
+
+export type RenterComplainResponse = {
+  __typename?: 'RenterComplainResponse';
+  city: Scalars['String'];
+  createdAt: Scalars['String'];
+  description: Scalars['String'];
+  id: Scalars['Float'];
+  pictureUrl?: Maybe<Scalars['String']>;
+  street: Scalars['String'];
 };
 
 export type Reservation = {
@@ -440,9 +497,16 @@ export type CreatePaymentIntentMutationVariables = Exact<{
   input: PaymentInput;
 }>;
 
-export type CreatePaymentIntentMutation = { __typename?: 'Mutation'; createPaymentIntent: string };
+export type CreatePaymentIntentMutation = { __typename?: 'Mutation', createPaymentIntent: string };
 
-export type GetSpotsQueryVariables = Exact<{ [key: string]: never }>;
+export type UpdateProfileMutationVariables = Exact<{
+  input: ProfileInput;
+}>;
+
+
+export type UpdateProfileMutation = { __typename?: 'Mutation', updateProfile: { __typename?: 'AuthResponse', accessToken: string } };
+
+export type GetSpotsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetSpotsQuery = {
   __typename?: 'Query';
@@ -757,10 +821,40 @@ export type CreatePaymentIntentMutationHookResult = ReturnType<
   typeof useCreatePaymentIntentMutation
 >;
 export type CreatePaymentIntentMutationResult = Apollo.MutationResult<CreatePaymentIntentMutation>;
-export type CreatePaymentIntentMutationOptions = Apollo.BaseMutationOptions<
-  CreatePaymentIntentMutation,
-  CreatePaymentIntentMutationVariables
->;
+export type CreatePaymentIntentMutationOptions = Apollo.BaseMutationOptions<CreatePaymentIntentMutation, CreatePaymentIntentMutationVariables>;
+export const UpdateProfileDocument = gql`
+    mutation updateProfile($input: ProfileInput!) {
+  updateProfile(input: $input) {
+    accessToken
+  }
+}
+    `;
+export type UpdateProfileMutationFn = Apollo.MutationFunction<UpdateProfileMutation, UpdateProfileMutationVariables>;
+
+/**
+ * __useUpdateProfileMutation__
+ *
+ * To run a mutation, you first call `useUpdateProfileMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateProfileMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateProfileMutation, { data, loading, error }] = useUpdateProfileMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateProfileMutation(baseOptions?: Apollo.MutationHookOptions<UpdateProfileMutation, UpdateProfileMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateProfileMutation, UpdateProfileMutationVariables>(UpdateProfileDocument, options);
+      }
+export type UpdateProfileMutationHookResult = ReturnType<typeof useUpdateProfileMutation>;
+export type UpdateProfileMutationResult = Apollo.MutationResult<UpdateProfileMutation>;
+export type UpdateProfileMutationOptions = Apollo.BaseMutationOptions<UpdateProfileMutation, UpdateProfileMutationVariables>;
 export const GetSpotsDocument = gql`
   query GetSpots {
     spaces: findAllParkingSpots {

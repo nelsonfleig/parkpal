@@ -3,6 +3,7 @@ import { CardField, useConfirmPayment } from '@stripe/stripe-react-native';
 import { useState } from 'react';
 import { Keyboard, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { errorToast, sucessToast } from '..';
 import {
   GetMyReservationsDocument,
   useCreatePaymentIntentMutation,
@@ -64,38 +65,42 @@ export const Payment = () => {
   };
 
   const onPress = async () => {
-    if (currentSpot && user) {
-      const total = duration * currentSpot.price;
-      console.log(user.email);
-      const billingDetails = {
-        email: user.email,
-      };
-      // Get the client secret from our server
-      const { data } = await createPaymentIntent({
-        variables: { input: { total } },
-      });
-      // Handle the payment
-      const paymentObject =
-        data &&
-        (await confirmPayment(data.createPaymentIntent, {
-          type: 'Card',
-          billingDetails,
-        }));
-      if (paymentObject?.error) console.log(paymentObject?.error);
-      if (paymentObject?.paymentIntent) {
-        // Make reservations
-        reservationRequest(paymentObject.paymentIntent.id);
-        dispatch(changePopupContent('start'));
-        dispatch(updateSelectedDate(null));
-        dispatch(updateDuration(null));
-        // Clean my bookings routes cache
-        dispatch(setBookingSpotRoute(null));
-        // Remove all parking spots except the selected one
-        dispatch(changeDestination(null));
-        // Create route with the selected one and display it in the map
-        dispatch(displayRoute(true));
-        dispatch(updateSelectedTime(null));
+    try {
+      if (currentSpot && user) {
+        const total = duration * currentSpot.price;
+        const billingDetails = {
+          email: user.email,
+        };
+        // Get the client secret from our server
+        const { data } = await createPaymentIntent({
+          variables: { input: { total } },
+        });
+        // Handle the payment
+        const paymentObject =
+          data &&
+          (await confirmPayment(data.createPaymentIntent, {
+            type: 'Card',
+            billingDetails,
+          }));
+        if (paymentObject?.paymentIntent) {
+          // Make reservations
+          sucessToast('Cool Beans! You have booked the spot!');
+          reservationRequest(paymentObject.paymentIntent.id);
+          dispatch(changePopupContent('start'));
+          // Clean date, time and duration cache
+          dispatch(updateSelectedDate(null));
+          dispatch(updateSelectedTime(null));
+          dispatch(updateDuration(null));
+          // Clean my bookings routes cache
+          dispatch(setBookingSpotRoute(null));
+          // Remove all parking spots except the selected one
+          dispatch(changeDestination(null));
+          // Create route with the selected one and display it in the map
+          dispatch(displayRoute(true));
+        }
       }
+    } catch (error) {
+      errorToast('Ups! Something went wrong.');
     }
   };
   const endHour = parseInt(selectedTime.split(':')[0], 10) + duration;

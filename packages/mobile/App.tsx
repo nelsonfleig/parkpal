@@ -38,7 +38,11 @@ export default function App() {
                 <RootStack.Screen name="Welcome" component={WelcomeScreen} />
                 <RootStack.Screen name="Login" component={LoginScreen} />
                 <RootStack.Screen name="Register" component={RegisterScreen} />
-                <RootStack.Screen name="Home" component={HomeScreen} />
+                <RootStack.Screen
+                  name="Home"
+                  component={HomeScreen}
+                  options={{ gestureEnabled: false }}
+                />
               </RootStack.Navigator>
             </NavigationContainer>
             <Toast />

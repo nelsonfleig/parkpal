@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
-  keyboardAvoid: {
+  mainView: {
     width: '100%',
     height: '90%',
     alignItems: 'center',
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   userInfoView: {
-    width: '70%',
+    width: '80%',
     alignItems: 'flex-start',
   },
   iconsView: {
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     marginBottom: '5%',
   },
   buttonsView: {
-    width: '70%',
+    width: '80%',
     marginTop: '5%',
   },
   buttons: {
