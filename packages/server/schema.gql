@@ -194,7 +194,7 @@ type Mutation {
   """Logout user"""
   logout: Boolean!
 
-  """Logout user"""
+  """Update user"""
   updateProfile(input: ProfileInput!): AuthResponse!
 
   """Create User"""

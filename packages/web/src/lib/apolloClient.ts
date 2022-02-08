@@ -9,7 +9,7 @@ export const APOLLO_STATE_PROP_NAME = '__APOLLO_STATE__';
 let apolloClient: ApolloClient<NormalizedCacheObject>;
 
 const httpLink = createUploadLink({
-  uri: process.env.GRAPHQL_URL || 'http://localhost:5000/graphql',
+  uri: process.env.NEXT_PUBLIC_GRAPHQL_URL || 'http://localhost:5000/graphql',
   credentials: 'include',
 }) as unknown as ApolloLink;
 
