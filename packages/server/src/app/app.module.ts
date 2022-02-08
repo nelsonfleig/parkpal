@@ -49,7 +49,7 @@ import { AppService } from './app.service';
       // ],
       cors: {
         origin: process.env.FRONTEND_URL || 'http://localhost:3000',
-        credentials: true,
+        credentials: process.env.NODE_ENV === 'production',
       },
       context: ({ req, res }: Ctx) => ({ req, res }),
       formatError: (error: GraphQLError) => {

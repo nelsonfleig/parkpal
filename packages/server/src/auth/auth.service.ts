@@ -47,8 +47,7 @@ export class AuthService {
       domain:
         process.env.NODE_ENV === 'production' ? 'vercel.app' : 'localhost',
       //sameSite: 'lax',
-      // secure: process.env.NODE_ENV === 'production',
-      secure: false,
+      secure: process.env.NODE_ENV === 'production',
     });
     // TODO: sign a refresh token to send to client
 
@@ -78,8 +77,7 @@ export class AuthService {
       domain:
         process.env.NODE_ENV === 'production' ? 'vercel.app' : 'localhost',
       // sameSite: 'lax',
-      // secure: process.env.NODE_ENV === 'production',
-      secure: false,
+      secure: process.env.NODE_ENV === 'production',
     });
     return accessToken;
   }
