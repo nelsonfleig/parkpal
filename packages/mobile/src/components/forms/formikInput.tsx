@@ -9,7 +9,7 @@ type FormikInputProps = FieldHookConfig<string> & {
   secureTextEntry?: boolean;
 };
 
-export const FormikInput = ({ label, ...props }: FormikInputProps) => {
+export const FormikInput = ({ placeholder, label, ...props }: FormikInputProps) => {
   const [field, meta] = useField(props);
 
   return (

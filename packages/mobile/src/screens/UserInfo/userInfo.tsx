@@ -1,7 +1,7 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CommonActions } from '@react-navigation/native';
-import { KeyboardAvoidingView, Text, View, Pressable } from 'react-native';
+import { Text, View, Pressable } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ProfileProps } from '../../../types/profileStack';
@@ -24,11 +24,18 @@ export const UserInfo = ({ navigation }: ProfileProps) => {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Parkpaler Profile</Text>
-      <KeyboardAvoidingView style={styles.keyboardAvoid}>
+      <View style={styles.keyboardAvoid}>
         <View style={styles.userInfoView}>
           <View style={styles.iconsView}>
             <MaterialIcons name="account-circle" size={35} color={colors.primary} />
-            <MaterialIcons name="edit" size={30} color={colors.primary} />
+            <MaterialIcons
+              name="edit"
+              size={30}
+              color={colors.primary}
+              onPress={() => {
+                navigation.navigate('ChangeInfo');
+              }}
+            />
           </View>
           <Text style={[styles.userInfo, { fontWeight: '600', fontSize: 25, marginBottom: '2%' }]}>
             {user?.firstName}
@@ -52,7 +59,7 @@ export const UserInfo = ({ navigation }: ProfileProps) => {
             <Text style={styles.buttonsText}>Log Out</Text>
           </Pressable>
         </View>
-      </KeyboardAvoidingView>
+      </View>
     </SafeAreaView>
   );
 };
