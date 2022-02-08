@@ -1,4 +1,4 @@
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons, Ionicons, FontAwesome5 } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CommonActions } from '@react-navigation/native';
 import { Text, View, Pressable } from 'react-native';
@@ -24,7 +24,7 @@ export const UserInfo = ({ navigation }: ProfileProps) => {
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Parkpaler Profile</Text>
-      <View style={styles.keyboardAvoid}>
+      <View style={styles.mainView}>
         <View style={styles.userInfoView}>
           <View style={styles.iconsView}>
             <MaterialIcons name="account-circle" size={35} color={colors.primary} />
@@ -51,11 +51,12 @@ export const UserInfo = ({ navigation }: ProfileProps) => {
         </View>
         <View style={styles.buttonsView}>
           <Pressable style={styles.buttons} onPress={() => navigation.navigate('ChangePassword')}>
-            <MaterialIcons name="lock" size={30} color="#00C0E7" />
+            <FontAwesome5 name="key" size={24} color="#00C0E7" style={{ width: 30 }} />
             <Text style={styles.buttonsText}>Change Password</Text>
           </Pressable>
           <Pressable onPress={onPress} style={styles.buttons}>
-            <MaterialIcons name="logout" size={30} color="#00C0E7" />
+            {/* <MaterialIcons name="logout" size={30} color="#00C0E7" /> */}
+            <Ionicons name="log-out" size={30} color="#00C0E7" style={{ width: 30 }} />
             <Text style={styles.buttonsText}>Log Out</Text>
           </Pressable>
         </View>

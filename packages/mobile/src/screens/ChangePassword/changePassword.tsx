@@ -24,7 +24,7 @@ export const ChangePassword = ({ navigation }: ProfileProps) => {
 
   return (
     <SafeAreaView>
-      <Text style={changePasswordStyles.title}>Change Your Info</Text>
+      <Text style={changePasswordStyles.title}>Change Your Password</Text>
       <Formik
         initialValues={{
           changePasswordCurrent: '',
