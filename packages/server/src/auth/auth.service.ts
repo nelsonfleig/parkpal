@@ -42,12 +42,14 @@ export class AuthService {
         expiresIn: '30d',
       }
     );
+
+    const isProd = process.env.NODE_ENV === 'production';
+
     context.res.cookie('accessToken', accessToken, {
       httpOnly: true,
-      domain:
-        process.env.NODE_ENV === 'production' ? 'vercel.app' : 'localhost',
-      //sameSite: 'lax',
-      secure: process.env.NODE_ENV === 'production',
+      domain: isProd ? 'vercel.app' : 'localhost',
+      sameSite: isProd ? 'none' : 'strict',
+      secure: isProd,
     });
     // TODO: sign a refresh token to send to client
 
@@ -72,12 +74,13 @@ export class AuthService {
         expiresIn: '30d',
       }
     );
+
+    const isProd = process.env.NODE_ENV === 'production';
     context.res.cookie('accessToken', accessToken, {
       httpOnly: true,
-      domain:
-        process.env.NODE_ENV === 'production' ? 'vercel.app' : 'localhost',
-      // sameSite: 'lax',
-      secure: process.env.NODE_ENV === 'production',
+      domain: isProd ? 'vercel.app' : 'localhost',
+      sameSite: isProd ? 'none' : 'strict',
+      secure: isProd,
     });
     return accessToken;
   }
