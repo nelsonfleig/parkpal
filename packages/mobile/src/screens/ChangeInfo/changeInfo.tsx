@@ -32,14 +32,14 @@ export const ChangeInfo = ({ navigation }: ProfileProps) => {
               values.lastName === user?.lastName &&
               values.phone === user?.phone
             ) {
-              errorToast('No change detected');
+              errorToast('No change detected.');
             } else {
               await updateProfile({
                 variables: {
                   input: values,
                 },
               });
-              sucessToast('Information Updated!');
+              sucessToast('Cool Beans! Your information has been updated!');
               navigation.goBack();
             }
           } catch (error) {

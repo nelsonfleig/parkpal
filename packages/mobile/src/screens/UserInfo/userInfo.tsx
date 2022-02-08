@@ -50,7 +50,7 @@ export const UserInfo = ({ navigation }: ProfileProps) => {
           {user?.phone && <Text style={styles.userInfo}>+34 {formatNumber(user.phone)}</Text>}
         </View>
         <View style={styles.buttonsView}>
-          <Pressable style={styles.buttons}>
+          <Pressable style={styles.buttons} onPress={() => navigation.navigate('ChangePassword')}>
             <MaterialIcons name="lock" size={30} color="#00C0E7" />
             <Text style={styles.buttonsText}>Change Password</Text>
           </Pressable>
