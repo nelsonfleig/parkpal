@@ -5,6 +5,7 @@ import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { ComplainInput } from './types/complain.input';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { UserJwt } from 'src/common/types/user-jwt.type';
+import { FileUpload, GraphQLUpload } from 'graphql-upload';
 
 @Resolver()
 export class ComplainResolver extends AbstractResolver(
@@ -40,13 +41,13 @@ export class ComplainResolver extends AbstractResolver(
   })
   async create(
     @CurrentUser() user: UserJwt,
-    @Args('input') input: ComplainInput
+    @Args('input', { name: 'image', type: () => GraphQLUpload })
+    input: ComplainInput,
+    image?: FileUpload
   ) {
+    console.log('yep');
     if (input.pictureUrl) {
-      const savedPicture = await this.uploadService.upload(
-        input.pictureUrl,
-        'complaints'
-      );
+      const savedPicture = await this.uploadService.upload(image, 'complaints');
       return this.complainService.create({
         ...input,
         pictureUrl: savedPicture,

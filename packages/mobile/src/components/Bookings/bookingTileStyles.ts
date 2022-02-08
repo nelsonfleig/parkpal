@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   },
 
   reportPaper: {
-    backgroundColor: 'white',
+    backgroundColor: '#0A2540',
     width: width * 0.8,
     padding: 20,
     marginBottom: 30,
@@ -51,6 +51,10 @@ const styles = StyleSheet.create({
     marginLeft: width * 0.1,
     marginTop: height * 0.25,
     height: height * 0.5,
+  },
+  reportTextField: {
+    backgroundColor: 'white',
+    marginBottom: 20,
   },
 });
 

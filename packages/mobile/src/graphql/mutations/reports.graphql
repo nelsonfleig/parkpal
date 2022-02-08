@@ -1,5 +1,5 @@
-mutation createComplain($input: ComplainInput!) {
-  createComplain(input: $input) {
+mutation createComplain($input: ComplainInput!, $image: Upload!) {
+  createComplain(input: $input, image: $image) {
     id
   }
 }

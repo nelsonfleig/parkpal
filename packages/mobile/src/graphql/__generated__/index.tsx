@@ -107,6 +107,7 @@ export type Mutation = {
 
 
 export type MutationCreateComplainArgs = {
+  image: Scalars['Upload'];
   input: ComplainInput;
 };
 
@@ -459,6 +460,7 @@ export type RegisterMutation = { __typename?: 'Mutation', register: { __typename
 
 export type CreateComplainMutationVariables = Exact<{
   input: ComplainInput;
+  image: Scalars['Upload'];
 }>;
 
 
@@ -618,8 +620,8 @@ export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
 export const CreateComplainDocument = gql`
-    mutation createComplain($input: ComplainInput!) {
-  createComplain(input: $input) {
+    mutation createComplain($input: ComplainInput!, $image: Upload!) {
+  createComplain(input: $input, image: $image) {
     id
   }
 }
@@ -640,6 +642,7 @@ export type CreateComplainMutationFn = Apollo.MutationFunction<CreateComplainMut
  * const [createComplainMutation, { data, loading, error }] = useCreateComplainMutation({
  *   variables: {
  *      input: // value for 'input'
+ *      image: // value for 'image'
  *   },
  * });
  */

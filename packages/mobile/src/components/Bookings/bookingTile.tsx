@@ -3,7 +3,7 @@ import { Surface, Menu, Button, Portal, Modal } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Formik } from 'formik';
 import { useState } from 'react';
-
+import * as ImagePicker from 'expo-image-picker';
 import { useDispatch } from 'react-redux';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import styles from './bookingTileStyles';
@@ -16,10 +16,10 @@ import { changePopupContent } from '../../redux/popupContent/popupContentSlice';
 import { panelReference } from '../BookingPopup/bookingPopup';
 import { changeDestination } from '../../redux/destination/destinationSlice';
 import { showFindSpotButton } from '../../redux/findSpotButton/findSpotButtonSlice';
-import { FormikInput } from '../Forms/formikInput';
 import { reportSchema } from '../../models/report.form';
 import { errorToast, sucessToast } from '..';
 import { useCreateComplainMutation } from '../../graphql/__generated__';
+import { FormikInput } from '../Forms/formikInput';
 
 type BookingTyleProps = {
   id: string;
@@ -42,9 +42,19 @@ export const BookingTile = ({
   const [visible, setVisible] = useState(false);
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
+  const [image, setImage] = useState({});
   const { startTime, endTime, date } = formatBookingDates(start, end);
   const dispatch = useDispatch();
   const [createReport] = useCreateComplainMutation();
+
+  const openImageLibrary = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+    });
+
+    setImage(result);
+  };
+
   // View route function:
   const viewRoute = () => {
     // We set the find here button as true
@@ -78,11 +88,25 @@ export const BookingTile = ({
             validationSchema={reportSchema}
             onSubmit={async (values, { setSubmitting, resetForm }) => {
               try {
-                await createReport({
-                  variables: {
-                    input: { description: values.description, parkingSpotId: id },
-                  },
-                });
+                if (image !== {}) {
+                  console.log(image);
+                  await createReport({
+                    variables: {
+                      image,
+                      input: {
+                        description: values.description,
+                        parkingSpotId: id,
+                        pictureUrl: 'included',
+                      },
+                    },
+                  });
+                } else {
+                  await createReport({
+                    variables: {
+                      input: { description: values.description, parkingSpotId: id },
+                    },
+                  });
+                }
                 resetForm({ values: { description: '' } });
                 setReportPaper(false);
                 sucessToast("Ladies and gentlemen, we got 'em!");
@@ -96,13 +120,24 @@ export const BookingTile = ({
             }}>
             {({ handleSubmit, isSubmitting, isValid }) => (
               <View>
-                <FormikInput name="description" label="Description" rows={4} type="time" />
+                <FormikInput name="description" label="Description" />
+                {/* <TextInput
+                  value={descriptionQuery}
+                  onChange={() => setDescriptionQuery(value)}
+                  multiline
+                  numberOfLines={7}
+                  style={styles.reportTextField}
+                  theme={{ colors: { primary: '#0A2540', text: 'black' } }}
+                /> */}
 
+                <CustomButton type="discard" press={openImageLibrary}>
+                  <MaterialCommunityIcons name="camera-image" color="#0A2540" size={30} />
+                </CustomButton>
                 <CustomButton
                   press={handleSubmit}
                   loading={isSubmitting}
                   disabled={!isValid || isSubmitting}
-                  type="main">
+                  type="start">
                   Report
                 </CustomButton>
               </View>
