@@ -38,7 +38,6 @@ const calculateSlider = (
       for (let i = 0; i <= difference; i += 1) {
         sliderOptions.push(i);
       }
-      console.log({ sliderOptions, selectedTime, availableTimes, currentSpot });
       return sliderOptions;
     }
   }
