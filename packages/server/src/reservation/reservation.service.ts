@@ -29,6 +29,7 @@ export class ReservationService extends AbstractService<Reservation> {
   }
   async createPaymentIntent(data: PaymentInput) {
     try {
+      console.log(process.env.STRIPE_SECRET_KEY);
       const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
         apiVersion: '2020-08-27',
       });
