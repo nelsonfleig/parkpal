@@ -52,16 +52,18 @@ export class AuthResolver {
     @Args('input') input: ProfileInput,
     @Context() context: Ctx
   ) {
-    const options = input.password
-      ? {
-          ...input,
-          password: md5(input.password),
-          roles: [Role.USER, Role.RENTER],
-        }
-      : {
-          ...input,
-          roles: [Role.USER, Role.RENTER],
-        };
+    const options =
+      input.bankInfo && input.phone
+        ? {
+            ...input,
+            roles: [Role.USER, Role.RENTER],
+          }
+        : input.password
+        ? {
+            ...input,
+            password: md5(input.password),
+          }
+        : { ...input };
 
     const updatedUser = await this.userService.update(user.id, options);
     const accessToken = this.authService.reissueAccessToken(
