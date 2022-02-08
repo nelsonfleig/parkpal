@@ -1,6 +1,7 @@
 import { View, Text } from 'react-native';
-import { Surface, Menu, Button } from 'react-native-paper';
+import { Surface, Menu, Button, Portal, Modal } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Formik } from 'formik';
 import { useState } from 'react';
 
 import { useDispatch } from 'react-redux';
@@ -15,8 +16,12 @@ import { changePopupContent } from '../../redux/popupContent/popupContentSlice';
 import { panelReference } from '../BookingPopup/bookingPopup';
 import { changeDestination } from '../../redux/destination/destinationSlice';
 import { showFindSpotButton } from '../../redux/findSpotButton/findSpotButtonSlice';
+import { FormikInput } from '../Forms/formikInput';
+import { reportSchema } from '../../models/report.form';
+import { errorToast, sucessToast } from '..';
 
 type BookingTyleProps = {
+  id: string;
   street: string;
   start: string;
   end: string;
@@ -24,7 +29,15 @@ type BookingTyleProps = {
   navigation: BottomTabNavigationProp<HomeStackParams, keyof HomeStackParams>;
 };
 
-export const BookingTile = ({ street, start, end, navigation, coordinates }: BookingTyleProps) => {
+export const BookingTile = ({
+  id,
+  street,
+  start,
+  end,
+  navigation,
+  coordinates,
+}: BookingTyleProps) => {
+  const [reportPaper, setReportPaper] = useState(false);
   const [visible, setVisible] = useState(false);
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
@@ -54,6 +67,45 @@ export const BookingTile = ({ street, start, end, navigation, coordinates }: Boo
 
   return (
     <View>
+      <Portal>
+        <Modal
+          style={styles.reportPaper}
+          visible={reportPaper}
+          onDismiss={() => setReportPaper(false)}>
+          <Formik
+            initialValues={{ description: '' }}
+            validationSchema={reportSchema}
+            onSubmit={async (values, { setSubmitting, resetForm }) => {
+              try {
+                console.log(id);
+
+                resetForm({ values: { description: '' } });
+                setReportPaper(false);
+                sucessToast("Ladies and gentlemen, we got 'em!");
+              } catch (error) {
+                if (error instanceof Error) {
+                  errorToast(`${error.message}`);
+                }
+              } finally {
+                setSubmitting(false);
+              }
+            }}>
+            {({ handleSubmit, isSubmitting, isValid }) => (
+              <View>
+                <FormikInput name="description" label="Description" rows={4} type="time" />
+
+                <CustomButton
+                  press={handleSubmit}
+                  loading={isSubmitting}
+                  disabled={!isValid || isSubmitting}
+                  type="main">
+                  Report
+                </CustomButton>
+              </View>
+            )}
+          </Formik>
+        </Modal>
+      </Portal>
       <Surface style={styles.tile}>
         <Text style={styles.address}>{street}</Text>
         <View style={styles.info}>
@@ -78,7 +130,14 @@ export const BookingTile = ({ street, start, end, navigation, coordinates }: Boo
                 <MaterialCommunityIcons name="dots-horizontal" color="#fff" size={30} />
               </Button>
             }>
-            <Menu.Item title="Report" />
+            <Menu.Item
+              title="Report"
+              titleStyle={styles.menuItem}
+              onPress={() => {
+                setReportPaper(true);
+                closeMenu();
+              }}
+            />
             <Menu.Item title="Cancel" titleStyle={styles.menuItem} />
           </Menu>
         </View>
