@@ -44,8 +44,9 @@ export class AuthService {
     );
     context.res.cookie('accessToken', accessToken, {
       httpOnly: true,
-      domain: 'localhost',
-      sameSite: 'strict',
+      domain:
+        process.env.NODE_ENV === 'production' ? 'vercel.app' : 'localhost',
+      //sameSite: 'lax',
       secure: process.env.NODE_ENV === 'production',
     });
     // TODO: sign a refresh token to send to client
@@ -73,8 +74,9 @@ export class AuthService {
     );
     context.res.cookie('accessToken', accessToken, {
       httpOnly: true,
-      domain: 'localhost',
-      sameSite: 'strict',
+      domain:
+        process.env.NODE_ENV === 'production' ? 'vercel.app' : 'localhost',
+      // sameSite: 'lax',
       secure: process.env.NODE_ENV === 'production',
     });
     return accessToken;
