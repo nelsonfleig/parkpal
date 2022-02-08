@@ -1,12 +1,13 @@
 {
   "expo": {
-    "name": "mobile",
-    "slug": "mobile",
-    "version": "1.0.0",
+    "name": "Parkpal",
+    "slug": "parkpal",
+    "description": "Airbnb but for parkings.",
+    "version": "0.0.1",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/result.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/parkpal-splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

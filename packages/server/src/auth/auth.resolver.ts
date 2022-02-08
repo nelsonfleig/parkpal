@@ -43,25 +43,27 @@ export class AuthResolver {
   /**
    * Upgrade a User to Renter if he submits his profile information
    *
-   * Also allow a Renter to change his profile info
+   * Also allow a User to change his profile info
    */
   @Roles(Role.USER, Role.RENTER)
-  @Mutation(() => AuthResponse, { description: 'Logout user' })
+  @Mutation(() => AuthResponse, { description: 'Update user' })
   async updateProfile(
     @CurrentUser() user: UserJwt,
     @Args('input') input: ProfileInput,
     @Context() context: Ctx
   ) {
-    const options = input.password
-      ? {
-          ...input,
-          password: md5(input.password),
-          roles: [Role.USER, Role.RENTER],
-        }
-      : {
-          ...input,
-          roles: [Role.USER, Role.RENTER],
-        };
+    const options =
+      input.bankInfo && input.phone
+        ? {
+            ...input,
+            roles: [Role.USER, Role.RENTER],
+          }
+        : input.password
+        ? {
+            ...input,
+            password: md5(input.password),
+          }
+        : { ...input };
 
     const updatedUser = await this.userService.update(user.id, options);
     const accessToken = this.authService.reissueAccessToken(

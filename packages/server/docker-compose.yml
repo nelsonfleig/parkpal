@@ -11,6 +11,7 @@ services:
       - NODE_ENV
       - PORT
       - DB_HOST
+      - FRONTEND_URL
     networks:
       - parkpal
   postgres:
@@ -25,6 +26,12 @@ services:
       - .dbdata:/var/lib/postgresql/data
     networks:
       - parkpal
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - $HOME/.docker/config.json:/config.json # Error with config.json being a folder
+    command: --interval 30
 networks:
   parkpal:
     driver: bridge

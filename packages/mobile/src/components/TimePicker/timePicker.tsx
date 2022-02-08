@@ -4,7 +4,7 @@ import { Picker } from '@react-native-picker/picker';
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styles from './timePickerStyles';
-import getAvailableTimes from '../../helpers/availableTimes';
+import getAvailableTimes, { Reservation } from '../../helpers/availableTimes';
 import { RootState } from '../../redux';
 import { updateSelectedTime } from '../../redux/scheduling/calendarSlice';
 
@@ -15,7 +15,7 @@ type TimePickerProps = {
 export const TimePicker = ({ hours }: TimePickerProps) => {
   const [visible, setVisible] = useState(false);
   const [availableTimes, setAvailableTimes] = useState<string[]>([]);
-  const { selectedTime } = useSelector((state: RootState) => state.calendar);
+  const { selectedTime, selectedDate } = useSelector((state: RootState) => state.calendar);
   const dispatch = useDispatch();
 
   const openTimePicker = () => setVisible(true);
@@ -23,8 +23,10 @@ export const TimePicker = ({ hours }: TimePickerProps) => {
   const { currentSpot } = useSelector((state: RootState) => state.parkingSpots);
 
   useEffect(() => {
-    setAvailableTimes(getAvailableTimes(hours, currentSpot?.reservations as Reservation[]));
-  }, [hours, currentSpot?.reservations]);
+    const reservations = currentSpot?.reservations as Reservation[];
+    const date = Object.keys(selectedDate)[0];
+    setAvailableTimes(getAvailableTimes(hours, reservations, date));
+  }, [hours, currentSpot?.reservations, selectedDate]);
 
   return availableTimes.length ? (
     <View>
@@ -33,7 +35,7 @@ export const TimePicker = ({ hours }: TimePickerProps) => {
         onDismiss={closeTimePicker}
         anchor={
           <Button style={styles.button} onPress={openTimePicker} color="black">
-            {selectedTime}
+            {selectedTime || 'time'}
           </Button>
         }
         style={styles.menu}>

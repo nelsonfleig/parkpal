@@ -22,6 +22,10 @@ on:
         description: 'DB Host'
         required: true
         default: 'postgres'
+      FRONTEND_URL:
+        description: 'Frontend URL'
+        required: true
+        default: 'https://parkpal-web-omega.vercel.app'
 
 jobs:
   build-and-deploy-docker-compose-prod:
@@ -36,6 +40,7 @@ jobs:
           envkey_NODE_ENV: ${{ github.event.inputs.NODE_ENV }}
           envkey_PORT: ${{ github.event.inputs.PORT }}
           envkey_DB_HOST: ${{ github.event.inputs.DB_HOST }}
+          envkey_FRONTEND_URL: ${{ github.event.inputs.FRONTEND_URL }}
           directory: ./
           file_name: .env
       - name: Copy file .env via ssh password
@@ -54,5 +59,6 @@ jobs:
           username: ${{ github.event.inputs.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
-          source: './packages/server/docker-compose.yml'
+          source: 'packages/server/docker-compose.yml'
+          strip_components: 2
           target: '/root/parkpal/'

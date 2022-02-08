@@ -53,7 +53,7 @@ export const NavBar: NextComponentType = () => {
           </LogoWrapper>
           <StyledProfilePaper onClick={handleClick}>
             <StyledAvatar
-              alt="Avatar Picture"
+              alt={`${user.firstName} ${user.lastName} profile picture`}
               src={user.pictureUrl || '/static/images/avatar/1.jpg'}
             />
             <Box>

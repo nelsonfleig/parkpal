@@ -47,7 +47,10 @@ import { AppService } from './app.service';
       //     ? ApolloServerPluginLandingPageProductionDefault()
       //     : ApolloServerPluginLandingPageGraphQLPlayground(),
       // ],
-      cors: { origin: true, credentials: true },
+      cors: {
+        origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+        credentials: true,
+      },
       context: ({ req, res }: Ctx) => ({ req, res }),
       formatError: (error: GraphQLError) => {
         const graphQLFormattedError: GraphQLFormattedError = {
