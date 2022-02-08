@@ -41,7 +41,6 @@ function MyApp({ Component, pageProps = {} }: AppProps) {
                 />
                 {/* PWA primary color */}
                 <meta name="theme-color" content={theme.palette.primary.main} />
-                <meta httpEquiv="Content-Security-Policy" content="upgrade-insecure-requests" />
               </Head>
               <CssBaseline />
               <ToastContainer />
