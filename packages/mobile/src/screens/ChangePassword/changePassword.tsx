@@ -104,10 +104,7 @@ export const ChangePassword = ({ navigation }: ProfileProps) => {
               disabled={!isValid || isSubmitting}>
               Save Changes
             </CustomButton>
-            <CustomButton
-              press={() => navigation.goBack()}
-              type="welcome"
-              disabled={!isValid || isSubmitting}>
+            <CustomButton press={() => navigation.goBack()} type="welcome" disabled={isSubmitting}>
               Cancel
             </CustomButton>
           </View>

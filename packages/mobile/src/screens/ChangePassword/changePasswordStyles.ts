@@ -8,7 +8,7 @@ export const changePasswordStyles = StyleSheet.create({
     fontWeight: '500',
     textAlign: 'center',
     marginTop: '5%',
-    marginBottom: '7%',
+    marginBottom: '15%',
     color: 'black',
   },
   form: {

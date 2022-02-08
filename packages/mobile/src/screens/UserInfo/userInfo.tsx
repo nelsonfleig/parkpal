@@ -55,7 +55,6 @@ export const UserInfo = ({ navigation }: ProfileProps) => {
             <Text style={styles.buttonsText}>Change Password</Text>
           </Pressable>
           <Pressable onPress={onPress} style={styles.buttons}>
-            {/* <MaterialIcons name="logout" size={30} color="#00C0E7" /> */}
             <Ionicons name="log-out" size={30} color="#00C0E7" style={{ width: 30 }} />
             <Text style={styles.buttonsText}>Log Out</Text>
           </Pressable>
