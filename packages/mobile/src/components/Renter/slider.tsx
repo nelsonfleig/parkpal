@@ -3,6 +3,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Badge } from 'react-native-paper';
 import styles from './renterStyles';
 import { updateDuration } from '../../redux/scheduling/calendarSlice';
 import { RootState } from '../../redux';
@@ -18,7 +19,9 @@ export const RenterSlider = () => {
     setScrollEnabled(false);
   };
   const { currentSpot } = useSelector((state: RootState) => state.parkingSpots);
-  const { selectedTime, selectedDate } = useSelector((state: RootState) => state.calendar);
+  const { selectedTime, selectedDate, duration } = useSelector(
+    (state: RootState) => state.calendar
+  );
 
   const [sliderOptions, setSliderOptions] = useState<number[]>([]);
   useEffect(() => {
@@ -31,6 +34,13 @@ export const RenterSlider = () => {
     setSliderOptions(calculateSlider(times, selectedTime, currentSpot, date));
   }, [selectedTime, currentSpot, selectedDate]);
 
+  const badge = (
+    // @ts-ignore
+    <Badge style={styles.badge} size={33} visible>
+      {duration}
+    </Badge>
+  );
+
   return (
     <ScrollView contentContainerStyle={styles.slider} scrollEnabled={scrollEnabled}>
       <MaterialCommunityIcons
@@ -41,7 +51,7 @@ export const RenterSlider = () => {
       />
       <MultiSlider
         onValuesChangeStart={disableScroll}
-        onValuesChangeFinish={(e) => {
+        onValuesChange={(e) => {
           enableScroll();
           dispatch(updateDuration(e[0]));
         }}
@@ -49,8 +59,9 @@ export const RenterSlider = () => {
         min={0}
         max={sliderOptions.length}
         optionsArray={sliderOptions}
-        enableLabel
         allowOverlap
+        // @ts-ignore
+        customMarker={() => badge}
       />
     </ScrollView>
   );

@@ -51,6 +51,7 @@ export const CustomButton = ({
   };
   return (
     <Button
+      theme={{ colors: { disabled: 'white' } }}
       style={style()}
       onPress={press}
       loading={loading}
