@@ -66,10 +66,10 @@ export const Payment = () => {
 
   const onPress = async () => {
     try {
-      if (currentSpot) {
+      if (currentSpot && user) {
         const total = duration * currentSpot.price;
         const billingDetails = {
-          email: user?.email,
+          email: user.email,
         };
         // Get the client secret from our server
         const { data } = await createPaymentIntent({
