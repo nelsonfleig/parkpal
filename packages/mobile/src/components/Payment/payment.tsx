@@ -64,10 +64,11 @@ export const Payment = () => {
   };
 
   const onPress = async () => {
-    if (currentSpot) {
+    if (currentSpot && user) {
       const total = duration * currentSpot.price;
+      console.log(user.email);
       const billingDetails = {
-        email: user?.email,
+        email: user.email,
       };
       // Get the client secret from our server
       const { data } = await createPaymentIntent({
@@ -80,6 +81,7 @@ export const Payment = () => {
           type: 'Card',
           billingDetails,
         }));
+      if (paymentObject?.error) console.log(paymentObject?.error);
       if (paymentObject?.paymentIntent) {
         // Make reservations
         reservationRequest(paymentObject.paymentIntent.id);

@@ -8,23 +8,32 @@ export type Reservation = {
   endDate: string;
 };
 
-const getAvailableTimes = (hours: number[], reservations: Reservation[]): string[] => {
+const getAvailableTimes = (
+  hours: number[],
+  reservations: Reservation[],
+  selectedDate: string
+): string[] => {
   const availableHours = [];
-  for (let i = hours[0]; i <= hours[1]; i += 1) {
+  for (let i = hours[0]; i < hours[1]; i += 1) {
     availableHours.push(`${i < 10 ? '0' : ''}${i}:00`);
   }
 
   const hoursTaken: string[] = [];
   reservations.forEach((reservation) => {
-    let start = dayjs(reservation.startDate);
-    const end = dayjs(reservation.endDate);
+    const formattedStart = dayjs(reservation.startDate).format('YYYY-MM-DD');
+    const formattedEnd = dayjs(reservation.endDate).format('YYYY-MM-DD');
 
-    while (start.isSameOrBefore(end)) {
-      hoursTaken.push(start.format('HH:mm'));
-      start = start.add(1, 'hour');
+    if (formattedStart === selectedDate && formattedEnd === selectedDate) {
+      let start = dayjs(reservation.startDate);
+      const end = dayjs(reservation.endDate);
+
+      while (start.isSameOrBefore(end)) {
+        hoursTaken.push(start.format('HH:mm'));
+
+        start = start.add(1, 'hour');
+      }
     }
   });
-
   return availableHours.filter((hour) => !hoursTaken.includes(hour));
 };
 

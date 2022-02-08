@@ -56,6 +56,7 @@ const CalendarComponent = ({ disabledDayIndexes }: CalendarPropTypes) => {
           }}
           enableSwipeMonths
           disableAllTouchEventsForDisabledDays
+          minDate={dayjs(Date.now()).format('YYYY-MM-DD')}
           style={styles.calendar}
           // When the month changes render the new disabled days
           onMonthChange={(date) => {
