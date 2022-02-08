@@ -44,8 +44,9 @@ export class AuthService {
     );
     context.res.cookie('accessToken', accessToken, {
       httpOnly: true,
-      domain: process.env.NODE_ENV === 'production' ? 'vercel' : 'localhost',
-      sameSite: 'lax',
+      domain:
+        process.env.NODE_ENV === 'production' ? 'vercel.app' : 'localhost',
+      //sameSite: 'lax',
       // secure: process.env.NODE_ENV === 'production',
       secure: false,
     });
@@ -74,8 +75,9 @@ export class AuthService {
     );
     context.res.cookie('accessToken', accessToken, {
       httpOnly: true,
-      domain: process.env.NODE_ENV === 'production' ? 'vercel' : 'localhost',
-      sameSite: 'lax',
+      domain:
+        process.env.NODE_ENV === 'production' ? 'vercel.app' : 'localhost',
+      // sameSite: 'lax',
       // secure: process.env.NODE_ENV === 'production',
       secure: false,
     });
