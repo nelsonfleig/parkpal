@@ -25,6 +25,12 @@ services:
       - .dbdata:/var/lib/postgresql/data
     networks:
       - parkpal
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - $HOME/.docker/config.json:/config.json
+    command: --interval 30
 networks:
   parkpal:
     driver: bridge
