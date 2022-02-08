@@ -43,7 +43,16 @@ export const UserInfo = ({ navigation }: ProfileProps) => {
           <Text style={[styles.userInfo, { fontWeight: '600', fontSize: 25 }]}>
             {user?.lastName}
           </Text>
-          <Text style={[styles.userInfo, { fontStyle: 'italic', marginTop: '2%' }]}>
+          <Text
+            style={[
+              styles.userInfo,
+              {
+                backgroundColor: '#7145D6',
+                color: 'white',
+                paddingHorizontal: '2%',
+                paddingVertical: '1%',
+              },
+            ]}>
             DRIVER {`& ${user?.roles.toString().split(',')[1]}`}
           </Text>
           <Text style={styles.userInfo}>{user?.email}</Text>
