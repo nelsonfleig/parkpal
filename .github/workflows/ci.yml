@@ -25,7 +25,7 @@ on:
       FRONTEND_URL:
         description: 'Frontend URL'
         required: true
-        default: 'https://parkpal-web-qoeek3ulr-kokopelli84.vercel.app'
+        default: 'https://parkpal-web-omega.vercel.app/'
 
 jobs:
   build-and-deploy-docker-compose-prod:
@@ -60,5 +60,5 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           source: './packages/server/docker-compose.yml'
-          strip_components: 2
+          strip_components: 3
           target: '/root/parkpal/'
