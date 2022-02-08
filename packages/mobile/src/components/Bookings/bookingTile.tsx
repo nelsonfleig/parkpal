@@ -19,6 +19,7 @@ import { showFindSpotButton } from '../../redux/findSpotButton/findSpotButtonSli
 import { FormikInput } from '../Forms/formikInput';
 import { reportSchema } from '../../models/report.form';
 import { errorToast, sucessToast } from '..';
+import { useCreateComplainMutation } from '../../graphql/__generated__';
 
 type BookingTyleProps = {
   id: string;
@@ -43,7 +44,7 @@ export const BookingTile = ({
   const closeMenu = () => setVisible(false);
   const { startTime, endTime, date } = formatBookingDates(start, end);
   const dispatch = useDispatch();
-
+  const [createReport] = useCreateComplainMutation();
   // View route function:
   const viewRoute = () => {
     // We set the find here button as true
@@ -77,8 +78,11 @@ export const BookingTile = ({
             validationSchema={reportSchema}
             onSubmit={async (values, { setSubmitting, resetForm }) => {
               try {
-                console.log(id);
-
+                await createReport({
+                  variables: {
+                    input: { description: values.description, parkingSpotId: id },
+                  },
+                });
                 resetForm({ values: { description: '' } });
                 setReportPaper(false);
                 sucessToast("Ladies and gentlemen, we got 'em!");

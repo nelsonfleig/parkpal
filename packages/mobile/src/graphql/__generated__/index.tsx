@@ -41,9 +41,17 @@ export type Complain = {
   description: Scalars['String'];
   id: Scalars['ID'];
   parkingSpot: ParkingSpot;
-  pictureUrl: Scalars['String'];
+  parkingSpotId: Scalars['Float'];
+  pictureUrl?: Maybe<Scalars['String']>;
   updatedAt: Scalars['DateTime'];
   user: User;
+  userId: Scalars['Float'];
+};
+
+export type ComplainInput = {
+  description: Scalars['String'];
+  parkingSpotId: Scalars['ID'];
+  pictureUrl?: InputMaybe<Scalars['String']>;
 };
 
 export type LoginInput = {
@@ -53,6 +61,8 @@ export type LoginInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  /** Create Complain */
+  createComplain: Complain;
   /** Create ParkingSpot */
   createParkingSpot: ParkingSpot;
   /** Create a Payment Intent */
@@ -63,6 +73,8 @@ export type Mutation = {
   createTodo: Todo;
   /** Create User */
   createUser: User;
+  /** Delete Complain */
+  deleteComplain: Complain;
   /** Delete ParkingSpot */
   deleteParkingSpot: ParkingSpot;
   /** Delete Reservation */
@@ -77,9 +89,11 @@ export type Mutation = {
   logout: Scalars['Boolean'];
   /** Register user */
   register: User;
+  /** Update Complain */
+  updateComplain: Complain;
   /** Update ParkingSpot */
   updateParkingSpot: ParkingSpot;
-  /** Logout user */
+  /** Update user */
   updateProfile: AuthResponse;
   updateProfilePicture: Scalars['String'];
   /** Update Reservation */
@@ -89,6 +103,11 @@ export type Mutation = {
   /** Update User */
   updateUser: User;
   uploadFile: Scalars['String'];
+};
+
+
+export type MutationCreateComplainArgs = {
+  input: ComplainInput;
 };
 
 
@@ -114,6 +133,11 @@ export type MutationCreateTodoArgs = {
 
 export type MutationCreateUserArgs = {
   input: UserInput;
+};
+
+
+export type MutationDeleteComplainArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -144,6 +168,12 @@ export type MutationLoginArgs = {
 
 export type MutationRegisterArgs = {
   input: RegisterInput;
+};
+
+
+export type MutationUpdateComplainArgs = {
+  id: Scalars['ID'];
+  input: ComplainInput;
 };
 
 
@@ -237,6 +267,8 @@ export type ProfileInput = {
 
 export type Query = {
   __typename?: 'Query';
+  /** Find all Complains */
+  findAllComplains: Array<Complain>;
   /** Find all ParkingSpots */
   findAllParkingSpots: Array<ParkingSpot>;
   /** Find all Reservations */
@@ -247,12 +279,18 @@ export type Query = {
   findAllUsers: Array<User>;
   /** Find user's ParkingSpots reservations and profit */
   findCalendarInfo: Array<RenterCalendarResponse>;
+  /** Find user's Complains */
+  findComplainInfo: Array<RenterComplainResponse>;
+  /** Find Complains about renters parking spaces */
+  findMyComplains: Array<Complain>;
   /** Find logged in user's ParkingSpots */
   findMyParkingSpots: Array<ParkingSpot>;
   /** Find Drivers reservations */
   findMyReservations: Array<Reservation>;
   /** Find parking spots near coords */
   findNearParkingSpots: Array<ParkingSpot>;
+  /** Find one Complain */
+  findOneComplain: Complain;
   /** Find one parking spot for reservations */
   findOneParkingSpot: ParkingSpot;
   /** Find one Reservation */
@@ -270,6 +308,11 @@ export type Query = {
 
 export type QueryFindNearParkingSpotsArgs = {
   input: NearParkingSpotsInput;
+};
+
+
+export type QueryFindOneComplainArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -305,6 +348,16 @@ export type RenterCalendarResponse = {
   name: Scalars['String'];
   spot: Scalars['Float'];
   startHour: Scalars['Float'];
+};
+
+export type RenterComplainResponse = {
+  __typename?: 'RenterComplainResponse';
+  city: Scalars['String'];
+  createdAt: Scalars['String'];
+  description: Scalars['String'];
+  id: Scalars['Float'];
+  pictureUrl?: Maybe<Scalars['String']>;
+  street: Scalars['String'];
 };
 
 export type Reservation = {
@@ -403,6 +456,13 @@ export type RegisterMutationVariables = Exact<{
 
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'User', email: string } };
+
+export type CreateComplainMutationVariables = Exact<{
+  input: ComplainInput;
+}>;
+
+
+export type CreateComplainMutation = { __typename?: 'Mutation', createComplain: { __typename?: 'Complain', id: string } };
 
 export type CreateReservationMutationVariables = Exact<{
   input: ReservationInput;
@@ -557,6 +617,39 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const CreateComplainDocument = gql`
+    mutation createComplain($input: ComplainInput!) {
+  createComplain(input: $input) {
+    id
+  }
+}
+    `;
+export type CreateComplainMutationFn = Apollo.MutationFunction<CreateComplainMutation, CreateComplainMutationVariables>;
+
+/**
+ * __useCreateComplainMutation__
+ *
+ * To run a mutation, you first call `useCreateComplainMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateComplainMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createComplainMutation, { data, loading, error }] = useCreateComplainMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateComplainMutation(baseOptions?: Apollo.MutationHookOptions<CreateComplainMutation, CreateComplainMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateComplainMutation, CreateComplainMutationVariables>(CreateComplainDocument, options);
+      }
+export type CreateComplainMutationHookResult = ReturnType<typeof useCreateComplainMutation>;
+export type CreateComplainMutationResult = Apollo.MutationResult<CreateComplainMutation>;
+export type CreateComplainMutationOptions = Apollo.BaseMutationOptions<CreateComplainMutation, CreateComplainMutationVariables>;
 export const CreateReservationDocument = gql`
     mutation CreateReservation($input: ReservationInput!) {
   createReservation(input: $input) {
