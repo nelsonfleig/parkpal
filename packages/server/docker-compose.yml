@@ -29,7 +29,7 @@ services:
     image: containrrr/watchtower
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - $HOME/.docker/config.json:/config.json
+      # - $HOME/.docker/config.json:/config.json # Error with config.json being a folder
     command: --interval 30
 networks:
   parkpal:

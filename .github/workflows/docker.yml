@@ -2,7 +2,8 @@ name: Build Containers for Prod & Push to Dockerhub
 on:
   push:
     branches:
-      - master
+      - feat/server-add-ssl-in-prod
+      # - master
 
 jobs:
   build-and-deploy-server:
