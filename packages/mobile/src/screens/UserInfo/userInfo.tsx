@@ -5,6 +5,7 @@ import { Text, View, Pressable } from 'react-native';
 import { useTheme } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ProfileProps } from '../../../types/profileStack';
+import { useMeLazyQuery } from '../../graphql/__generated__';
 import { formatNumber } from '../../helpers/formatPhoneNumber';
 import { useAuth } from '../../hooks/useAuth';
 import styles from './userInfoStyles';
@@ -12,8 +13,10 @@ import styles from './userInfoStyles';
 export const UserInfo = ({ navigation }: ProfileProps) => {
   const { colors } = useTheme();
   const { user } = useAuth();
+  const [logout] = useMeLazyQuery();
   const onPress = async () => {
     await AsyncStorage.removeItem('accessToken');
+    await logout();
     navigation.dispatch(
       CommonActions.reset({
         index: 1,
