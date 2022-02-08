@@ -5,7 +5,7 @@
     "description": "Airbnb but for parkings.",
     "version": "0.0.1",
     "orientation": "portrait",
-    "icon": "./assets/result.png",
+    "icon": "./assets/icon-parkpal.png",
     "splash": {
       "image": "./assets/parkpal-splash.png",
       "resizeMode": "contain",
@@ -20,7 +20,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/adaptive-icon-parkpal.png",
         "backgroundColor": "#FFFFFF"
       }
     },
