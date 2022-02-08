@@ -2,8 +2,10 @@ import { Menu, Button } from 'react-native-paper';
 import { View, Text } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import styles from './timePickerStyles';
-import getAvailableTimes from '../../helpers/availableTimes';
+import getAvailableTimes, { Reservation } from '../../helpers/availableTimes';
+import { RootState } from '../../redux';
 
 type TimePickerProps = {
   hours: number[];
@@ -16,10 +18,11 @@ export const TimePicker = ({ hours, selectedTime, setSelectedTime }: TimePickerP
   const [availableTimes, setAvailableTimes] = useState<string[]>([]);
   const openTimePicker = () => setVisible(true);
   const closeTimePicker = () => setVisible(false);
+  const { currentSpot } = useSelector((state: RootState) => state.parkingSpots);
 
   useEffect(() => {
-    setAvailableTimes(getAvailableTimes(hours));
-  }, [hours]);
+    setAvailableTimes(getAvailableTimes(hours, currentSpot?.reservations as Reservation[]));
+  }, [hours, currentSpot?.reservations]);
 
   return availableTimes.length ? (
     <View>
@@ -28,7 +31,7 @@ export const TimePicker = ({ hours, selectedTime, setSelectedTime }: TimePickerP
         onDismiss={closeTimePicker}
         anchor={
           <Button style={styles.button} onPress={openTimePicker} color="black">
-            Time
+            {selectedTime}
           </Button>
         }
         style={styles.menu}>

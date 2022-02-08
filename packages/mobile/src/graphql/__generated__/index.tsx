@@ -79,6 +79,7 @@ export type Mutation = {
   updateParkingSpot: ParkingSpot;
   /** Logout user */
   updateProfile: AuthResponse;
+  updateProfilePicture: Scalars['String'];
   /** Update Reservation */
   updateReservation: Reservation;
   /** Update Todo */
@@ -147,6 +148,11 @@ export type MutationUpdateParkingSpotArgs = {
 
 export type MutationUpdateProfileArgs = {
   input: ProfileInput;
+};
+
+
+export type MutationUpdateProfilePictureArgs = {
+  image: Scalars['Upload'];
 };
 
 
@@ -236,7 +242,7 @@ export type Query = {
   findMyReservations: Array<Reservation>;
   /** Find parking spots near coords */
   findNearParkingSpots: Array<ParkingSpot>;
-  /** Find one ParkingSpot */
+  /** Find one parking spot for reservations */
   findOneParkingSpot: ParkingSpot;
   /** Find one Reservation */
   findOneReservation: Reservation;
@@ -366,7 +372,7 @@ export type UserInput = {
   password: Scalars['String'];
 };
 
-export type ParkingSpotDetailsFragment = { __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour?: number | null | undefined, endHour?: number | null | undefined, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, user: { __typename?: 'User', firstName: string, lastName: string, phone?: string | null | undefined } };
+export type ParkingSpotDetailsFragment = { __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour?: number | null | undefined, endHour?: number | null | undefined, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, user: { __typename?: 'User', firstName: string, lastName: string, phone?: string | null | undefined }, reservations?: Array<{ __typename?: 'Reservation', startDate: string, endDate: string }> | null | undefined };
 
 export type ReservationDetailsFragment = { __typename?: 'Reservation', startDate: string, endDate: string, id: string, parkingSpot: { __typename?: 'ParkingSpot', street?: string | null | undefined, lat: number, lng: number } };
 
@@ -403,7 +409,7 @@ export type FindNearParkingSpotsQueryVariables = Exact<{
 }>;
 
 
-export type FindNearParkingSpotsQuery = { __typename?: 'Query', parkingSpots: Array<{ __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour?: number | null | undefined, endHour?: number | null | undefined, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, user: { __typename?: 'User', firstName: string, lastName: string, phone?: string | null | undefined } }> };
+export type FindNearParkingSpotsQuery = { __typename?: 'Query', parkingSpots: Array<{ __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour?: number | null | undefined, endHour?: number | null | undefined, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, user: { __typename?: 'User', firstName: string, lastName: string, phone?: string | null | undefined }, reservations?: Array<{ __typename?: 'Reservation', startDate: string, endDate: string }> | null | undefined }> };
 
 export type GetMyReservationsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -436,6 +442,10 @@ export const ParkingSpotDetailsFragmentDoc = gql`
     firstName
     lastName
     phone
+  }
+  reservations {
+    startDate
+    endDate
   }
 }
     `;

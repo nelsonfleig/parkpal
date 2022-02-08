@@ -51,7 +51,10 @@ export class ParkingSpotResolver extends AbstractResolver(
     description: 'Find parking spots near coords',
   })
   findNearParkingSpots(@Args('input') input: NearParkingSpotsInput) {
-    return this.parkingSpotService.findNearParkingSpots(input, ['user']);
+    return this.parkingSpotService.findNearParkingSpots(input, [
+      'user',
+      'reservations',
+    ]);
   }
 
   @Roles(Role.RENTER)
