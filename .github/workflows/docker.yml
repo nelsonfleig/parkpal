@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - feat/server-add-ssl-in-prod
-      # - master
+      - master
 
 jobs:
   build-and-deploy-server:
