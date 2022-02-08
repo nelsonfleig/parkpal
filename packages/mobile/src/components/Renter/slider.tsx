@@ -2,16 +2,14 @@ import { ScrollView } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styles from './renterStyles';
 import hoursInDay from '../../helpers/hoursInDay';
+import { updateDuration } from '../../redux/scheduling/calendarSlice';
 
-type RenterSliderProps = {
-  setDuration: React.Dispatch<React.SetStateAction<number>>;
-};
-
-export const RenterSlider = ({ setDuration }: RenterSliderProps) => {
+export const RenterSlider = () => {
   const [scrollEnabled, setScrollEnabled] = useState(false);
-
+  const dispatch = useDispatch();
   const enableScroll = () => setScrollEnabled(true);
   const disableScroll = () => {
     setScrollEnabled(false);
@@ -29,13 +27,12 @@ export const RenterSlider = ({ setDuration }: RenterSliderProps) => {
         onValuesChangeStart={disableScroll}
         onValuesChangeFinish={(e) => {
           enableScroll();
-          setDuration(e[0]);
+          dispatch(updateDuration(e[0]));
         }}
         sliderLength={180}
         min={1}
         max={24}
         optionsArray={hoursInDay()}
-        showSteps
         enableLabel
       />
     </ScrollView>

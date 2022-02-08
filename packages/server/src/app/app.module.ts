@@ -29,7 +29,7 @@ import { AppService } from './app.service';
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
+      host: process.env.DB_HOST, // dev: localhost, prod: postgres
       port: 5432,
       username: 'postgres',
       password: 'postgres',
@@ -41,6 +41,12 @@ import { AppService } from './app.service';
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema.gql',
       playground: true,
+      introspection: true,
+      // plugins: [
+      //   process.env.NODE_ENV === 'production'
+      //     ? ApolloServerPluginLandingPageProductionDefault()
+      //     : ApolloServerPluginLandingPageGraphQLPlayground(),
+      // ],
       cors: { origin: true, credentials: true },
       context: ({ req, res }: Ctx) => ({ req, res }),
       formatError: (error: GraphQLError) => {

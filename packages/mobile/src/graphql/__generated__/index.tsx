@@ -55,6 +55,8 @@ export type Mutation = {
   __typename?: 'Mutation';
   /** Create ParkingSpot */
   createParkingSpot: ParkingSpot;
+  /** Create a Payment Intent */
+  createPaymentIntent: Scalars['String'];
   /** Create Reservation */
   createReservation: Reservation;
   /** Custom Create Todo */
@@ -79,6 +81,7 @@ export type Mutation = {
   updateParkingSpot: ParkingSpot;
   /** Logout user */
   updateProfile: AuthResponse;
+  updateProfilePicture: Scalars['String'];
   /** Update Reservation */
   updateReservation: Reservation;
   /** Update Todo */
@@ -91,6 +94,11 @@ export type Mutation = {
 
 export type MutationCreateParkingSpotArgs = {
   input: ParkingSpotInput;
+};
+
+
+export type MutationCreatePaymentIntentArgs = {
+  input: PaymentInput;
 };
 
 
@@ -147,6 +155,11 @@ export type MutationUpdateParkingSpotArgs = {
 
 export type MutationUpdateProfileArgs = {
   input: ProfileInput;
+};
+
+
+export type MutationUpdateProfilePictureArgs = {
+  image: Scalars['Upload'];
 };
 
 
@@ -210,6 +223,10 @@ export type ParkingSpotInput = {
   startHour: Scalars['Float'];
 };
 
+export type PaymentInput = {
+  total: Scalars['Float'];
+};
+
 export type ProfileInput = {
   bankInfo?: InputMaybe<Scalars['String']>;
   firstName?: InputMaybe<Scalars['String']>;
@@ -236,7 +253,7 @@ export type Query = {
   findMyReservations: Array<Reservation>;
   /** Find parking spots near coords */
   findNearParkingSpots: Array<ParkingSpot>;
-  /** Find one ParkingSpot */
+  /** Find one parking spot for reservations */
   findOneParkingSpot: ParkingSpot;
   /** Find one Reservation */
   findOneReservation: Reservation;
@@ -309,6 +326,7 @@ export type ReservationInput = {
   endDate: Scalars['String'];
   parkingSpotId: Scalars['ID'];
   startDate: Scalars['String'];
+  stripeChargeId: Scalars['String'];
   total: Scalars['Float'];
 };
 
@@ -366,7 +384,7 @@ export type UserInput = {
   password: Scalars['String'];
 };
 
-export type ParkingSpotDetailsFragment = { __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour?: number | null | undefined, endHour?: number | null | undefined, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, user: { __typename?: 'User', firstName: string, lastName: string, phone?: string | null | undefined } };
+export type ParkingSpotDetailsFragment = { __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour?: number | null | undefined, endHour?: number | null | undefined, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, user: { __typename?: 'User', firstName: string, lastName: string, phone?: string | null | undefined }, reservations?: Array<{ __typename?: 'Reservation', startDate: string, endDate: string }> | null | undefined };
 
 export type ReservationDetailsFragment = { __typename?: 'Reservation', startDate: string, endDate: string, id: string, parkingSpot: { __typename?: 'ParkingSpot', street?: string | null | undefined, lat: number, lng: number } };
 
@@ -393,6 +411,13 @@ export type CreateReservationMutationVariables = Exact<{
 
 export type CreateReservationMutation = { __typename?: 'Mutation', createReservation: { __typename?: 'Reservation', id: string } };
 
+export type CreatePaymentIntentMutationVariables = Exact<{
+  input: PaymentInput;
+}>;
+
+
+export type CreatePaymentIntentMutation = { __typename?: 'Mutation', createPaymentIntent: string };
+
 export type GetSpotsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -403,7 +428,7 @@ export type FindNearParkingSpotsQueryVariables = Exact<{
 }>;
 
 
-export type FindNearParkingSpotsQuery = { __typename?: 'Query', parkingSpots: Array<{ __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour?: number | null | undefined, endHour?: number | null | undefined, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, user: { __typename?: 'User', firstName: string, lastName: string, phone?: string | null | undefined } }> };
+export type FindNearParkingSpotsQuery = { __typename?: 'Query', parkingSpots: Array<{ __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour?: number | null | undefined, endHour?: number | null | undefined, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, user: { __typename?: 'User', firstName: string, lastName: string, phone?: string | null | undefined }, reservations?: Array<{ __typename?: 'Reservation', startDate: string, endDate: string }> | null | undefined }> };
 
 export type GetMyReservationsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -436,6 +461,10 @@ export const ParkingSpotDetailsFragmentDoc = gql`
     firstName
     lastName
     phone
+  }
+  reservations {
+    startDate
+    endDate
   }
 }
     `;
@@ -561,6 +590,37 @@ export function useCreateReservationMutation(baseOptions?: Apollo.MutationHookOp
 export type CreateReservationMutationHookResult = ReturnType<typeof useCreateReservationMutation>;
 export type CreateReservationMutationResult = Apollo.MutationResult<CreateReservationMutation>;
 export type CreateReservationMutationOptions = Apollo.BaseMutationOptions<CreateReservationMutation, CreateReservationMutationVariables>;
+export const CreatePaymentIntentDocument = gql`
+    mutation CreatePaymentIntent($input: PaymentInput!) {
+  createPaymentIntent(input: $input)
+}
+    `;
+export type CreatePaymentIntentMutationFn = Apollo.MutationFunction<CreatePaymentIntentMutation, CreatePaymentIntentMutationVariables>;
+
+/**
+ * __useCreatePaymentIntentMutation__
+ *
+ * To run a mutation, you first call `useCreatePaymentIntentMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreatePaymentIntentMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createPaymentIntentMutation, { data, loading, error }] = useCreatePaymentIntentMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreatePaymentIntentMutation(baseOptions?: Apollo.MutationHookOptions<CreatePaymentIntentMutation, CreatePaymentIntentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreatePaymentIntentMutation, CreatePaymentIntentMutationVariables>(CreatePaymentIntentDocument, options);
+      }
+export type CreatePaymentIntentMutationHookResult = ReturnType<typeof useCreatePaymentIntentMutation>;
+export type CreatePaymentIntentMutationResult = Apollo.MutationResult<CreatePaymentIntentMutation>;
+export type CreatePaymentIntentMutationOptions = Apollo.BaseMutationOptions<CreatePaymentIntentMutation, CreatePaymentIntentMutationVariables>;
 export const GetSpotsDocument = gql`
     query GetSpots {
   spaces: findAllParkingSpots {
