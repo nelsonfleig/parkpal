@@ -43,10 +43,10 @@ export class AuthResolver {
   /**
    * Upgrade a User to Renter if he submits his profile information
    *
-   * Also allow a Renter to change his profile info
+   * Also allow a User to change his profile info
    */
   @Roles(Role.USER, Role.RENTER)
-  @Mutation(() => AuthResponse, { description: 'Logout user' })
+  @Mutation(() => AuthResponse, { description: 'Update user' })
   async updateProfile(
     @CurrentUser() user: UserJwt,
     @Args('input') input: ProfileInput,
