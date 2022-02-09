@@ -2,10 +2,12 @@ import { View, Text } from 'react-native';
 import { Surface, Menu, Button, Portal, Modal } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Formik } from 'formik';
+import * as mime from 'react-native-mime-types';
 import { useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { useDispatch } from 'react-redux';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { ReactNativeFile } from 'apollo-upload-client';
 import styles from './bookingTileStyles';
 import { CustomButton } from '../Forms/button';
 import formatBookingDates from '../../helpers/formatBookingDates';
@@ -42,7 +44,7 @@ export const BookingTile = ({
   const [visible, setVisible] = useState(false);
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
-  const [image, setImage] = useState({});
+  const [image, setImage] = useState<any>(null);
   const { startTime, endTime, date } = formatBookingDates(start, end);
   const dispatch = useDispatch();
   const [createReport] = useCreateComplainMutation();
@@ -88,25 +90,31 @@ export const BookingTile = ({
             validationSchema={reportSchema}
             onSubmit={async (values, { setSubmitting, resetForm }) => {
               try {
-                if (image !== {}) {
-                  console.log(image);
+                if (image) {
+                  const fileImage = new ReactNativeFile({
+                    uri: image.uri,
+                    type: mime.lookup(image.uri) || 'image',
+                    name: `image-${Date.now()}.${mime.lookup(image.uri).split('/')[1]}`,
+                  });
                   await createReport({
                     variables: {
-                      image,
+                      image: fileImage,
                       input: {
                         description: values.description,
                         parkingSpotId: id,
-                        pictureUrl: 'included',
+                        pictureUrl: 'yes',
                       },
                     },
                   });
                 } else {
                   await createReport({
                     variables: {
+                      image: null,
                       input: { description: values.description, parkingSpotId: id },
                     },
                   });
                 }
+
                 resetForm({ values: { description: '' } });
                 setReportPaper(false);
                 sucessToast("Ladies and gentlemen, we got 'em!");

@@ -107,7 +107,7 @@ export type Mutation = {
 
 
 export type MutationCreateComplainArgs = {
-  image: Scalars['Upload'];
+  image?: InputMaybe<Scalars['Upload']>;
   input: ComplainInput;
 };
 
@@ -460,11 +460,18 @@ export type RegisterMutation = { __typename?: 'Mutation', register: { __typename
 
 export type CreateComplainMutationVariables = Exact<{
   input: ComplainInput;
-  image: Scalars['Upload'];
+  image?: InputMaybe<Scalars['Upload']>;
 }>;
 
 
 export type CreateComplainMutation = { __typename?: 'Mutation', createComplain: { __typename?: 'Complain', id: string } };
+
+export type TestImageMutationVariables = Exact<{
+  file: Scalars['Upload'];
+}>;
+
+
+export type TestImageMutation = { __typename?: 'Mutation', uploadFile: string };
 
 export type CreateReservationMutationVariables = Exact<{
   input: ReservationInput;
@@ -620,7 +627,7 @@ export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
 export const CreateComplainDocument = gql`
-    mutation createComplain($input: ComplainInput!, $image: Upload!) {
+    mutation createComplain($input: ComplainInput!, $image: Upload) {
   createComplain(input: $input, image: $image) {
     id
   }
@@ -653,6 +660,37 @@ export function useCreateComplainMutation(baseOptions?: Apollo.MutationHookOptio
 export type CreateComplainMutationHookResult = ReturnType<typeof useCreateComplainMutation>;
 export type CreateComplainMutationResult = Apollo.MutationResult<CreateComplainMutation>;
 export type CreateComplainMutationOptions = Apollo.BaseMutationOptions<CreateComplainMutation, CreateComplainMutationVariables>;
+export const TestImageDocument = gql`
+    mutation testImage($file: Upload!) {
+  uploadFile(file: $file)
+}
+    `;
+export type TestImageMutationFn = Apollo.MutationFunction<TestImageMutation, TestImageMutationVariables>;
+
+/**
+ * __useTestImageMutation__
+ *
+ * To run a mutation, you first call `useTestImageMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useTestImageMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [testImageMutation, { data, loading, error }] = useTestImageMutation({
+ *   variables: {
+ *      file: // value for 'file'
+ *   },
+ * });
+ */
+export function useTestImageMutation(baseOptions?: Apollo.MutationHookOptions<TestImageMutation, TestImageMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<TestImageMutation, TestImageMutationVariables>(TestImageDocument, options);
+      }
+export type TestImageMutationHookResult = ReturnType<typeof useTestImageMutation>;
+export type TestImageMutationResult = Apollo.MutationResult<TestImageMutation>;
+export type TestImageMutationOptions = Apollo.BaseMutationOptions<TestImageMutation, TestImageMutationVariables>;
 export const CreateReservationDocument = gql`
     mutation CreateReservation($input: ReservationInput!) {
   createReservation(input: $input) {

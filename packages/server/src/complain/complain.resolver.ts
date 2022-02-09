@@ -6,13 +6,17 @@ import { ComplainInput } from './types/complain.input';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { UserJwt } from 'src/common/types/user-jwt.type';
 import { FileUpload, GraphQLUpload } from 'graphql-upload';
+import { AWSUploadService } from 'src/common/upload/s3-uploader.service';
 
 @Resolver()
 export class ComplainResolver extends AbstractResolver(
   Complain,
   ComplainInput
 ) {
-  constructor(private complainService: ComplainService) {
+  constructor(
+    private complainService: ComplainService,
+    protected uploadService: AWSUploadService
+  ) {
     super(complainService);
   }
 
@@ -41,23 +45,22 @@ export class ComplainResolver extends AbstractResolver(
   })
   async create(
     @CurrentUser() user: UserJwt,
-    @Args('input', { name: 'image', type: () => GraphQLUpload })
-    input: ComplainInput,
-    image?: FileUpload
+    @Args({ name: 'image', type: () => GraphQLUpload, nullable: true })
+    image: FileUpload,
+    @Args('input')
+    input: ComplainInput
   ) {
-    console.log('yep');
     if (input.pictureUrl) {
-      const savedPicture = await this.uploadService.upload(image, 'complaints');
+      const pictureUrl = await this.uploadService.upload(image, 'complaints');
       return this.complainService.create({
         ...input,
-        pictureUrl: savedPicture,
-        userId: user.id,
-      });
-    } else {
-      return this.complainService.create({
-        ...input,
+        pictureUrl: pictureUrl,
         userId: user.id,
       });
     }
+    return this.complainService.create({
+      ...input,
+      userId: user.id,
+    });
   }
 }
