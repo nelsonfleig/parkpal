@@ -13,10 +13,10 @@ import styles from './userInfoStyles';
 export const UserInfo = ({ navigation }: ProfileProps) => {
   const { colors } = useTheme();
   const { user, loading } = useAuth();
-  const [logout] = useMeLazyQuery();
+  const [me] = useMeLazyQuery();
   const onPress = async () => {
     await AsyncStorage.removeItem('accessToken');
-    await logout();
+    await me();
     navigation.dispatch(
       CommonActions.reset({
         index: 1,
