@@ -4,12 +4,25 @@ const styles = StyleSheet.create({
   renterInfo: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginLeft: -10,
   },
 
   image: {
-    width: 80,
-    height: 80,
     marginRight: 10,
+    borderRadius: 60,
+  },
+
+  defaultImage: {
+    backgroundColor: '#7145D6',
+    borderRadius: 60,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  defaultImageName: {
+    fontFamily: 'InterMedium',
+    fontSize: 30,
+    color: 'white',
   },
 
   name: {

@@ -438,7 +438,7 @@ export type UserInput = {
   password: Scalars['String'];
 };
 
-export type ParkingSpotDetailsFragment = { __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour?: number | null | undefined, endHour?: number | null | undefined, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, user: { __typename?: 'User', firstName: string, lastName: string, phone?: string | null | undefined }, reservations?: Array<{ __typename?: 'Reservation', startDate: string, endDate: string }> | null | undefined };
+export type ParkingSpotDetailsFragment = { __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour?: number | null | undefined, endHour?: number | null | undefined, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, user: { __typename?: 'User', firstName: string, lastName: string, phone?: string | null | undefined, pictureUrl?: string | null | undefined }, reservations?: Array<{ __typename?: 'Reservation', startDate: string, endDate: string }> | null | undefined };
 
 export type ReservationDetailsFragment = { __typename?: 'Reservation', startDate: string, endDate: string, id: string, parkingSpot: { __typename?: 'ParkingSpot', street?: string | null | undefined, lat: number, lng: number } };
 
@@ -495,14 +495,14 @@ export type UpdateProfileMutation = { __typename?: 'Mutation', updateProfile: { 
 export type GetSpotsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetSpotsQuery = { __typename?: 'Query', spaces: Array<{ __typename?: 'ParkingSpot', price: number, startHour?: number | null | undefined, endHour?: number | null | undefined, lat: number, lng: number, id: string, daysAvailable: Array<number>, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, user: { __typename?: 'User', firstName: string, lastName: string, phone?: string | null | undefined } }> };
+export type GetSpotsQuery = { __typename?: 'Query', spaces: Array<{ __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour?: number | null | undefined, endHour?: number | null | undefined, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, user: { __typename?: 'User', firstName: string, lastName: string, phone?: string | null | undefined, pictureUrl?: string | null | undefined }, reservations?: Array<{ __typename?: 'Reservation', startDate: string, endDate: string }> | null | undefined }> };
 
 export type FindNearParkingSpotsQueryVariables = Exact<{
   input: NearParkingSpotsInput;
 }>;
 
 
-export type FindNearParkingSpotsQuery = { __typename?: 'Query', parkingSpots: Array<{ __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour?: number | null | undefined, endHour?: number | null | undefined, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, user: { __typename?: 'User', firstName: string, lastName: string, phone?: string | null | undefined }, reservations?: Array<{ __typename?: 'Reservation', startDate: string, endDate: string }> | null | undefined }> };
+export type FindNearParkingSpotsQuery = { __typename?: 'Query', parkingSpots: Array<{ __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour?: number | null | undefined, endHour?: number | null | undefined, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, user: { __typename?: 'User', firstName: string, lastName: string, phone?: string | null | undefined, pictureUrl?: string | null | undefined }, reservations?: Array<{ __typename?: 'Reservation', startDate: string, endDate: string }> | null | undefined }> };
 
 export type GetMyReservationsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -535,6 +535,7 @@ export const ParkingSpotDetailsFragmentDoc = gql`
     firstName
     lastName
     phone
+    pictureUrl
   }
   reservations {
     startDate
@@ -795,24 +796,10 @@ export type UpdateProfileMutationOptions = Apollo.BaseMutationOptions<UpdateProf
 export const GetSpotsDocument = gql`
     query GetSpots {
   spaces: findAllParkingSpots {
-    price
-    startHour
-    endHour
-    lat
-    lng
-    id
-    daysAvailable
-    street
-    zipCode
-    city
-    user {
-      firstName
-      lastName
-      phone
-    }
+    ...ParkingSpotDetails
   }
 }
-    `;
+    ${ParkingSpotDetailsFragmentDoc}`;
 
 /**
  * __useGetSpotsQuery__

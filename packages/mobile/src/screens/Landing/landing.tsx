@@ -59,7 +59,7 @@ export const LandingScreen = ({ navigation }: HomeProps) => {
 
       await Location.watchPositionAsync(
         {
-          distanceInterval: 100,
+          distanceInterval: 50,
         },
         (locObj) => {
           setLocation(locObj);
