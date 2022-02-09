@@ -1,25 +1,17 @@
-import { KeyboardAvoidingView } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { CommonActions } from '@react-navigation/native';
-import { HomeProps } from '../../../types/appStack';
-import { CustomButton } from '../../components/Forms/button';
-import styles from './profileStyles';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { ProfileStackParams } from '../../../types/profileStack';
+import { ChangeInfo } from '../ChangeInfo/changeInfo';
+import { ChangePassword } from '../ChangePassword/changePassword';
+import { UserInfo } from '../UserInfo/userInfo';
 
-export const ProfileScreen = ({ navigation }: HomeProps) => {
-  const onPress = async () => {
-    await AsyncStorage.removeItem('accessToken');
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 1,
-        routes: [{ name: 'Login' }],
-      })
-    );
-  };
+export const ProfileScreen = () => {
+  const ProfileStack = createNativeStackNavigator<ProfileStackParams>();
+
   return (
-    <KeyboardAvoidingView style={styles.container}>
-      <CustomButton press={onPress} type="main" color="white">
-        Log Out
-      </CustomButton>
-    </KeyboardAvoidingView>
+    <ProfileStack.Navigator screenOptions={{ headerShown: false }}>
+      <ProfileStack.Screen name="UserInfo" component={UserInfo} />
+      <ProfileStack.Screen name="ChangeInfo" component={ChangeInfo} />
+      <ProfileStack.Screen name="ChangePassword" component={ChangePassword} />
+    </ProfileStack.Navigator>
   );
 };

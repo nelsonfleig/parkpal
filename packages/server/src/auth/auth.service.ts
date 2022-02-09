@@ -42,14 +42,15 @@ export class AuthService {
         expiresIn: '30d',
       }
     );
+
+    const isProd = process.env.NODE_ENV === 'production';
     context.res.cookie('accessToken', accessToken, {
       httpOnly: true,
-      domain: 'localhost',
-      sameSite: 'strict',
-      secure: process.env.NODE_ENV === 'production',
+      path: '/graphql',
+      domain: isProd ? 'nelsonfleig.com' : 'localhost',
+      sameSite: isProd ? 'none' : 'strict',
+      secure: isProd,
     });
-    // TODO: sign a refresh token to send to client
-
     return { accessToken, user };
   }
   register(input: RegisterInput) {
@@ -71,11 +72,13 @@ export class AuthService {
         expiresIn: '30d',
       }
     );
+
+    const isProd = process.env.NODE_ENV === 'production';
     context.res.cookie('accessToken', accessToken, {
       httpOnly: true,
-      domain: 'localhost',
-      sameSite: 'strict',
-      secure: process.env.NODE_ENV === 'production',
+      domain: isProd ? 'nelsonfleig.com' : 'localhost',
+      sameSite: isProd ? 'none' : 'strict',
+      secure: isProd,
     });
     return accessToken;
   }

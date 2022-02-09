@@ -466,13 +466,6 @@ export type CreateComplainMutationVariables = Exact<{
 
 export type CreateComplainMutation = { __typename?: 'Mutation', createComplain: { __typename?: 'Complain', id: string } };
 
-export type TestImageMutationVariables = Exact<{
-  file: Scalars['Upload'];
-}>;
-
-
-export type TestImageMutation = { __typename?: 'Mutation', uploadFile: string };
-
 export type CreateReservationMutationVariables = Exact<{
   input: ReservationInput;
 }>;
@@ -486,6 +479,13 @@ export type CreatePaymentIntentMutationVariables = Exact<{
 
 
 export type CreatePaymentIntentMutation = { __typename?: 'Mutation', createPaymentIntent: string };
+
+export type UpdateProfileMutationVariables = Exact<{
+  input: ProfileInput;
+}>;
+
+
+export type UpdateProfileMutation = { __typename?: 'Mutation', updateProfile: { __typename?: 'AuthResponse', accessToken: string } };
 
 export type GetSpotsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -660,37 +660,6 @@ export function useCreateComplainMutation(baseOptions?: Apollo.MutationHookOptio
 export type CreateComplainMutationHookResult = ReturnType<typeof useCreateComplainMutation>;
 export type CreateComplainMutationResult = Apollo.MutationResult<CreateComplainMutation>;
 export type CreateComplainMutationOptions = Apollo.BaseMutationOptions<CreateComplainMutation, CreateComplainMutationVariables>;
-export const TestImageDocument = gql`
-    mutation testImage($file: Upload!) {
-  uploadFile(file: $file)
-}
-    `;
-export type TestImageMutationFn = Apollo.MutationFunction<TestImageMutation, TestImageMutationVariables>;
-
-/**
- * __useTestImageMutation__
- *
- * To run a mutation, you first call `useTestImageMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useTestImageMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [testImageMutation, { data, loading, error }] = useTestImageMutation({
- *   variables: {
- *      file: // value for 'file'
- *   },
- * });
- */
-export function useTestImageMutation(baseOptions?: Apollo.MutationHookOptions<TestImageMutation, TestImageMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<TestImageMutation, TestImageMutationVariables>(TestImageDocument, options);
-      }
-export type TestImageMutationHookResult = ReturnType<typeof useTestImageMutation>;
-export type TestImageMutationResult = Apollo.MutationResult<TestImageMutation>;
-export type TestImageMutationOptions = Apollo.BaseMutationOptions<TestImageMutation, TestImageMutationVariables>;
 export const CreateReservationDocument = gql`
     mutation CreateReservation($input: ReservationInput!) {
   createReservation(input: $input) {
@@ -755,6 +724,39 @@ export function useCreatePaymentIntentMutation(baseOptions?: Apollo.MutationHook
 export type CreatePaymentIntentMutationHookResult = ReturnType<typeof useCreatePaymentIntentMutation>;
 export type CreatePaymentIntentMutationResult = Apollo.MutationResult<CreatePaymentIntentMutation>;
 export type CreatePaymentIntentMutationOptions = Apollo.BaseMutationOptions<CreatePaymentIntentMutation, CreatePaymentIntentMutationVariables>;
+export const UpdateProfileDocument = gql`
+    mutation updateProfile($input: ProfileInput!) {
+  updateProfile(input: $input) {
+    accessToken
+  }
+}
+    `;
+export type UpdateProfileMutationFn = Apollo.MutationFunction<UpdateProfileMutation, UpdateProfileMutationVariables>;
+
+/**
+ * __useUpdateProfileMutation__
+ *
+ * To run a mutation, you first call `useUpdateProfileMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateProfileMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateProfileMutation, { data, loading, error }] = useUpdateProfileMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateProfileMutation(baseOptions?: Apollo.MutationHookOptions<UpdateProfileMutation, UpdateProfileMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateProfileMutation, UpdateProfileMutationVariables>(UpdateProfileDocument, options);
+      }
+export type UpdateProfileMutationHookResult = ReturnType<typeof useUpdateProfileMutation>;
+export type UpdateProfileMutationResult = Apollo.MutationResult<UpdateProfileMutation>;
+export type UpdateProfileMutationOptions = Apollo.BaseMutationOptions<UpdateProfileMutation, UpdateProfileMutationVariables>;
 export const GetSpotsDocument = gql`
     query GetSpots {
   spaces: findAllParkingSpots {

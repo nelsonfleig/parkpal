@@ -51,9 +51,14 @@ const styles = StyleSheet.create({
   },
 
   slider: {
-    marginTop: 35,
+    marginTop: 20,
     flexDirection: 'row',
     alignItems: 'center',
+  },
+
+  badge: {
+    backgroundColor: '#7145D6',
+    fontFamily: 'InterMedium',
   },
 });
 

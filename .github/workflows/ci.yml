@@ -25,7 +25,15 @@ on:
       FRONTEND_URL:
         description: 'Frontend URL'
         required: true
-        default: 'https://parkpal-web-omega.vercel.app/'
+        default: 'https://parkpal-web-omega.vercel.app'
+      S3_BUCKET:
+        description: 'AWS S3 Bucket Name'
+        required: true
+        default: 'artifice-dev'
+      S3_REGION:
+        description: 'AWS S3 Bucket Region'
+        required: true
+        default: 'eu-west-2'
 
 jobs:
   build-and-deploy-docker-compose-prod:
@@ -41,6 +49,12 @@ jobs:
           envkey_PORT: ${{ github.event.inputs.PORT }}
           envkey_DB_HOST: ${{ github.event.inputs.DB_HOST }}
           envkey_FRONTEND_URL: ${{ github.event.inputs.FRONTEND_URL }}
+          envkey_S3_BUCKET: ${{ github.event.inputs.S3_BUCKET }}
+          envkey_S3_REGION: ${{ github.event.inputs.S3_REGION }}
+          envkey_GEOAPIFY_API_KEY: ${{ secrets.GEOAPIFY_API_KEY }}
+          envkey_STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+          envkey_S3_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY_ID }}
+          envkey_S3_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_ACCESS_KEY }}
           directory: ./
           file_name: .env
       - name: Copy file .env via ssh password

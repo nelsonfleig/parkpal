@@ -15,7 +15,17 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     backgroundColor: '#fff',
   },
-
+  saveButton: {
+    marginTop: '15%',
+    paddingTop: 15,
+    paddingBottom: 15,
+    paddingLeft: 20,
+    paddingRight: 20,
+    fontWeight: 'normal',
+    width: width * 0.65,
+    marginBottom: 15,
+    backgroundColor: '#7145D6',
+  },
   bookingButton: {
     width: 150,
     padding: 0,

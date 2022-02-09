@@ -24,7 +24,7 @@ const DashboardCalendar: FC = () => {
   }, [data, loading]);
 
   return (
-    <Box sx={{ display: 'flex', gap: '3%' }}>
+    <Box sx={{ display: 'flex', gap: '3%', padding: '4rem 8rem' }}>
       <Calendar
         defaultView="week"
         localizer={localizer}

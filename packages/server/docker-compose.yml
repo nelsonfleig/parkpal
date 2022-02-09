@@ -11,6 +11,13 @@ services:
       - NODE_ENV
       - PORT
       - DB_HOST
+      - FRONTEND_URL
+      - GEOAPIFY_API_KEY
+      - STRIPE_SECRET_KEY
+      - S3_BUCKET
+      - S3_REGION
+      - S3_ACCESS_KEY_ID
+      - S3_SECRET_ACCESS_KEY
     networks:
       - parkpal
   postgres:
@@ -25,11 +32,36 @@ services:
       - .dbdata:/var/lib/postgresql/data
     networks:
       - parkpal
+  nginx:
+    image: nginx:alpine
+    restart: always
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./certs/certbot/conf:/etc/letsencrypt
+      - ./certs/certbot/www:/var/www/certbot
+    command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - parkpal
+    depends_on:
+      - backend
+  certbot:
+    container_name: certbot
+    image: certbot/certbot
+    restart: always
+    volumes:
+      - ./certs/certbot/conf:/etc/letsencrypt
+      - ./certs/certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    networks:
+      - parkpal
   watchtower:
     image: containrrr/watchtower
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - $HOME/.docker/config.json:/config.json # Error with config.json being a folder
+      - $HOME/.docker/config.json:/config.json
     command: --interval 30
 networks:
   parkpal:

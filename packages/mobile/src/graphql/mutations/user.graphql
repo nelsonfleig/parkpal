@@ -1,0 +1,5 @@
+mutation updateProfile($input: ProfileInput!) {
+  updateProfile(input: $input) {
+    accessToken
+  }
+}

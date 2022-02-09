@@ -40,7 +40,7 @@ export const RegisterScreen = ({ navigation }: WelcomeProps) => {
                 loading={isSubmitting}
                 disabled={!isValid || isSubmitting}
                 type="welcome">
-                Report
+                Register
               </CustomButton>
             </View>
           )}

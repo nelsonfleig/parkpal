@@ -12,6 +12,6 @@ export class AppController {
 
   @Get('/ping')
   ping(): string {
-    return 'Watchtower please update this!';
+    return JSON.stringify(process.env);
   }
 }

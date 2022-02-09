@@ -3,7 +3,3 @@ mutation createComplain($input: ComplainInput!, $image: Upload) {
     id
   }
 }
-
-mutation testImage($file: Upload!) {
-  uploadFile(file: $file)
-}

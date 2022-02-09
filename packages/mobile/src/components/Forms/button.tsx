@@ -26,6 +26,9 @@ export const CustomButton = ({
     if (type === 'welcome') {
       return styles.welcomeButton;
     }
+    if (type === 'save') {
+      return styles.saveButton;
+    }
     if (type === 'booking') {
       return styles.bookingButton;
     }
@@ -48,6 +51,7 @@ export const CustomButton = ({
   };
   return (
     <Button
+      theme={{ colors: { disabled: 'white' } }}
       style={style()}
       onPress={press}
       loading={loading}

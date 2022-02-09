@@ -1,6 +1,5 @@
 /* eslint-disable global-require */
-// @ts-expect-error
-import { STRIPE_KEY } from '@env';
+
 import { useFonts } from 'expo-font';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { NavigationContainer } from '@react-navigation/native';
@@ -27,7 +26,7 @@ export default function App() {
   if (!loaded) return null;
 
   return (
-    <StripeProvider publishableKey={STRIPE_KEY}>
+    <StripeProvider publishableKey="pk_test_51KQTiWJjza5xryKBFtxPA3e9UdJMi0H533YdEvXHBS32LpOi4JTk1gT9LIsxfKwDX6TDmgWOWKra1nXyhQAmdL4F00crw2Bbmv">
       <ApolloProvider client={apolloClient}>
         <StoreProvider store={store}>
           <PaperProvider theme={theme}>
@@ -39,7 +38,11 @@ export default function App() {
                 <RootStack.Screen name="Welcome" component={WelcomeScreen} />
                 <RootStack.Screen name="Login" component={LoginScreen} />
                 <RootStack.Screen name="Register" component={RegisterScreen} />
-                <RootStack.Screen name="Home" component={HomeScreen} />
+                <RootStack.Screen
+                  name="Home"
+                  component={HomeScreen}
+                  options={{ gestureEnabled: false }}
+                />
               </RootStack.Navigator>
             </NavigationContainer>
             <Toast />
