@@ -56,7 +56,10 @@ export const UserInfo = ({ navigation }: ProfileProps) => {
                 paddingVertical: '1%',
               },
             ]}>
-            DRIVER {`& ${user?.roles.toString().split(',')[1]}`}
+            DRIVER
+            {user?.roles.toString() === 'USER,RENTER'
+              ? ` & ${user.roles.toString().split(',')[1]}`
+              : null}
           </Text>
           <Text style={styles.userInfo}>{user?.email}</Text>
           {user?.phone && <Text style={styles.userInfo}>+34 {formatNumber(user.phone)}</Text>}
