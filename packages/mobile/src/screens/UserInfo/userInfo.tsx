@@ -12,18 +12,21 @@ import styles from './userInfoStyles';
 
 export const UserInfo = ({ navigation }: ProfileProps) => {
   const { colors } = useTheme();
-  const { user } = useAuth();
-  const [logout] = useMeLazyQuery();
+  const { user, loading } = useAuth();
+  const [me] = useMeLazyQuery();
   const onPress = async () => {
     await AsyncStorage.removeItem('accessToken');
-    await logout();
+    await me();
     navigation.dispatch(
       CommonActions.reset({
         index: 1,
-        routes: [{ name: 'Login' }],
+        routes: [{ name: 'Welcome' }],
       })
     );
   };
+
+  if (!user || loading) return null;
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>

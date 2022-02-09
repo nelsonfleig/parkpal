@@ -77,14 +77,6 @@ const ReportPopup = ({ setReportPaper, id, reportPaper }: Props) => {
           <View>
             <View>
               <FormikInput name="description" label="Description" customStyle={{ width: 290 }} />
-              {/* <TextInput
-                  value={descriptionQuery}
-                  onChange={() => setDescriptionQuery(value)}
-                  multiline
-                  numberOfLines={7}
-                  style={styles.reportTextField}
-                  theme={{ colors: { primary: '#0A2540', text: 'black' } }}
-                /> */}
 
               <Pressable onPress={openImageLibrary} style={styles.uploadImage}>
                 <View>

@@ -9,3 +9,7 @@ mutation Register($input: RegisterInput!) {
     email
   }
 }
+
+mutation Logout {
+  logout
+}

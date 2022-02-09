@@ -70,6 +70,23 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.6,
   },
+  addPicButton: {
+    backgroundColor: '#fff',
+    width: 75,
+    height: 75,
+    borderRadius: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: 'grey',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.6,
+    marginTop: 15,
+  },
+  reportButton: {
+    backgroundColor: '#fff',
+    padding: 10,
+    marginTop: 25,
+  },
 });
 
 export default styles;

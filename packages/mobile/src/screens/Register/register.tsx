@@ -33,7 +33,7 @@ export const RegisterScreen = ({ navigation }: WelcomeProps) => {
             <View>
               <FormikInput name="firstName" label="First Name" />
               <FormikInput name="lastName" label="Last Name" />
-              <FormikInput name="email" label="Email" />
+              <FormikInput name="email" label="Email" type="email" />
               <FormikInput name="password" label="Password" secureTextEntry />
               <CustomButton
                 press={handleSubmit}
