@@ -109,17 +109,20 @@ export const Payment = () => {
       {currentSpot && (
         <View style={paymentStyles.cardTitleView}>
           <Text style={paymentStyles.title}>Booking Summary</Text>
-          <Text style={paymentStyles.checkoutText}>{`${selectedTime}h - ${endHour}:00h`}</Text>
-          <Text style={paymentStyles.checkoutText}>{`${currentSpot.price} €/h`}</Text>
           <Text style={paymentStyles.checkoutText}>
-            Total:{' '}
-            <Text style={paymentStyles.money}>{(duration * currentSpot.price).toFixed(2)}€</Text>
+            <Text style={paymentStyles.orderField}>Time: </Text>
+            {`${selectedTime}h - ${endHour}:00h`}
+          </Text>
+          <Text style={paymentStyles.checkoutText}>
+            <Text style={paymentStyles.orderField}>Price:</Text> {`${currentSpot.price} €/h`}
+          </Text>
+          <Text style={paymentStyles.checkoutText}>
+            <Text style={paymentStyles.orderField}>Total:</Text>
+            <Text style={paymentStyles.money}> {(duration * currentSpot.price).toFixed(2)}€</Text>
           </Text>
         </View>
       )}
-      <View style={paymentStyles.cardTitleView}>
-        <Text style={paymentStyles.cardTitle}>Add Credit Card Details</Text>
-      </View>
+      <View style={paymentStyles.cardTitleView} />
       <CardField
         postalCodeEnabled={false}
         placeholder={{
@@ -140,11 +143,10 @@ export const Payment = () => {
       />
       <View style={paymentStyles.payButton}>
         <CustomButton
-          press={onPress}
-          color="white"
+          press={completed ? onPress : () => {}}
+          color={completed ? 'white' : 'grey'}
           type="main"
-          loading={loading}
-          disabled={!completed}>
+          loading={loading}>
           Pay
         </CustomButton>
       </View>
