@@ -46,7 +46,7 @@ export const NavBar: NextComponentType = () => {
         <Toolbar>
           <StyledBurger />
           <LogoWrapper sx={{ flexGrow: 1, alignItems: 'center' }}>
-            <Image src="/logoPurple.svg" alt="ParkPal Logo" width={66} height={66} />
+            <Image src="/logoPurple.svg" alt="ParkPal Logo" width={45} height={45} />
             <LogoTitle variant="h1" color="primary">
               ParkPal |<span> Renters</span>
             </LogoTitle>
@@ -57,10 +57,10 @@ export const NavBar: NextComponentType = () => {
               src={user.pictureUrl || '/static/images/avatar/1.jpg'}
             />
             <Box>
-              <Typography sx={{ color: 'black', fontWeight: '600' }} variant="h6">
+              <Typography sx={{ color: 'black', fontWeight: '600' }} variant="h6" fontSize="1.1rem">
                 {`${user.firstName} ${user.lastName}`}
               </Typography>
-              <Typography sx={{ color: 'gray' }} variant="body1">
+              <Typography sx={{ color: 'gray' }} variant="body1" fontSize="0.9rem">
                 Renter
               </Typography>
             </Box>
@@ -69,7 +69,7 @@ export const NavBar: NextComponentType = () => {
                 <Link href="/dashboard/profile" passHref>
                   <PopperButton>
                     <AccountCircleIcon color="primary" fontSize="large" />
-                    <Typography variant="h5" fontSize="1.1rem">
+                    <Typography variant="body1" fontSize="1rem">
                       Profile
                     </Typography>
                   </PopperButton>
@@ -77,7 +77,7 @@ export const NavBar: NextComponentType = () => {
                 <Link href="/dashboard/complaints" passHref>
                   <PopperButton>
                     <ErrorIcon color="primary" fontSize="large" />
-                    <Typography variant="h5" fontSize="1.1rem">
+                    <Typography variant="body1" fontSize="1rem">
                       Complaints
                     </Typography>
                   </PopperButton>

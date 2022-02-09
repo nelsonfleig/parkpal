@@ -7,6 +7,7 @@ export * from './parking-create-form';
 
 export const ParkingSpotWrapper = styled.div`
   display: flex;
+  padding: 4rem 8rem;
 `;
 
 export const ParkingInfoColumn = styled.div`
