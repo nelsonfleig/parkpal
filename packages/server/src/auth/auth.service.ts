@@ -6,6 +6,7 @@ import md5 from 'md5';
 import { Ctx } from 'src/common/types/context.type';
 import { User } from 'src/user/user.entity';
 import { UserService } from 'src/user/user.service';
+import { setCookie } from './helpers/set-cookie.helper';
 import { LoginInput } from './types/login.input';
 import { RegisterInput } from './types/register.input';
 
@@ -43,13 +44,7 @@ export class AuthService {
       }
     );
 
-    const isProd = process.env.NODE_ENV === 'production';
-    context.res.cookie('accessToken', accessToken, {
-      httpOnly: true,
-      domain: isProd ? 'nelsonfleig.com' : 'localhost',
-      sameSite: isProd ? 'none' : 'strict',
-      secure: isProd,
-    });
+    setCookie(context, 'accessToken', accessToken);
     return { accessToken, user };
   }
   register(input: RegisterInput) {
@@ -57,7 +52,9 @@ export class AuthService {
   }
 
   logout(context: Ctx): boolean {
-    context.res.clearCookie('accessToken');
+    setCookie(context, 'accessToken', '');
+    // Not clearing in Vercel
+    // context.res.clearCookie('accessToken');
     return true;
   }
 
@@ -72,13 +69,7 @@ export class AuthService {
       }
     );
 
-    const isProd = process.env.NODE_ENV === 'production';
-    context.res.cookie('accessToken', accessToken, {
-      httpOnly: true,
-      domain: isProd ? 'nelsonfleig.com' : 'localhost',
-      sameSite: isProd ? 'none' : 'strict',
-      secure: isProd,
-    });
+    setCookie(context, 'accessToken', accessToken);
     return accessToken;
   }
 }

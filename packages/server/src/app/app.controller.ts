@@ -12,6 +12,6 @@ export class AppController {
 
   @Get('/ping')
   ping(): string {
-    return JSON.stringify(process.env);
+    return 'Im Alive!';
   }
 }
