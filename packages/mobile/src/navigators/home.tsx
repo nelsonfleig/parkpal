@@ -16,7 +16,8 @@ export const HomeScreen = () => {
     <HomeStack.Navigator
       barStyle={{ backgroundColor: '#fff' }}
       activeColor={colors.primary}
-      initialRouteName="Landing">
+      initialRouteName="Landing"
+      shifting>
       <HomeStack.Screen
         name="Profile"
         component={ProfileScreen}
