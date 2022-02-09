@@ -12,7 +12,7 @@ import styles from './userInfoStyles';
 
 export const UserInfo = ({ navigation }: ProfileProps) => {
   const { colors } = useTheme();
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const [logout] = useMeLazyQuery();
   const onPress = async () => {
     await AsyncStorage.removeItem('accessToken');
@@ -20,10 +20,13 @@ export const UserInfo = ({ navigation }: ProfileProps) => {
     navigation.dispatch(
       CommonActions.reset({
         index: 1,
-        routes: [{ name: 'Login' }],
+        routes: [{ name: 'Welcome' }],
       })
     );
   };
+
+  if (!user || loading) return null;
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Parkpaler Profile</Text>
@@ -41,10 +44,10 @@ export const UserInfo = ({ navigation }: ProfileProps) => {
             />
           </View>
           <Text style={[styles.userInfo, { fontWeight: '600', fontSize: 25, marginBottom: '2%' }]}>
-            {user?.firstName}
+            {user.firstName}
           </Text>
           <Text style={[styles.userInfo, { fontWeight: '600', fontSize: 25 }]}>
-            {user?.lastName}
+            {user.lastName}
           </Text>
           <Text
             style={[
@@ -57,12 +60,12 @@ export const UserInfo = ({ navigation }: ProfileProps) => {
               },
             ]}>
             DRIVER
-            {user?.roles.toString() === 'USER,RENTER'
+            {user.roles.toString() === 'USER,RENTER'
               ? ` & ${user.roles.toString().split(',')[1]}`
               : null}
           </Text>
-          <Text style={styles.userInfo}>{user?.email}</Text>
-          {user?.phone && <Text style={styles.userInfo}>+34 {formatNumber(user.phone)}</Text>}
+          <Text style={styles.userInfo}>{user.email}</Text>
+          {user.phone && <Text style={styles.userInfo}>+34 {formatNumber(user.phone)}</Text>}
         </View>
         <View style={styles.buttonsView}>
           <Pressable style={styles.buttons} onPress={() => navigation.navigate('ChangePassword')}>
