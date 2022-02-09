@@ -10,7 +10,7 @@ export const parkingSpotInfoStyles = StyleSheet.create({
   },
 
   wrapper: {
-    paddingLeft: 50,
+    paddingLeft: 60,
     paddingRight: 50,
     paddingTop: 30,
     paddingBottom: 30,

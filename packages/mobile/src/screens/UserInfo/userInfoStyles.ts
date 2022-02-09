@@ -11,12 +11,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 30,
+    fontSize: 25,
     fontWeight: '500',
     textAlign: 'center',
     marginTop: '5%',
     marginBottom: '7%',
     color: 'black',
+    marginRight: 10,
   },
   userInfoView: {
     width: '80%',
@@ -39,11 +40,12 @@ const styles = StyleSheet.create({
   },
 
   badge: {
-    fontSize: 18,
+    fontSize: 12,
     marginBottom: '5%',
     backgroundColor: '#7145D6',
     color: 'white',
-    padding: 10,
+    padding: 5,
+    textTransform: 'uppercase',
   },
   buttonsView: {
     width: '80%',
@@ -57,7 +59,7 @@ const styles = StyleSheet.create({
     marginBottom: '7%',
   },
   buttonsText: {
-    color: '#00C0E7',
+    color: '#7145D6',
     marginLeft: '5%',
     fontSize: 20,
   },
@@ -65,6 +67,12 @@ const styles = StyleSheet.create({
   fieldName: {
     fontSize: 20,
     fontWeight: '600',
+  },
+
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
   },
 });
 

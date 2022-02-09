@@ -29,16 +29,21 @@ export const UserInfo = ({ navigation }: ProfileProps) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>
-        {user?.firstName} {user?.lastName}
-      </Text>
+      <View style={styles.header}>
+        <View>
+          <Text style={styles.title}>
+            {user?.firstName} {user?.lastName}
+          </Text>
+        </View>
+        <View>
+          <Text style={styles.badge}>{user.roles.length === 1 ? 'Driver' : 'Driver & Renter'}</Text>
+        </View>
+      </View>
       <View style={styles.mainView}>
         <View style={styles.userInfoView}>
           <View style={styles.iconsView}>
             <MaterialIcons name="account-circle" size={35} color={colors.primary} />
-            <View>
-              <Text style={styles.badge}>DRIVER {`& ${user?.roles.toString().split(',')[1]}`}</Text>
-            </View>
+
             <MaterialIcons
               name="edit"
               size={30}
@@ -68,11 +73,11 @@ export const UserInfo = ({ navigation }: ProfileProps) => {
         </View>
         <View style={styles.buttonsView}>
           <Pressable style={styles.buttons} onPress={() => navigation.navigate('ChangePassword')}>
-            <FontAwesome5 name="key" size={24} color="#00C0E7" style={{ width: 30 }} />
+            <FontAwesome5 name="key" size={24} color="#7145D6" style={{ width: 30 }} />
             <Text style={styles.buttonsText}>Change Password</Text>
           </Pressable>
           <Pressable onPress={onPress} style={styles.buttons}>
-            <Ionicons name="log-out" size={30} color="#00C0E7" style={{ width: 30 }} />
+            <Ionicons name="log-out" size={30} color="#7145D6" style={{ width: 30 }} />
             <Text style={styles.buttonsText}>Log Out</Text>
           </Pressable>
         </View>
