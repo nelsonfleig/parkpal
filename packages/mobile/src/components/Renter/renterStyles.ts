@@ -13,8 +13,11 @@ const styles = StyleSheet.create({
   },
 
   defaultImage: {
+    height: 60,
+    width: 60,
     backgroundColor: '#7145D6',
     borderRadius: 60,
+    marginRight: 10,
     alignItems: 'center',
     justifyContent: 'center',
   },

@@ -1,24 +1,28 @@
 import * as Location from 'expo-location';
 import { LocationObject } from 'expo-location';
 import { useEffect, useState } from 'react';
-import { Keyboard, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useDispatch, useSelector } from 'react-redux';
-import { HomeProps } from '../../../types/appStack';
 import { BookingPopup, panelReference } from '../../components/BookingPopup/bookingPopup';
 import { FindSpotsHere } from '../../components/FindSpotsHere/findSpotsHere';
 import { MapComponent, mapRef } from '../../components/MapView/mapView';
 import { RootState } from '../../redux';
 import { changeDestination } from '../../redux/destination/destinationSlice';
+import { showFindSpotButton } from '../../redux/findSpotButton/findSpotButtonSlice';
+import { changeCurrentSpace } from '../../redux/parkingSpot/parkingSpotSlice';
+import { changePopupContent } from '../../redux/popupContent/popupContentSlice';
+import { displayRoute } from '../../redux/showRoute/showRoute';
 import { landingStyles } from './landingStyles';
 
-export const LandingScreen = ({ navigation }: HomeProps) => {
+export const LandingScreen = () => {
   const [location, setLocation] = useState(null as LocationObject | null); // Here we get the user's current location
   const [searchQuery, setSearchQuery] = useState(''); // We set the query on the searchbar
   const dispatch = useDispatch();
   const { showFindButton } = useSelector((state: RootState) => state.showFindSpotButton);
-  navigation.canGoBack();
+  const { content } = useSelector((state: RootState) => state.popupContent);
+
   // On change search query:
   const onChangeSearch = (query: string) => {
     setSearchQuery(query);
@@ -88,14 +92,21 @@ export const LandingScreen = ({ navigation }: HomeProps) => {
             onChangeText={onChangeSearch}
             value={searchQuery}
             onSubmitEditing={onSubmitEditing}
-            onBlur={() => {
-              panelReference.current.hide();
+            onPressOut={() => {
+              if (content !== 'booking') {
+                // We remove the route if the user discards going to navigation mode
+                dispatch(displayRoute(false));
+                dispatch(changeCurrentSpace(null));
+                if (content === 'start') {
+                  dispatch(showFindSpotButton(true));
+                }
+                dispatch(changePopupContent('booking'));
+              }
             }}
           />
         )}
         <View
           onTouchEnd={() => {
-            Keyboard.dismiss();
             panelReference.current.hide();
           }}>
           {location ? (

@@ -20,7 +20,7 @@ export const RenterInformation = () => {
       {user.pictureUrl ? (
         <Image source={{ uri: user.pictureUrl }} style={styles.image} width={60} height={60} />
       ) : (
-        <View style={[styles.image, styles.defaultImage]}>
+        <View style={styles.defaultImage}>
           <Text style={styles.defaultImageName}>
             {user.firstName[0]}
             {user.lastName[0]}
