@@ -4,7 +4,7 @@ import { Formik } from 'formik';
 import React, { useState } from 'react';
 import { Modal } from 'react-native-paper';
 import * as mime from 'react-native-mime-types';
-import { View } from 'react-native';
+import { Pressable, View, Text } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { errorToast, sucessToast } from '..';
 import { useCreateComplainMutation } from '../../graphql/__generated__';
@@ -75,8 +75,9 @@ const ReportPopup = ({ setReportPaper, id, reportPaper }: Props) => {
         }}>
         {({ handleSubmit, isSubmitting, isValid }) => (
           <View>
-            <FormikInput name="description" label="Description" />
-            {/* <TextInput
+            <View>
+              <FormikInput name="description" label="Description" />
+              {/* <TextInput
                   value={descriptionQuery}
                   onChange={() => setDescriptionQuery(value)}
                   multiline
@@ -85,16 +86,22 @@ const ReportPopup = ({ setReportPaper, id, reportPaper }: Props) => {
                   theme={{ colors: { primary: '#0A2540', text: 'black' } }}
                 /> */}
 
-            <CustomButton type="discard" press={openImageLibrary}>
-              <MaterialCommunityIcons name="camera-image" color="#0A2540" size={30} />
-            </CustomButton>
-            <CustomButton
-              press={handleSubmit}
-              loading={isSubmitting}
-              disabled={!isValid || isSubmitting}
-              type="start">
-              Report
-            </CustomButton>
+              <Pressable onPress={openImageLibrary} style={styles.uploadImage}>
+                <View>
+                  <Text style={styles.uploadText}>Upload Image</Text>
+                </View>
+                <MaterialCommunityIcons name="camera-image" color="white" size={30} />
+              </Pressable>
+            </View>
+            <View style={styles.button}>
+              <CustomButton
+                press={handleSubmit}
+                loading={isSubmitting}
+                disabled={!isValid || isSubmitting}
+                type="start">
+                Report
+              </CustomButton>
+            </View>
           </View>
         )}
       </Formik>

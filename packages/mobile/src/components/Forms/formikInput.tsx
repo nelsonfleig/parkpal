@@ -7,9 +7,10 @@ type FormikInputProps = FieldHookConfig<string> & {
   name: string;
   label: string;
   secureTextEntry?: boolean;
+  customStyle?: {};
 };
 
-export const FormikInput = ({ placeholder, label, ...props }: FormikInputProps) => {
+export const FormikInput = ({ customStyle, placeholder, label, ...props }: FormikInputProps) => {
   const [field, meta] = useField(props);
 
   return (
@@ -18,7 +19,7 @@ export const FormikInput = ({ placeholder, label, ...props }: FormikInputProps) 
         mode="flat"
         onChangeText={field.onChange(field.name)}
         onBlur={field.onBlur(field.name)}
-        style={styles.input}
+        style={{ ...styles.input, ...customStyle }}
         theme={{ colors: { primary: '#0A2540', text: 'black' } }}
         autoComplete="email"
         label={label}

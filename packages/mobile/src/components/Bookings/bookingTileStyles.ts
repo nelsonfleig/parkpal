@@ -50,11 +50,30 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 10,
     marginLeft: width * 0.1,
     marginTop: height * 0.25,
-    height: height * 0.5,
+    height: height * 0.4,
   },
   reportTextField: {
     backgroundColor: 'white',
     marginBottom: 20,
+  },
+
+  button: {
+    alignSelf: 'center',
+  },
+
+  uploadText: {
+    color: '#fff',
+    fontSize: 20,
+    textTransform: 'uppercase',
+    marginRight: 10,
+    fontFamily: 'InterMedium',
+  },
+
+  uploadImage: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'center',
+    marginTop: 20,
   },
 });
 
