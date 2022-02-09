@@ -1,10 +1,13 @@
 import { View, Text } from 'react-native';
-import { Surface, Menu, Button } from 'react-native-paper';
+import { Surface, Menu, Button, Portal, Modal } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Formik } from 'formik';
+import * as mime from 'react-native-mime-types';
 import { useState } from 'react';
-
+import * as ImagePicker from 'expo-image-picker';
 import { useDispatch } from 'react-redux';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import { ReactNativeFile } from 'apollo-upload-client';
 import styles from './bookingTileStyles';
 import { CustomButton } from '../Forms/button';
 import formatBookingDates from '../../helpers/formatBookingDates';
@@ -15,8 +18,13 @@ import { changePopupContent } from '../../redux/popupContent/popupContentSlice';
 import { panelReference } from '../BookingPopup/bookingPopup';
 import { changeDestination } from '../../redux/destination/destinationSlice';
 import { showFindSpotButton } from '../../redux/findSpotButton/findSpotButtonSlice';
+import { reportSchema } from '../../models/report.form';
+import { errorToast, sucessToast } from '..';
+import { useCreateComplainMutation } from '../../graphql/__generated__';
+import { FormikInput } from '../Forms/formikInput';
 
 type BookingTyleProps = {
+  id: string;
   street: string;
   start: string;
   end: string;
@@ -24,12 +32,30 @@ type BookingTyleProps = {
   navigation: BottomTabNavigationProp<HomeStackParams, keyof HomeStackParams>;
 };
 
-export const BookingTile = ({ street, start, end, navigation, coordinates }: BookingTyleProps) => {
+export const BookingTile = ({
+  id,
+  street,
+  start,
+  end,
+  navigation,
+  coordinates,
+}: BookingTyleProps) => {
+  const [reportPaper, setReportPaper] = useState(false);
   const [visible, setVisible] = useState(false);
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
+  const [image, setImage] = useState<any>(null);
   const { startTime, endTime, date } = formatBookingDates(start, end);
   const dispatch = useDispatch();
+  const [createReport] = useCreateComplainMutation();
+
+  const openImageLibrary = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+    });
+
+    setImage(result);
+  };
 
   // View route function:
   const viewRoute = () => {
@@ -54,6 +80,79 @@ export const BookingTile = ({ street, start, end, navigation, coordinates }: Boo
 
   return (
     <View>
+      <Portal>
+        <Modal
+          style={styles.reportPaper}
+          visible={reportPaper}
+          onDismiss={() => setReportPaper(false)}>
+          <Formik
+            initialValues={{ description: '' }}
+            validationSchema={reportSchema}
+            onSubmit={async (values, { setSubmitting, resetForm }) => {
+              try {
+                if (image) {
+                  const fileImage = new ReactNativeFile({
+                    uri: image.uri,
+                    type: mime.lookup(image.uri) || 'image',
+                    name: `image-${Date.now()}.${mime.lookup(image.uri).split('/')[1]}`,
+                  });
+                  await createReport({
+                    variables: {
+                      image: fileImage,
+                      input: {
+                        description: values.description,
+                        parkingSpotId: id,
+                        pictureUrl: 'yes',
+                      },
+                    },
+                  });
+                } else {
+                  await createReport({
+                    variables: {
+                      image: null,
+                      input: { description: values.description, parkingSpotId: id },
+                    },
+                  });
+                }
+
+                resetForm({ values: { description: '' } });
+                setReportPaper(false);
+                sucessToast("Ladies and gentlemen, we got 'em!");
+              } catch (error) {
+                if (error instanceof Error) {
+                  errorToast(`${error.message}`);
+                }
+              } finally {
+                setSubmitting(false);
+              }
+            }}>
+            {({ handleSubmit, isSubmitting, isValid }) => (
+              <View>
+                <FormikInput name="description" label="Description" />
+                {/* <TextInput
+                  value={descriptionQuery}
+                  onChange={() => setDescriptionQuery(value)}
+                  multiline
+                  numberOfLines={7}
+                  style={styles.reportTextField}
+                  theme={{ colors: { primary: '#0A2540', text: 'black' } }}
+                /> */}
+
+                <CustomButton type="discard" press={openImageLibrary}>
+                  <MaterialCommunityIcons name="camera-image" color="#0A2540" size={30} />
+                </CustomButton>
+                <CustomButton
+                  press={handleSubmit}
+                  loading={isSubmitting}
+                  disabled={!isValid || isSubmitting}
+                  type="start">
+                  Report
+                </CustomButton>
+              </View>
+            )}
+          </Formik>
+        </Modal>
+      </Portal>
       <Surface style={styles.tile}>
         <Text style={styles.address}>{street}</Text>
         <View style={styles.info}>
@@ -78,7 +177,14 @@ export const BookingTile = ({ street, start, end, navigation, coordinates }: Boo
                 <MaterialCommunityIcons name="dots-horizontal" color="#fff" size={30} />
               </Button>
             }>
-            <Menu.Item title="Report" />
+            <Menu.Item
+              title="Report"
+              titleStyle={styles.menuItem}
+              onPress={() => {
+                setReportPaper(true);
+                closeMenu();
+              }}
+            />
             <Menu.Item title="Cancel" titleStyle={styles.menuItem} />
           </Menu>
         </View>

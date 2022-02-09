@@ -239,7 +239,7 @@ type Mutation {
   deleteParkingSpot(id: ID!): ParkingSpot!
 
   """Create Complain"""
-  createComplain(input: ComplainInput!): Complain!
+  createComplain(input: ComplainInput!, image: Upload): Complain!
 
   """Update Complain"""
   updateComplain(input: ComplainInput!, id: ID!): Complain!

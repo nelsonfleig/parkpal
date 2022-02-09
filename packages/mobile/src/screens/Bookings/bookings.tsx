@@ -17,6 +17,7 @@ export const BookingsScreen = ({ navigation }: HomeProps) => {
           const spot = reservation.parkingSpot;
           return (
             <BookingTile
+              id={reservation.id}
               street={spot.street as string}
               key={reservation.id}
               start={reservation.startDate}
