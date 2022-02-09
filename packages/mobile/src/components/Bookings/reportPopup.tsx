@@ -76,7 +76,7 @@ const ReportPopup = ({ setReportPaper, id, reportPaper }: Props) => {
         {({ handleSubmit, isSubmitting, isValid }) => (
           <View>
             <View>
-              <FormikInput name="description" label="Description" />
+              <FormikInput name="description" label="Description" customStyle={{ width: 290 }} />
               {/* <TextInput
                   value={descriptionQuery}
                   onChange={() => setDescriptionQuery(value)}

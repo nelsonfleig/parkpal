@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   uploadImage: {
     flexDirection: 'row',
     alignItems: 'center',
-    alignSelf: 'center',
+    alignSelf: 'flex-end',
     marginTop: 20,
   },
 });
