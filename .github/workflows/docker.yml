@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - master
+      - fix/cookies
 
 jobs:
   build-and-deploy-server:
