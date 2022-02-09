@@ -51,10 +51,7 @@ const styles = StyleSheet.create({
     marginLeft: width * 0.1,
     marginTop: height * 0.25,
     height: height * 0.5,
-  },
-  reportTextField: {
-    backgroundColor: 'white',
-    marginBottom: 20,
+    display: 'flex',
   },
 });
 

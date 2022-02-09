@@ -76,23 +76,15 @@ const ReportPopup = ({ setReportPaper, id, reportPaper }: Props) => {
         {({ handleSubmit, isSubmitting, isValid }) => (
           <View>
             <FormikInput name="description" label="Description" />
-            {/* <TextInput
-                  value={descriptionQuery}
-                  onChange={() => setDescriptionQuery(value)}
-                  multiline
-                  numberOfLines={7}
-                  style={styles.reportTextField}
-                  theme={{ colors: { primary: '#0A2540', text: 'black' } }}
-                /> */}
 
-            <CustomButton type="discard" press={openImageLibrary}>
+            <CustomButton type="addPicButton" press={openImageLibrary}>
               <MaterialCommunityIcons name="camera-image" color="#0A2540" size={30} />
             </CustomButton>
             <CustomButton
               press={handleSubmit}
               loading={isSubmitting}
               disabled={!isValid || isSubmitting}
-              type="start">
+              type="reportButton">
               Report
             </CustomButton>
           </View>

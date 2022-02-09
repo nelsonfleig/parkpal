@@ -47,6 +47,12 @@ export const CustomButton = ({
     if (type === 'findhere') {
       return [styles.discard, { backgroundColor: '#0A2540' }];
     }
+    if (type === 'addPicButton') {
+      return styles.addPicButton;
+    }
+    if (type === 'reportButton') {
+      return styles.reportButton;
+    }
     return null;
   };
   return (
