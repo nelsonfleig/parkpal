@@ -1,17 +1,14 @@
 import { Avatar, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import styledComponent from 'styled-components';
 
 export const StyledProfileBox = styled(Box)(() => ({
   color: 'black',
-  padding: '3rem',
+  padding: '4rem 8rem',
   display: 'flex',
   flexWrap: 'wrap',
   height: 'calc(100vh - 88px)',
   gap: '30px',
-  paddingTop: '3rem',
-  paddingBottom: '3rem',
-  paddingLeft: '3rem',
-  paddingRight: '1rem',
 }));
 
 export const StyledProfilePic = styled(Avatar)(() => ({
@@ -29,3 +26,7 @@ export const ProfileBox = styled(Box)(() => ({
   gap: '140px',
   flexWrap: 'wrap',
 }));
+
+export const ProfileImageWrapper = styledComponent.div`  
+  margin-right:2rem
+`;
