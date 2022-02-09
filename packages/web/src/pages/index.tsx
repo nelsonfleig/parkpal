@@ -12,7 +12,7 @@ import { loginSchema } from '../models/login.form';
 
 const Login = () => {
   const [login] = useLoginMutation({
-    refetchQueries: [MeDocument],
+    refetchQueries: [{ query: MeDocument }],
     awaitRefetchQueries: true,
   });
 

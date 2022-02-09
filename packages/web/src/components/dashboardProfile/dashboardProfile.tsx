@@ -21,7 +21,7 @@ export const DashboardProfile: FC = () => {
   const [login] = useLoginMutation({});
 
   const [updateProfile] = useUpdateProfileMutation({
-    refetchQueries: [MeDocument],
+    refetchQueries: [{ query: MeDocument }],
     awaitRefetchQueries: true,
   });
 

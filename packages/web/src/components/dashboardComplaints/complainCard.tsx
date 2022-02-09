@@ -24,7 +24,7 @@ type Props = {
 
 export const ComplainCard = ({ complain }: Props) => {
   const [deleteComplain] = useDeleteComplainMutation({
-    refetchQueries: [ParkingSpotComplainsDocument],
+    refetchQueries: [{ query: ParkingSpotComplainsDocument }],
     awaitRefetchQueries: true,
   });
 
