@@ -26,7 +26,8 @@ export const ParkingSpotInfo = () => {
         <View style={styles.wrapper}>
           <RenterLocation />
           <RenterCalendar />
-          <RenterSlider />
+          {selectedDate && selectedTime ? <RenterSlider /> : null}
+
           <CustomButton
             press={() => {
               dispatch(changePopupContent('payment'));

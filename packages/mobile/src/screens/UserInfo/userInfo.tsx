@@ -33,7 +33,7 @@ export const UserInfo = ({ navigation }: ProfileProps) => {
         <View style={styles.userInfoView}>
           <View style={styles.iconsView}>
             <MaterialIcons name="account-circle" size={35} color={colors.primary} />
-            <View style={styles.badgeWrapper}>
+            <View>
               <Text style={styles.badge}>DRIVER {`& ${user?.roles.toString().split(',')[1]}`}</Text>
             </View>
             <MaterialIcons
