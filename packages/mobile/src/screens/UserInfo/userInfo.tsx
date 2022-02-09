@@ -29,11 +29,16 @@ export const UserInfo = ({ navigation }: ProfileProps) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Parkpaler Profile</Text>
+      <Text style={styles.title}>
+        {user?.firstName} {user?.lastName}
+      </Text>
       <View style={styles.mainView}>
         <View style={styles.userInfoView}>
           <View style={styles.iconsView}>
             <MaterialIcons name="account-circle" size={35} color={colors.primary} />
+            <View>
+              <Text style={styles.badge}>DRIVER {`& ${user?.roles.toString().split(',')[1]}`}</Text>
+            </View>
             <MaterialIcons
               name="edit"
               size={30}
@@ -43,29 +48,23 @@ export const UserInfo = ({ navigation }: ProfileProps) => {
               }}
             />
           </View>
-          <Text style={[styles.userInfo, { fontWeight: '600', fontSize: 25, marginBottom: '2%' }]}>
-            {user.firstName}
-          </Text>
-          <Text style={[styles.userInfo, { fontWeight: '600', fontSize: 25 }]}>
-            {user.lastName}
-          </Text>
-          <Text
-            style={[
-              styles.userInfo,
-              {
-                backgroundColor: '#7145D6',
-                color: 'white',
-                paddingHorizontal: '2%',
-                paddingVertical: '1%',
-              },
-            ]}>
-            DRIVER
-            {user.roles.toString() === 'USER,RENTER'
-              ? ` & ${user.roles.toString().split(',')[1]}`
-              : null}
-          </Text>
-          <Text style={styles.userInfo}>{user.email}</Text>
-          {user.phone && <Text style={styles.userInfo}>+34 {formatNumber(user.phone)}</Text>}
+          <View style={styles.userInfoWrapper}>
+            <Text style={styles.userInfo}>
+              <Text style={styles.fieldName}>First name:</Text> {user?.firstName}
+            </Text>
+            <Text style={styles.userInfo}>
+              <Text style={styles.fieldName}>Last name:</Text> {user?.lastName}
+            </Text>
+
+            <Text style={styles.userInfo}>
+              <Text style={styles.fieldName}>Email:</Text> {user?.email}
+            </Text>
+            {user?.phone && (
+              <Text style={styles.userInfo}>
+                <Text style={styles.fieldName}>Phone:</Text> +34 {formatNumber(user.phone)}
+              </Text>
+            )}
+          </View>
         </View>
         <View style={styles.buttonsView}>
           <Pressable style={styles.buttons} onPress={() => navigation.navigate('ChangePassword')}>

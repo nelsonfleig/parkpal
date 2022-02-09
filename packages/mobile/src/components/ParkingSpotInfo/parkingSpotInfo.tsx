@@ -26,14 +26,18 @@ export const ParkingSpotInfo = () => {
         <View style={styles.wrapper}>
           <RenterLocation />
           <RenterCalendar />
-          <RenterSlider />
+          {selectedDate && selectedTime ? <RenterSlider /> : null}
+
           <CustomButton
-            press={() => {
-              dispatch(changePopupContent('payment'));
-            }}
-            color="white"
-            type="main"
-            disabled={disabled}>
+            press={
+              disabled
+                ? () => {}
+                : () => {
+                    dispatch(changePopupContent('payment'));
+                  }
+            }
+            color={disabled ? 'grey' : 'white'}
+            type="main">
             Book
           </CustomButton>
         </View>
