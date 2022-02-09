@@ -1,6 +1,6 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ErrorIcon from '@mui/icons-material/Error';
-import { Popper } from '@mui/material';
+import { CircularProgress, Popper } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -29,7 +29,7 @@ export const NavBar: NextComponentType = () => {
   };
   const open = Boolean(anchorEl);
   const [logout] = useLogoutMutation({
-    refetchQueries: [MeDocument],
+    refetchQueries: [{ query: MeDocument }],
     awaitRefetchQueries: true,
   });
 
@@ -38,7 +38,7 @@ export const NavBar: NextComponentType = () => {
   };
 
   const { user, loading } = useAuth();
-  if (!user || loading) return <p>Loading State</p>;
+  if (!user || loading) return <CircularProgress size={20} />;
 
   return (
     <Box>
@@ -47,7 +47,7 @@ export const NavBar: NextComponentType = () => {
           <StyledBurger />
           <LogoWrapper sx={{ flexGrow: 1, alignItems: 'center' }}>
             <Image src="/logoPurple.svg" alt="ParkPal Logo" width={66} height={66} />
-            <LogoTitle variant="h1" color="primary" fontSize={52}>
+            <LogoTitle variant="h1" color="primary">
               ParkPal |<span> Renters</span>
             </LogoTitle>
           </LogoWrapper>

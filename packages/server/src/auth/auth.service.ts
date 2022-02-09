@@ -46,7 +46,6 @@ export class AuthService {
     const isProd = process.env.NODE_ENV === 'production';
     context.res.cookie('accessToken', accessToken, {
       httpOnly: true,
-      path: '/graphql',
       domain: isProd ? 'nelsonfleig.com' : 'localhost',
       sameSite: isProd ? 'none' : 'strict',
       secure: isProd,
