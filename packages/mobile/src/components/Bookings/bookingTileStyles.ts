@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
 
   uploadText: {
     color: '#fff',
-    fontSize: 20,
+    fontSize: 17,
     textTransform: 'uppercase',
     marginRight: 10,
     fontFamily: 'InterMedium',
