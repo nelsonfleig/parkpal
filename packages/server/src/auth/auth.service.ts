@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserInputError } from 'apollo-server-express';
+import { CookieOptions } from 'express';
 // import argon2 from 'argon2';
 import md5 from 'md5';
 import { Ctx } from 'src/common/types/context.type';
@@ -44,15 +45,13 @@ export class AuthService {
     );
 
     const isProd = process.env.NODE_ENV === 'production';
-
     context.res.cookie('accessToken', accessToken, {
       httpOnly: true,
-      domain: isProd ? 'vercel.app' : 'localhost',
+      path: '/graphql',
+      domain: isProd ? 'nelsonfleig.com' : 'localhost',
       sameSite: isProd ? 'none' : 'strict',
       secure: isProd,
     });
-    // TODO: sign a refresh token to send to client
-
     return { accessToken, user };
   }
   register(input: RegisterInput) {
@@ -78,7 +77,7 @@ export class AuthService {
     const isProd = process.env.NODE_ENV === 'production';
     context.res.cookie('accessToken', accessToken, {
       httpOnly: true,
-      domain: isProd ? 'vercel.app' : 'localhost',
+      domain: isProd ? 'nelsonfleig.com' : 'localhost',
       sameSite: isProd ? 'none' : 'strict',
       secure: isProd,
     });
