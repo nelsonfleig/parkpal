@@ -5,19 +5,21 @@ export const paymentStyles = StyleSheet.create({
     backgroundColor: 'white',
     height: 500,
     alignItems: 'center',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
   },
   title: {
     marginTop: '8%',
-    fontSize: 35,
+    fontSize: 30,
     color: 'black',
-    marginBottom: 10,
-    textAlign: 'left',
-    fontWeight: '700',
+    marginBottom: 30,
+    fontWeight: '600',
+    alignSelf: 'center',
   },
   checkoutText: {
     fontSize: 20,
     color: 'black',
-    marginBottom: '1%',
+    marginBottom: 10,
     maxWidth: 250,
     textAlign: 'left',
     fontFamily: 'InterLight',
@@ -25,6 +27,7 @@ export const paymentStyles = StyleSheet.create({
   money: {
     fontFamily: 'InterMedium',
     fontSize: 25,
+    color: '#7145D6',
   },
   cardTitleView: {
     alignItems: 'flex-start',
@@ -38,5 +41,9 @@ export const paymentStyles = StyleSheet.create({
   },
   payButton: {
     width: '50%',
+  },
+
+  orderField: {
+    fontFamily: 'InterMedium',
   },
 });
