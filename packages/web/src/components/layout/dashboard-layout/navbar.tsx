@@ -46,8 +46,8 @@ export const NavBar: NextComponentType = () => {
         <Toolbar>
           <StyledBurger />
           <LogoWrapper sx={{ flexGrow: 1, alignItems: 'center' }}>
-            <Image src="/logoPurple.svg" alt="ParkPal Logo" width={66} height={66} />
-            <LogoTitle variant="h1" color="primary" fontSize={52}>
+            <Image src="/logoPurple.svg" alt="ParkPal Logo" width={50} height={50} />
+            <LogoTitle variant="h1" color="primary" fontSize={20}>
               ParkPal |<span> Renters</span>
             </LogoTitle>
           </LogoWrapper>

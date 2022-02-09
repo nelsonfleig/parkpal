@@ -1,7 +1,7 @@
 import { Avatar, Box, Paper, Typography } from '@mui/material';
 import { styled as styledMUI } from '@mui/material/styles';
 import styled from 'styled-components';
-import MenuIcon from '@mui/icons-material/Menu';
+
 import { randomColor } from '../../../helpers/navbar';
 
 export const DashboardWrapper = styled.div`
@@ -18,14 +18,6 @@ export const DashboardContent = styled.div`
   position: relative;
 `;
 
-export const DashboardBody = styled.main`
-  flex-grow: 1;
-  min-height: 100%;
-  height: 100%;
-  overflow-y: auto;
-  padding: 10px;
-`;
-
 export const ProfileBox = styledMUI(Box)(() => ({
   display: 'flex',
   gap: '140px',
@@ -39,11 +31,11 @@ export const StyledAvatar = styled(Avatar)(() => ({
   backgroundColor: randomColor(),
 }));
 
-export const StyledBurger = styled(MenuIcon)((props) => ({
+export const StyledBurger = styled(Box)((props) => ({
   color: 'inherit',
   backgroundColor: props.theme.palette.primary.light,
   height: '88px',
-  width: '115px',
+  width: '6rem',
   marginLeft: '-1.5rem',
 }));
 
@@ -86,12 +78,12 @@ export const LogoWrapper = styled(Box)`
 
 export const LogoTitle = styled(Typography)`
   padding: 0 10px;
-  font-size: 40px;
+  font-size: 30px;
   display: flex;
   span {
     margin-left: 7px;
     align-self: center;
-    font-size: 32px;
+    font-size: 30px;
     font-weight: 400;
   }
 `;
