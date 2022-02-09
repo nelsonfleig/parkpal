@@ -55,7 +55,7 @@ export const RenterSlider = () => {
           enableScroll();
           dispatch(updateDuration(e[0]));
         }}
-        sliderLength={180}
+        sliderLength={160}
         min={0}
         max={sliderOptions.length}
         optionsArray={sliderOptions}

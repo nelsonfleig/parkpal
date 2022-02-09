@@ -143,7 +143,7 @@ export const Payment = () => {
       />
       <View style={paymentStyles.payButton}>
         <CustomButton
-          press={onPress}
+          press={completed ? onPress : () => {}}
           color={completed ? 'white' : 'grey'}
           type="main"
           loading={loading}>
