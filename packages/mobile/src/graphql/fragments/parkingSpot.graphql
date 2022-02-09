@@ -13,6 +13,7 @@ fragment ParkingSpotDetails on ParkingSpot {
     firstName
     lastName
     phone
+    pictureUrl
   }
   reservations {
     startDate

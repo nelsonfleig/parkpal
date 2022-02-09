@@ -1,23 +1,8 @@
 query GetSpots {
   spaces: findAllParkingSpots {
-    price
-    startHour
-    endHour
-    lat
-    lng
-    id
-    daysAvailable
-    street
-    zipCode
-    city
-    user {
-      firstName
-      lastName
-      phone
-    }
+    ...ParkingSpotDetails
   }
 }
-
 query FindNearParkingSpots($input: NearParkingSpotsInput!) {
   parkingSpots: findNearParkingSpots(input: $input) {
     ...ParkingSpotDetails

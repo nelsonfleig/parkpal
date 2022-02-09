@@ -438,7 +438,7 @@ export type UserInput = {
   password: Scalars['String'];
 };
 
-export type ParkingSpotDetailsFragment = { __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour?: number | null | undefined, endHour?: number | null | undefined, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, user: { __typename?: 'User', firstName: string, lastName: string, phone?: string | null | undefined }, reservations?: Array<{ __typename?: 'Reservation', startDate: string, endDate: string }> | null | undefined };
+export type ParkingSpotDetailsFragment = { __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour?: number | null | undefined, endHour?: number | null | undefined, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, user: { __typename?: 'User', firstName: string, lastName: string, phone?: string | null | undefined, pictureUrl?: string | null | undefined }, reservations?: Array<{ __typename?: 'Reservation', startDate: string, endDate: string }> | null | undefined };
 
 export type ReservationDetailsFragment = { __typename?: 'Reservation', startDate: string, endDate: string, id: string, parkingSpot: { __typename?: 'ParkingSpot', street?: string | null | undefined, lat: number, lng: number } };
 
@@ -457,6 +457,11 @@ export type RegisterMutationVariables = Exact<{
 
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'User', email: string } };
+
+export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LogoutMutation = { __typename?: 'Mutation', logout: boolean };
 
 export type CreateComplainMutationVariables = Exact<{
   input: ComplainInput;
@@ -490,14 +495,14 @@ export type UpdateProfileMutation = { __typename?: 'Mutation', updateProfile: { 
 export type GetSpotsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetSpotsQuery = { __typename?: 'Query', spaces: Array<{ __typename?: 'ParkingSpot', price: number, startHour?: number | null | undefined, endHour?: number | null | undefined, lat: number, lng: number, id: string, daysAvailable: Array<number>, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, user: { __typename?: 'User', firstName: string, lastName: string, phone?: string | null | undefined } }> };
+export type GetSpotsQuery = { __typename?: 'Query', spaces: Array<{ __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour?: number | null | undefined, endHour?: number | null | undefined, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, user: { __typename?: 'User', firstName: string, lastName: string, phone?: string | null | undefined, pictureUrl?: string | null | undefined }, reservations?: Array<{ __typename?: 'Reservation', startDate: string, endDate: string }> | null | undefined }> };
 
 export type FindNearParkingSpotsQueryVariables = Exact<{
   input: NearParkingSpotsInput;
 }>;
 
 
-export type FindNearParkingSpotsQuery = { __typename?: 'Query', parkingSpots: Array<{ __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour?: number | null | undefined, endHour?: number | null | undefined, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, user: { __typename?: 'User', firstName: string, lastName: string, phone?: string | null | undefined }, reservations?: Array<{ __typename?: 'Reservation', startDate: string, endDate: string }> | null | undefined }> };
+export type FindNearParkingSpotsQuery = { __typename?: 'Query', parkingSpots: Array<{ __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour?: number | null | undefined, endHour?: number | null | undefined, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, user: { __typename?: 'User', firstName: string, lastName: string, phone?: string | null | undefined, pictureUrl?: string | null | undefined }, reservations?: Array<{ __typename?: 'Reservation', startDate: string, endDate: string }> | null | undefined }> };
 
 export type GetMyReservationsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -530,6 +535,7 @@ export const ParkingSpotDetailsFragmentDoc = gql`
     firstName
     lastName
     phone
+    pictureUrl
   }
   reservations {
     startDate
@@ -626,6 +632,36 @@ export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<Reg
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
 export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const LogoutDocument = gql`
+    mutation Logout {
+  logout
+}
+    `;
+export type LogoutMutationFn = Apollo.MutationFunction<LogoutMutation, LogoutMutationVariables>;
+
+/**
+ * __useLogoutMutation__
+ *
+ * To run a mutation, you first call `useLogoutMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLogoutMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [logoutMutation, { data, loading, error }] = useLogoutMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<LogoutMutation, LogoutMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument, options);
+      }
+export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
+export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
+export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
 export const CreateComplainDocument = gql`
     mutation createComplain($input: ComplainInput!, $image: Upload) {
   createComplain(input: $input, image: $image) {
@@ -760,24 +796,10 @@ export type UpdateProfileMutationOptions = Apollo.BaseMutationOptions<UpdateProf
 export const GetSpotsDocument = gql`
     query GetSpots {
   spaces: findAllParkingSpots {
-    price
-    startHour
-    endHour
-    lat
-    lng
-    id
-    daysAvailable
-    street
-    zipCode
-    city
-    user {
-      firstName
-      lastName
-      phone
-    }
+    ...ParkingSpotDetails
   }
 }
-    `;
+    ${ParkingSpotDetailsFragmentDoc}`;
 
 /**
  * __useGetSpotsQuery__

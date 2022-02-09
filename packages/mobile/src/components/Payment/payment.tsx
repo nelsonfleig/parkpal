@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { CardField, useConfirmPayment } from '@stripe/stripe-react-native';
 import { useState } from 'react';
 import { Keyboard, Text, View } from 'react-native';
@@ -41,7 +40,7 @@ export const Payment = () => {
   );
 
   const [createReservation] = useCreateReservationMutation({
-    refetchQueries: [GetMyReservationsDocument],
+    refetchQueries: [{ query: GetMyReservationsDocument }],
     awaitRefetchQueries: true,
   });
 
@@ -100,10 +99,11 @@ export const Payment = () => {
         }
       }
     } catch (error) {
-      errorToast('Ups! Something went wrong.');
+      errorToast('Oops! Something went wrong.');
     }
   };
   const endHour = parseInt(selectedTime.split(':')[0], 10) + duration;
+
   return (
     <View style={paymentStyles.slideContent} onTouchEnd={() => Keyboard.dismiss()}>
       {currentSpot && (

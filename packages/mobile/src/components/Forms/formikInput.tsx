@@ -7,9 +7,10 @@ type FormikInputProps = FieldHookConfig<string> & {
   name: string;
   label: string;
   secureTextEntry?: boolean;
+  type?: string;
 };
 
-export const FormikInput = ({ placeholder, label, ...props }: FormikInputProps) => {
+export const FormikInput = ({ placeholder, label, type, ...props }: FormikInputProps) => {
   const [field, meta] = useField(props);
 
   return (
@@ -24,6 +25,9 @@ export const FormikInput = ({ placeholder, label, ...props }: FormikInputProps) 
         label={label}
         error={meta.touched && !!meta.error}
         secureTextEntry={props.secureTextEntry}
+        autoCapitalize={type === 'email' ? 'none' : 'words'}
+        keyboardType={type === 'email' ? 'email-address' : 'default'}
+        clearButtonMode="while-editing"
       />
       {meta.touched && !!meta.error && <Text>{meta.error}</Text>}
     </>
