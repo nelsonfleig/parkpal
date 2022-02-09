@@ -48,7 +48,7 @@ export class AuthService {
 
     const config: CookieOptions = {
       httpOnly: true,
-      domain: isProd ? 'vercel.app' : 'localhost',
+      domain: isProd ? 'parkpal-web-omega.vercel.app' : 'localhost',
       sameSite: isProd ? 'none' : 'strict',
       secure: isProd,
     };
