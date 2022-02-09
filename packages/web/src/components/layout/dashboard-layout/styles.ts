@@ -34,8 +34,8 @@ export const ProfileBox = styledMUI(Box)(() => ({
 
 export const StyledAvatar = styled(Avatar)(() => ({
   margin: '20px',
-  height: '60px',
-  width: '60px',
+  height: '50px',
+  width: '50px',
   backgroundColor: randomColor(),
 }));
 
@@ -82,16 +82,17 @@ export const StyledProfilePaper = styled(Paper)(() => ({
 export const LogoWrapper = styled(Box)`
   display: flex;
   padding: 0 10px;
+  margin-left: 2rem;
 `;
 
 export const LogoTitle = styled(Typography)`
   padding: 0 10px;
-  font-size: 30px;
+  font-size: 28px;
   display: flex;
   span {
     margin-left: 7px;
     align-self: center;
-    font-size: 30px;
+    font-size: 28px;
     font-weight: 400;
   }
 `;

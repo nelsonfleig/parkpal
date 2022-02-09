@@ -7,7 +7,7 @@ export const StyledPaper = styled(Paper)((props) => ({
   display: 'flex',
   flexDirection: 'column',
   gap: '10px',
-  width: '25%',
+  width: '20%',
   height: 'min-content;',
   backgroundColor: props.theme.palette.secondary.main,
   ':hover': {
