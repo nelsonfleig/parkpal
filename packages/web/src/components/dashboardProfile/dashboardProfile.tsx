@@ -32,8 +32,10 @@ export const DashboardProfile: FC = () => {
       <ProfileImageUpload pictureUrl={user.pictureUrl} />
 
       <Box>
-        <Typography variant="h4">{`${user.firstName} ${user.lastName}`}</Typography>
-        <Typography variant="h5" color="gray" marginBottom="2rem">
+        <Typography
+          variant="h4"
+          fontSize="1.8rem">{`${user.firstName} ${user.lastName}`}</Typography>
+        <Typography variant="h6" color="gray" marginBottom="2rem" fontSize="1.3rem">
           Renter
         </Typography>
         <ProfileBox>

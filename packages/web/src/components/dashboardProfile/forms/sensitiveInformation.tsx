@@ -12,18 +12,18 @@ export const SensitiveProfileInformation = ({ setOpenSensitive, user }: Props) =
     <LockIcon color="primary" fontSize="large" sx={{ marginBottom: '1rem' }} />
     <InfoText>
       <EditPen onClick={() => setOpenSensitive(true)} />
-      <Typography variant="h6" fontWeight="700">
+      <Typography variant="h6" fontWeight="600" fontSize="1.1rem">
         Password:
       </Typography>
-      <Typography variant="body2" fontSize="1.1rem">
+      <Typography variant="body2" fontSize="1rem">
         *******
       </Typography>
     </InfoText>
     <InfoText>
-      <Typography variant="h6" fontWeight="700">
+      <Typography variant="h6" fontWeight="600" fontSize="1.1rem">
         Bank Information:
       </Typography>
-      <Typography variant="body2" fontSize="1.1rem">
+      <Typography variant="body2" fontSize="1rem">
         {user.bankInfo}
       </Typography>
     </InfoText>
