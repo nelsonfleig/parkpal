@@ -93,7 +93,7 @@ export type Mutation = {
   updateComplain: Complain;
   /** Update ParkingSpot */
   updateParkingSpot: ParkingSpot;
-  /** Logout user */
+  /** Update user */
   updateProfile: AuthResponse;
   updateProfilePicture: Scalars['String'];
   /** Update Reservation */
@@ -107,6 +107,7 @@ export type Mutation = {
 
 
 export type MutationCreateComplainArgs = {
+  image?: InputMaybe<Scalars['Upload']>;
   input: ComplainInput;
 };
 
@@ -115,17 +116,21 @@ export type MutationCreateParkingSpotArgs = {
   input: ParkingSpotInput;
 };
 
+
 export type MutationCreatePaymentIntentArgs = {
   input: PaymentInput;
 };
+
 
 export type MutationCreateReservationArgs = {
   input: ReservationInput;
 };
 
+
 export type MutationCreateTodoArgs = {
   input: TodoInput;
 };
+
 
 export type MutationCreateUserArgs = {
   input: UserInput;
@@ -141,21 +146,26 @@ export type MutationDeleteParkingSpotArgs = {
   id: Scalars['ID'];
 };
 
+
 export type MutationDeleteReservationArgs = {
   id: Scalars['ID'];
 };
+
 
 export type MutationDeleteTodoArgs = {
   id: Scalars['ID'];
 };
 
+
 export type MutationDeleteUserArgs = {
   id: Scalars['ID'];
 };
 
+
 export type MutationLoginArgs = {
   input: LoginInput;
 };
+
 
 export type MutationRegisterArgs = {
   input: RegisterInput;
@@ -173,28 +183,34 @@ export type MutationUpdateParkingSpotArgs = {
   input: ParkingSpotInput;
 };
 
+
 export type MutationUpdateProfileArgs = {
   input: ProfileInput;
 };
 
+
 export type MutationUpdateProfilePictureArgs = {
   image: Scalars['Upload'];
 };
+
 
 export type MutationUpdateReservationArgs = {
   id: Scalars['ID'];
   input: ReservationInput;
 };
 
+
 export type MutationUpdateTodoArgs = {
   id: Scalars['ID'];
   input: TodoInput;
 };
 
+
 export type MutationUpdateUserArgs = {
   id: Scalars['ID'];
   input: UserInput;
 };
+
 
 export type MutationUploadFileArgs = {
   file: Scalars['Upload'];
@@ -290,6 +306,7 @@ export type Query = {
   protect: Scalars['String'];
 };
 
+
 export type QueryFindNearParkingSpotsArgs = {
   input: NearParkingSpotsInput;
 };
@@ -304,13 +321,16 @@ export type QueryFindOneParkingSpotArgs = {
   id: Scalars['ID'];
 };
 
+
 export type QueryFindOneReservationArgs = {
   id: Scalars['ID'];
 };
 
+
 export type QueryFindOneTodoArgs = {
   id: Scalars['ID'];
 };
+
 
 export type QueryFindOneUserArgs = {
   id: Scalars['ID'];
@@ -367,7 +387,7 @@ export type ReservationInput = {
 export enum Role {
   Admin = 'ADMIN',
   Renter = 'RENTER',
-  User = 'USER',
+  User = 'USER'
 }
 
 export type SeriesDataItem = {
@@ -418,84 +438,45 @@ export type UserInput = {
   password: Scalars['String'];
 };
 
-export type ParkingSpotDetailsFragment = {
-  __typename?: 'ParkingSpot';
-  id: string;
-  lat: number;
-  lng: number;
-  price: number;
-  daysAvailable: Array<number>;
-  startHour?: number | null | undefined;
-  endHour?: number | null | undefined;
-  street?: string | null | undefined;
-  zipCode?: string | null | undefined;
-  city?: string | null | undefined;
-  user: {
-    __typename?: 'User';
-    firstName: string;
-    lastName: string;
-    phone?: string | null | undefined;
-  };
-  reservations?:
-    | Array<{ __typename?: 'Reservation'; startDate: string; endDate: string }>
-    | null
-    | undefined;
-};
+export type ParkingSpotDetailsFragment = { __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour?: number | null | undefined, endHour?: number | null | undefined, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, user: { __typename?: 'User', firstName: string, lastName: string, phone?: string | null | undefined }, reservations?: Array<{ __typename?: 'Reservation', startDate: string, endDate: string }> | null | undefined };
 
-export type ReservationDetailsFragment = {
-  __typename?: 'Reservation';
-  startDate: string;
-  endDate: string;
-  id: string;
-  parkingSpot: {
-    __typename?: 'ParkingSpot';
-    street?: string | null | undefined;
-    lat: number;
-    lng: number;
-  };
-};
+export type ReservationDetailsFragment = { __typename?: 'Reservation', startDate: string, endDate: string, id: string, parkingSpot: { __typename?: 'ParkingSpot', street?: string | null | undefined, lat: number, lng: number } };
 
-export type UserExcerptFragment = {
-  __typename?: 'User';
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  roles: Array<Role>;
-  phone?: string | null | undefined;
-  bankInfo?: string | null | undefined;
-};
+export type UserExcerptFragment = { __typename?: 'User', id: string, firstName: string, lastName: string, email: string, roles: Array<Role>, phone?: string | null | undefined, bankInfo?: string | null | undefined };
 
 export type LoginMutationVariables = Exact<{
   input: LoginInput;
 }>;
 
-export type LoginMutation = {
-  __typename?: 'Mutation';
-  login: { __typename?: 'AuthResponse'; accessToken: string };
-};
+
+export type LoginMutation = { __typename?: 'Mutation', login: { __typename?: 'AuthResponse', accessToken: string } };
 
 export type RegisterMutationVariables = Exact<{
   input: RegisterInput;
 }>;
 
-export type RegisterMutation = {
-  __typename?: 'Mutation';
-  register: { __typename?: 'User'; email: string };
-};
+
+export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'User', email: string } };
+
+export type CreateComplainMutationVariables = Exact<{
+  input: ComplainInput;
+  image?: InputMaybe<Scalars['Upload']>;
+}>;
+
+
+export type CreateComplainMutation = { __typename?: 'Mutation', createComplain: { __typename?: 'Complain', id: string } };
 
 export type CreateReservationMutationVariables = Exact<{
   input: ReservationInput;
 }>;
 
-export type CreateReservationMutation = {
-  __typename?: 'Mutation';
-  createReservation: { __typename?: 'Reservation'; id: string };
-};
+
+export type CreateReservationMutation = { __typename?: 'Mutation', createReservation: { __typename?: 'Reservation', id: string } };
 
 export type CreatePaymentIntentMutationVariables = Exact<{
   input: PaymentInput;
 }>;
+
 
 export type CreatePaymentIntentMutation = { __typename?: 'Mutation', createPaymentIntent: string };
 
@@ -508,157 +489,84 @@ export type UpdateProfileMutation = { __typename?: 'Mutation', updateProfile: { 
 
 export type GetSpotsQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type GetSpotsQuery = {
-  __typename?: 'Query';
-  spaces: Array<{
-    __typename?: 'ParkingSpot';
-    price: number;
-    startHour?: number | null | undefined;
-    endHour?: number | null | undefined;
-    lat: number;
-    lng: number;
-    id: string;
-    daysAvailable: Array<number>;
-    street?: string | null | undefined;
-    zipCode?: string | null | undefined;
-    city?: string | null | undefined;
-    user: {
-      __typename?: 'User';
-      firstName: string;
-      lastName: string;
-      phone?: string | null | undefined;
-    };
-  }>;
-};
+
+export type GetSpotsQuery = { __typename?: 'Query', spaces: Array<{ __typename?: 'ParkingSpot', price: number, startHour?: number | null | undefined, endHour?: number | null | undefined, lat: number, lng: number, id: string, daysAvailable: Array<number>, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, user: { __typename?: 'User', firstName: string, lastName: string, phone?: string | null | undefined } }> };
 
 export type FindNearParkingSpotsQueryVariables = Exact<{
   input: NearParkingSpotsInput;
 }>;
 
-export type FindNearParkingSpotsQuery = {
-  __typename?: 'Query';
-  parkingSpots: Array<{
-    __typename?: 'ParkingSpot';
-    id: string;
-    lat: number;
-    lng: number;
-    price: number;
-    daysAvailable: Array<number>;
-    startHour?: number | null | undefined;
-    endHour?: number | null | undefined;
-    street?: string | null | undefined;
-    zipCode?: string | null | undefined;
-    city?: string | null | undefined;
-    user: {
-      __typename?: 'User';
-      firstName: string;
-      lastName: string;
-      phone?: string | null | undefined;
-    };
-    reservations?:
-      | Array<{ __typename?: 'Reservation'; startDate: string; endDate: string }>
-      | null
-      | undefined;
-  }>;
-};
 
-export type GetMyReservationsQueryVariables = Exact<{ [key: string]: never }>;
+export type FindNearParkingSpotsQuery = { __typename?: 'Query', parkingSpots: Array<{ __typename?: 'ParkingSpot', id: string, lat: number, lng: number, price: number, daysAvailable: Array<number>, startHour?: number | null | undefined, endHour?: number | null | undefined, street?: string | null | undefined, zipCode?: string | null | undefined, city?: string | null | undefined, user: { __typename?: 'User', firstName: string, lastName: string, phone?: string | null | undefined }, reservations?: Array<{ __typename?: 'Reservation', startDate: string, endDate: string }> | null | undefined }> };
 
-export type GetMyReservationsQuery = {
-  __typename?: 'Query';
-  reservations: Array<{
-    __typename?: 'Reservation';
-    startDate: string;
-    endDate: string;
-    id: string;
-    parkingSpot: {
-      __typename?: 'ParkingSpot';
-      street?: string | null | undefined;
-      lat: number;
-      lng: number;
-    };
-  }>;
-};
+export type GetMyReservationsQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type GetTodosQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetTodosQuery = {
-  __typename?: 'Query';
-  todos: Array<{ __typename?: 'Todo'; id: string; title: string }>;
-};
+export type GetMyReservationsQuery = { __typename?: 'Query', reservations: Array<{ __typename?: 'Reservation', startDate: string, endDate: string, id: string, parkingSpot: { __typename?: 'ParkingSpot', street?: string | null | undefined, lat: number, lng: number } }> };
 
-export type MeQueryVariables = Exact<{ [key: string]: never }>;
+export type GetTodosQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type MeQuery = {
-  __typename?: 'Query';
-  me?:
-    | {
-        __typename?: 'User';
-        id: string;
-        firstName: string;
-        lastName: string;
-        email: string;
-        roles: Array<Role>;
-        phone?: string | null | undefined;
-        bankInfo?: string | null | undefined;
-      }
-    | null
-    | undefined;
-};
+
+export type GetTodosQuery = { __typename?: 'Query', todos: Array<{ __typename?: 'Todo', id: string, title: string }> };
+
+export type MeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: string, firstName: string, lastName: string, email: string, roles: Array<Role>, phone?: string | null | undefined, bankInfo?: string | null | undefined } | null | undefined };
 
 export const ParkingSpotDetailsFragmentDoc = gql`
-  fragment ParkingSpotDetails on ParkingSpot {
-    id
-    lat
-    lng
-    price
-    daysAvailable
-    startHour
-    endHour
-    street
-    zipCode
-    city
-    user {
-      firstName
-      lastName
-      phone
-    }
-    reservations {
-      startDate
-      endDate
-    }
-  }
-`;
-export const ReservationDetailsFragmentDoc = gql`
-  fragment ReservationDetails on Reservation {
-    startDate
-    endDate
-    id
-    parkingSpot {
-      street
-      lat
-      lng
-    }
-  }
-`;
-export const UserExcerptFragmentDoc = gql`
-  fragment UserExcerpt on User {
-    id
+    fragment ParkingSpotDetails on ParkingSpot {
+  id
+  lat
+  lng
+  price
+  daysAvailable
+  startHour
+  endHour
+  street
+  zipCode
+  city
+  user {
     firstName
     lastName
-    email
-    roles
     phone
-    bankInfo
   }
-`;
+  reservations {
+    startDate
+    endDate
+  }
+}
+    `;
+export const ReservationDetailsFragmentDoc = gql`
+    fragment ReservationDetails on Reservation {
+  startDate
+  endDate
+  id
+  parkingSpot {
+    street
+    lat
+    lng
+  }
+}
+    `;
+export const UserExcerptFragmentDoc = gql`
+    fragment UserExcerpt on User {
+  id
+  firstName
+  lastName
+  email
+  roles
+  phone
+  bankInfo
+}
+    `;
 export const LoginDocument = gql`
-  mutation Login($input: LoginInput!) {
-    login(input: $input) {
-      accessToken
-    }
+    mutation Login($input: LoginInput!) {
+  login(input: $input) {
+    accessToken
   }
-`;
+}
+    `;
 export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
 
 /**
@@ -678,29 +586,21 @@ export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutati
  *   },
  * });
  */
-export function useLoginMutation(
-  baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
-}
+export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
+      }
 export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
 export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
-export type LoginMutationOptions = Apollo.BaseMutationOptions<
-  LoginMutation,
-  LoginMutationVariables
->;
+export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
 export const RegisterDocument = gql`
-  mutation Register($input: RegisterInput!) {
-    register(input: $input) {
-      email
-    }
+    mutation Register($input: RegisterInput!) {
+  register(input: $input) {
+    email
   }
-`;
-export type RegisterMutationFn = Apollo.MutationFunction<
-  RegisterMutation,
-  RegisterMutationVariables
->;
+}
+    `;
+export type RegisterMutationFn = Apollo.MutationFunction<RegisterMutation, RegisterMutationVariables>;
 
 /**
  * __useRegisterMutation__
@@ -719,29 +619,55 @@ export type RegisterMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useRegisterMutation(
-  baseOptions?: Apollo.MutationHookOptions<RegisterMutation, RegisterMutationVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument, options);
-}
+export function useRegisterMutation(baseOptions?: Apollo.MutationHookOptions<RegisterMutation, RegisterMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument, options);
+      }
 export type RegisterMutationHookResult = ReturnType<typeof useRegisterMutation>;
 export type RegisterMutationResult = Apollo.MutationResult<RegisterMutation>;
-export type RegisterMutationOptions = Apollo.BaseMutationOptions<
-  RegisterMutation,
-  RegisterMutationVariables
->;
-export const CreateReservationDocument = gql`
-  mutation CreateReservation($input: ReservationInput!) {
-    createReservation(input: $input) {
-      id
-    }
+export type RegisterMutationOptions = Apollo.BaseMutationOptions<RegisterMutation, RegisterMutationVariables>;
+export const CreateComplainDocument = gql`
+    mutation createComplain($input: ComplainInput!, $image: Upload) {
+  createComplain(input: $input, image: $image) {
+    id
   }
-`;
-export type CreateReservationMutationFn = Apollo.MutationFunction<
-  CreateReservationMutation,
-  CreateReservationMutationVariables
->;
+}
+    `;
+export type CreateComplainMutationFn = Apollo.MutationFunction<CreateComplainMutation, CreateComplainMutationVariables>;
+
+/**
+ * __useCreateComplainMutation__
+ *
+ * To run a mutation, you first call `useCreateComplainMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateComplainMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createComplainMutation, { data, loading, error }] = useCreateComplainMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *      image: // value for 'image'
+ *   },
+ * });
+ */
+export function useCreateComplainMutation(baseOptions?: Apollo.MutationHookOptions<CreateComplainMutation, CreateComplainMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateComplainMutation, CreateComplainMutationVariables>(CreateComplainDocument, options);
+      }
+export type CreateComplainMutationHookResult = ReturnType<typeof useCreateComplainMutation>;
+export type CreateComplainMutationResult = Apollo.MutationResult<CreateComplainMutation>;
+export type CreateComplainMutationOptions = Apollo.BaseMutationOptions<CreateComplainMutation, CreateComplainMutationVariables>;
+export const CreateReservationDocument = gql`
+    mutation CreateReservation($input: ReservationInput!) {
+  createReservation(input: $input) {
+    id
+  }
+}
+    `;
+export type CreateReservationMutationFn = Apollo.MutationFunction<CreateReservationMutation, CreateReservationMutationVariables>;
 
 /**
  * __useCreateReservationMutation__
@@ -760,33 +686,19 @@ export type CreateReservationMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useCreateReservationMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CreateReservationMutation,
-    CreateReservationMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<CreateReservationMutation, CreateReservationMutationVariables>(
-    CreateReservationDocument,
-    options
-  );
-}
+export function useCreateReservationMutation(baseOptions?: Apollo.MutationHookOptions<CreateReservationMutation, CreateReservationMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateReservationMutation, CreateReservationMutationVariables>(CreateReservationDocument, options);
+      }
 export type CreateReservationMutationHookResult = ReturnType<typeof useCreateReservationMutation>;
 export type CreateReservationMutationResult = Apollo.MutationResult<CreateReservationMutation>;
-export type CreateReservationMutationOptions = Apollo.BaseMutationOptions<
-  CreateReservationMutation,
-  CreateReservationMutationVariables
->;
+export type CreateReservationMutationOptions = Apollo.BaseMutationOptions<CreateReservationMutation, CreateReservationMutationVariables>;
 export const CreatePaymentIntentDocument = gql`
-  mutation CreatePaymentIntent($input: PaymentInput!) {
-    createPaymentIntent(input: $input)
-  }
-`;
-export type CreatePaymentIntentMutationFn = Apollo.MutationFunction<
-  CreatePaymentIntentMutation,
-  CreatePaymentIntentMutationVariables
->;
+    mutation CreatePaymentIntent($input: PaymentInput!) {
+  createPaymentIntent(input: $input)
+}
+    `;
+export type CreatePaymentIntentMutationFn = Apollo.MutationFunction<CreatePaymentIntentMutation, CreatePaymentIntentMutationVariables>;
 
 /**
  * __useCreatePaymentIntentMutation__
@@ -805,21 +717,11 @@ export type CreatePaymentIntentMutationFn = Apollo.MutationFunction<
  *   },
  * });
  */
-export function useCreatePaymentIntentMutation(
-  baseOptions?: Apollo.MutationHookOptions<
-    CreatePaymentIntentMutation,
-    CreatePaymentIntentMutationVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<CreatePaymentIntentMutation, CreatePaymentIntentMutationVariables>(
-    CreatePaymentIntentDocument,
-    options
-  );
-}
-export type CreatePaymentIntentMutationHookResult = ReturnType<
-  typeof useCreatePaymentIntentMutation
->;
+export function useCreatePaymentIntentMutation(baseOptions?: Apollo.MutationHookOptions<CreatePaymentIntentMutation, CreatePaymentIntentMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreatePaymentIntentMutation, CreatePaymentIntentMutationVariables>(CreatePaymentIntentDocument, options);
+      }
+export type CreatePaymentIntentMutationHookResult = ReturnType<typeof useCreatePaymentIntentMutation>;
 export type CreatePaymentIntentMutationResult = Apollo.MutationResult<CreatePaymentIntentMutation>;
 export type CreatePaymentIntentMutationOptions = Apollo.BaseMutationOptions<CreatePaymentIntentMutation, CreatePaymentIntentMutationVariables>;
 export const UpdateProfileDocument = gql`
@@ -856,26 +758,26 @@ export type UpdateProfileMutationHookResult = ReturnType<typeof useUpdateProfile
 export type UpdateProfileMutationResult = Apollo.MutationResult<UpdateProfileMutation>;
 export type UpdateProfileMutationOptions = Apollo.BaseMutationOptions<UpdateProfileMutation, UpdateProfileMutationVariables>;
 export const GetSpotsDocument = gql`
-  query GetSpots {
-    spaces: findAllParkingSpots {
-      price
-      startHour
-      endHour
-      lat
-      lng
-      id
-      daysAvailable
-      street
-      zipCode
-      city
-      user {
-        firstName
-        lastName
-        phone
-      }
+    query GetSpots {
+  spaces: findAllParkingSpots {
+    price
+    startHour
+    endHour
+    lat
+    lng
+    id
+    daysAvailable
+    street
+    zipCode
+    city
+    user {
+      firstName
+      lastName
+      phone
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetSpotsQuery__
@@ -892,29 +794,24 @@ export const GetSpotsDocument = gql`
  *   },
  * });
  */
-export function useGetSpotsQuery(
-  baseOptions?: Apollo.QueryHookOptions<GetSpotsQuery, GetSpotsQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetSpotsQuery, GetSpotsQueryVariables>(GetSpotsDocument, options);
-}
-export function useGetSpotsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<GetSpotsQuery, GetSpotsQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetSpotsQuery, GetSpotsQueryVariables>(GetSpotsDocument, options);
-}
+export function useGetSpotsQuery(baseOptions?: Apollo.QueryHookOptions<GetSpotsQuery, GetSpotsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetSpotsQuery, GetSpotsQueryVariables>(GetSpotsDocument, options);
+      }
+export function useGetSpotsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetSpotsQuery, GetSpotsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetSpotsQuery, GetSpotsQueryVariables>(GetSpotsDocument, options);
+        }
 export type GetSpotsQueryHookResult = ReturnType<typeof useGetSpotsQuery>;
 export type GetSpotsLazyQueryHookResult = ReturnType<typeof useGetSpotsLazyQuery>;
 export type GetSpotsQueryResult = Apollo.QueryResult<GetSpotsQuery, GetSpotsQueryVariables>;
 export const FindNearParkingSpotsDocument = gql`
-  query FindNearParkingSpots($input: NearParkingSpotsInput!) {
-    parkingSpots: findNearParkingSpots(input: $input) {
-      ...ParkingSpotDetails
-    }
+    query FindNearParkingSpots($input: NearParkingSpotsInput!) {
+  parkingSpots: findNearParkingSpots(input: $input) {
+    ...ParkingSpotDetails
   }
-  ${ParkingSpotDetailsFragmentDoc}
-`;
+}
+    ${ParkingSpotDetailsFragmentDoc}`;
 
 /**
  * __useFindNearParkingSpotsQuery__
@@ -932,52 +829,31 @@ export const FindNearParkingSpotsDocument = gql`
  *   },
  * });
  */
-export function useFindNearParkingSpotsQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    FindNearParkingSpotsQuery,
-    FindNearParkingSpotsQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<FindNearParkingSpotsQuery, FindNearParkingSpotsQueryVariables>(
-    FindNearParkingSpotsDocument,
-    options
-  );
-}
-export function useFindNearParkingSpotsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    FindNearParkingSpotsQuery,
-    FindNearParkingSpotsQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<FindNearParkingSpotsQuery, FindNearParkingSpotsQueryVariables>(
-    FindNearParkingSpotsDocument,
-    options
-  );
-}
-export type FindNearParkingSpotsQueryHookResult = ReturnType<typeof useFindNearParkingSpotsQuery>;
-export type FindNearParkingSpotsLazyQueryHookResult = ReturnType<
-  typeof useFindNearParkingSpotsLazyQuery
->;
-export type FindNearParkingSpotsQueryResult = Apollo.QueryResult<
-  FindNearParkingSpotsQuery,
-  FindNearParkingSpotsQueryVariables
->;
-export const GetMyReservationsDocument = gql`
-  query GetMyReservations {
-    reservations: findMyReservations {
-      startDate
-      endDate
-      id
-      parkingSpot {
-        street
-        lat
-        lng
+export function useFindNearParkingSpotsQuery(baseOptions: Apollo.QueryHookOptions<FindNearParkingSpotsQuery, FindNearParkingSpotsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindNearParkingSpotsQuery, FindNearParkingSpotsQueryVariables>(FindNearParkingSpotsDocument, options);
       }
+export function useFindNearParkingSpotsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindNearParkingSpotsQuery, FindNearParkingSpotsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindNearParkingSpotsQuery, FindNearParkingSpotsQueryVariables>(FindNearParkingSpotsDocument, options);
+        }
+export type FindNearParkingSpotsQueryHookResult = ReturnType<typeof useFindNearParkingSpotsQuery>;
+export type FindNearParkingSpotsLazyQueryHookResult = ReturnType<typeof useFindNearParkingSpotsLazyQuery>;
+export type FindNearParkingSpotsQueryResult = Apollo.QueryResult<FindNearParkingSpotsQuery, FindNearParkingSpotsQueryVariables>;
+export const GetMyReservationsDocument = gql`
+    query GetMyReservations {
+  reservations: findMyReservations {
+    startDate
+    endDate
+    id
+    parkingSpot {
+      street
+      lat
+      lng
     }
   }
-`;
+}
+    `;
 
 /**
  * __useGetMyReservationsQuery__
@@ -994,38 +870,25 @@ export const GetMyReservationsDocument = gql`
  *   },
  * });
  */
-export function useGetMyReservationsQuery(
-  baseOptions?: Apollo.QueryHookOptions<GetMyReservationsQuery, GetMyReservationsQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetMyReservationsQuery, GetMyReservationsQueryVariables>(
-    GetMyReservationsDocument,
-    options
-  );
-}
-export function useGetMyReservationsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<GetMyReservationsQuery, GetMyReservationsQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetMyReservationsQuery, GetMyReservationsQueryVariables>(
-    GetMyReservationsDocument,
-    options
-  );
-}
+export function useGetMyReservationsQuery(baseOptions?: Apollo.QueryHookOptions<GetMyReservationsQuery, GetMyReservationsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMyReservationsQuery, GetMyReservationsQueryVariables>(GetMyReservationsDocument, options);
+      }
+export function useGetMyReservationsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMyReservationsQuery, GetMyReservationsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMyReservationsQuery, GetMyReservationsQueryVariables>(GetMyReservationsDocument, options);
+        }
 export type GetMyReservationsQueryHookResult = ReturnType<typeof useGetMyReservationsQuery>;
 export type GetMyReservationsLazyQueryHookResult = ReturnType<typeof useGetMyReservationsLazyQuery>;
-export type GetMyReservationsQueryResult = Apollo.QueryResult<
-  GetMyReservationsQuery,
-  GetMyReservationsQueryVariables
->;
+export type GetMyReservationsQueryResult = Apollo.QueryResult<GetMyReservationsQuery, GetMyReservationsQueryVariables>;
 export const GetTodosDocument = gql`
-  query GetTodos {
-    todos: findAllTodos {
-      id
-      title
-    }
+    query GetTodos {
+  todos: findAllTodos {
+    id
+    title
   }
-`;
+}
+    `;
 
 /**
  * __useGetTodosQuery__
@@ -1042,29 +905,24 @@ export const GetTodosDocument = gql`
  *   },
  * });
  */
-export function useGetTodosQuery(
-  baseOptions?: Apollo.QueryHookOptions<GetTodosQuery, GetTodosQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetTodosQuery, GetTodosQueryVariables>(GetTodosDocument, options);
-}
-export function useGetTodosLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<GetTodosQuery, GetTodosQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetTodosQuery, GetTodosQueryVariables>(GetTodosDocument, options);
-}
+export function useGetTodosQuery(baseOptions?: Apollo.QueryHookOptions<GetTodosQuery, GetTodosQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetTodosQuery, GetTodosQueryVariables>(GetTodosDocument, options);
+      }
+export function useGetTodosLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTodosQuery, GetTodosQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetTodosQuery, GetTodosQueryVariables>(GetTodosDocument, options);
+        }
 export type GetTodosQueryHookResult = ReturnType<typeof useGetTodosQuery>;
 export type GetTodosLazyQueryHookResult = ReturnType<typeof useGetTodosLazyQuery>;
 export type GetTodosQueryResult = Apollo.QueryResult<GetTodosQuery, GetTodosQueryVariables>;
 export const MeDocument = gql`
-  query Me {
-    me {
-      ...UserExcerpt
-    }
+    query Me {
+  me {
+    ...UserExcerpt
   }
-  ${UserExcerptFragmentDoc}
-`;
+}
+    ${UserExcerptFragmentDoc}`;
 
 /**
  * __useMeQuery__
@@ -1082,15 +940,13 @@ export const MeDocument = gql`
  * });
  */
 export function useMeQuery(baseOptions?: Apollo.QueryHookOptions<MeQuery, MeQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, options);
-}
-export function useMeLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
-}
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+      }
+export function useMeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MeQuery, MeQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<MeQuery, MeQueryVariables>(MeDocument, options);
+        }
 export type MeQueryHookResult = ReturnType<typeof useMeQuery>;
 export type MeLazyQueryHookResult = ReturnType<typeof useMeLazyQuery>;
 export type MeQueryResult = Apollo.QueryResult<MeQuery, MeQueryVariables>;

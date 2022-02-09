@@ -17,7 +17,8 @@ const ParkingItemWrapper = styled.div`
   border-radius: 4px;
   &:hover {
     background: ${(props) => props.theme.palette.secondary.light};
-  },
+  }
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
 `;
 
 const InfoItem = styled(Typography)`

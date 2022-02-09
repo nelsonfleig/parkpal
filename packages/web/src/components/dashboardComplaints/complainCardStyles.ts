@@ -1,4 +1,4 @@
-import { Paper, Button } from '@mui/material';
+import { Paper, Button, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 export const ComplainPaper = styled(Paper)(() => ({
@@ -21,4 +21,14 @@ export const ComplainButton = styled(Button)(() => ({
   ':hover': {
     backgroundColor: '#ffebeb',
   },
+}));
+
+export const StyledEmptyMessage = styled(Typography)(() => ({
+  color: 'gray',
+  fontWeight: '300',
+  fontSize: '2.2rem',
+  position: 'fixed',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
 }));

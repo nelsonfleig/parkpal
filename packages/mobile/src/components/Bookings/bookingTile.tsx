@@ -1,8 +1,7 @@
 import { View, Text } from 'react-native';
-import { Surface, Menu, Button } from 'react-native-paper';
+import { Surface, Menu, Button, Portal } from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useState } from 'react';
-
 import { useDispatch } from 'react-redux';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import styles from './bookingTileStyles';
@@ -16,7 +15,10 @@ import { panelReference } from '../BookingPopup/bookingPopup';
 import { changeDestination } from '../../redux/destination/destinationSlice';
 import { showFindSpotButton } from '../../redux/findSpotButton/findSpotButtonSlice';
 
+import ReportPopup from './reportPopup';
+
 type BookingTyleProps = {
+  id: string;
   street: string;
   start: string;
   end: string;
@@ -24,7 +26,15 @@ type BookingTyleProps = {
   navigation: BottomTabNavigationProp<HomeStackParams, keyof HomeStackParams>;
 };
 
-export const BookingTile = ({ street, start, end, navigation, coordinates }: BookingTyleProps) => {
+export const BookingTile = ({
+  id,
+  street,
+  start,
+  end,
+  navigation,
+  coordinates,
+}: BookingTyleProps) => {
+  const [reportPaper, setReportPaper] = useState(false);
   const [visible, setVisible] = useState(false);
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
@@ -54,6 +64,9 @@ export const BookingTile = ({ street, start, end, navigation, coordinates }: Boo
 
   return (
     <View>
+      <Portal>
+        <ReportPopup setReportPaper={setReportPaper} id={id} reportPaper={reportPaper} />
+      </Portal>
       <Surface style={styles.tile}>
         <Text style={styles.address}>{street}</Text>
         <View style={styles.info}>
@@ -78,7 +91,14 @@ export const BookingTile = ({ street, start, end, navigation, coordinates }: Boo
                 <MaterialCommunityIcons name="dots-horizontal" color="#fff" size={30} />
               </Button>
             }>
-            <Menu.Item title="Report" />
+            <Menu.Item
+              title="Report"
+              titleStyle={styles.menuItem}
+              onPress={() => {
+                setReportPaper(true);
+                closeMenu();
+              }}
+            />
             <Menu.Item title="Cancel" titleStyle={styles.menuItem} />
           </Menu>
         </View>

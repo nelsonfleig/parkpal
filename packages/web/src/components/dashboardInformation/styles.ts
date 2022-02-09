@@ -7,17 +7,18 @@ export const StyledPaper = styled(Paper)((props) => ({
   display: 'flex',
   flexDirection: 'column',
   gap: '10px',
-  width: '30%',
+  width: '20%',
   height: 'min-content;',
   backgroundColor: props.theme.palette.secondary.main,
   ':hover': {
     backgroundColor: props.theme.palette.secondary.light,
   },
+  boxShadow: 'rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;',
 }));
 
 export const StyledBox = styled(Box)(() => ({
   color: 'white',
-  padding: '1rem',
+  padding: '4rem 8rem',
   paddingBottom: '0rem',
   display: 'flex',
   flexWrap: 'wrap',

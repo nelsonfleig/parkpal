@@ -1,6 +1,6 @@
 import { StyleSheet, Dimensions } from 'react-native';
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   tile: {
@@ -37,6 +37,24 @@ const styles = StyleSheet.create({
 
   menuItem: {
     color: 'red',
+  },
+
+  reportPaper: {
+    backgroundColor: '#0A2540',
+    width: width * 0.8,
+    padding: 20,
+    marginBottom: 30,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    marginLeft: width * 0.1,
+    marginTop: height * 0.25,
+    height: height * 0.5,
+  },
+  reportTextField: {
+    backgroundColor: 'white',
+    marginBottom: 20,
   },
 });
 

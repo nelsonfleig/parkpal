@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserInputError } from 'apollo-server-express';
-import { CookieOptions } from 'express';
 // import argon2 from 'argon2';
 import md5 from 'md5';
 import { Ctx } from 'src/common/types/context.type';
 import { User } from 'src/user/user.entity';
 import { UserService } from 'src/user/user.service';
+import { setCookie } from './helpers/set-cookie.helper';
 import { LoginInput } from './types/login.input';
 import { RegisterInput } from './types/register.input';
 
@@ -44,19 +44,7 @@ export class AuthService {
       }
     );
 
-    const isProd = process.env.NODE_ENV === 'production';
-
-    const config: CookieOptions = {
-      httpOnly: true,
-      domain: isProd ? 'parkpal-web-omega.vercel.app' : 'localhost',
-      sameSite: isProd ? 'none' : 'strict',
-      secure: isProd,
-    };
-    console.log(config);
-
-    context.res.cookie('accessToken', accessToken, config);
-    // TODO: sign a refresh token to send to client
-
+    setCookie(context, 'accessToken', accessToken);
     return { accessToken, user };
   }
   register(input: RegisterInput) {
@@ -64,7 +52,9 @@ export class AuthService {
   }
 
   logout(context: Ctx): boolean {
-    context.res.clearCookie('accessToken');
+    setCookie(context, 'accessToken', '');
+    // Not clearing in Vercel
+    // context.res.clearCookie('accessToken');
     return true;
   }
 
@@ -79,13 +69,7 @@ export class AuthService {
       }
     );
 
-    const isProd = process.env.NODE_ENV === 'production';
-    context.res.cookie('accessToken', accessToken, {
-      httpOnly: true,
-      domain: isProd ? 'vercel.app' : 'localhost',
-      sameSite: isProd ? 'none' : 'strict',
-      secure: isProd,
-    });
+    setCookie(context, 'accessToken', accessToken);
     return accessToken;
   }
 }

@@ -14,7 +14,7 @@ type Props = {
 
 export const UpdateProfileModal = ({ addRenter, setAddRenter }: Props) => {
   const [updateProfile] = useUpdateProfileMutation({
-    refetchQueries: [MeDocument],
+    refetchQueries: [{ query: MeDocument }],
     awaitRefetchQueries: true,
   });
 

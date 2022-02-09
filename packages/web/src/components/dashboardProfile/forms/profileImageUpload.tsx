@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import React, { ChangeEventHandler } from 'react';
 import { MeDocument, useUpdateProfilePictureMutation } from '../../../graphql/__generated__';
-import { StyledProfilePic } from '../styles';
+import { ProfileImageWrapper, StyledProfilePic } from '../styles';
 
 type Props = {
   pictureUrl: string;
@@ -20,12 +20,12 @@ export const ProfileImageUpload = ({ pictureUrl }: Props) => {
   };
 
   return (
-    <div>
+    <ProfileImageWrapper>
       <StyledProfilePic alt="Profile Picture" src={pictureUrl || '/testProfilePic.jpg'} />
       <Button component="label" color="secondary" variant="contained" size="medium" fullWidth>
         <input type="file" hidden onChange={handleImageUpload} />
         Change Picture
       </Button>
-    </div>
+    </ProfileImageWrapper>
   );
 };
