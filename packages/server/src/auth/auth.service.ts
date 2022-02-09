@@ -45,19 +45,13 @@ export class AuthService {
     );
 
     const isProd = process.env.NODE_ENV === 'production';
-
-    const config: CookieOptions = {
+    context.res.cookie('accessToken', accessToken, {
       httpOnly: true,
       path: '/graphql',
       domain: isProd ? 'nelsonfleig.com' : 'localhost',
       sameSite: isProd ? 'none' : 'strict',
       secure: isProd,
-    };
-    console.log(config);
-
-    context.res.cookie('accessToken', accessToken, config);
-    // TODO: sign a refresh token to send to client
-
+    });
     return { accessToken, user };
   }
   register(input: RegisterInput) {
@@ -83,7 +77,7 @@ export class AuthService {
     const isProd = process.env.NODE_ENV === 'production';
     context.res.cookie('accessToken', accessToken, {
       httpOnly: true,
-      domain: isProd ? 'vercel.app' : 'localhost',
+      domain: isProd ? 'nelsonfleig.com' : 'localhost',
       sameSite: isProd ? 'none' : 'strict',
       secure: isProd,
     });
