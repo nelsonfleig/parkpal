@@ -88,6 +88,9 @@ export const LandingScreen = ({ navigation }: HomeProps) => {
             onChangeText={onChangeSearch}
             value={searchQuery}
             onSubmitEditing={onSubmitEditing}
+            onBlur={() => {
+              panelReference.current.hide();
+            }}
           />
         )}
         <View
