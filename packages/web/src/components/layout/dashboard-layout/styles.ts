@@ -18,6 +18,14 @@ export const DashboardContent = styled.div`
   position: relative;
 `;
 
+export const DashboardBody = styled.main`
+  flex-grow: 1;
+  min-height: 100%;
+  height: 100%;
+  overflow-y: auto;
+  padding: 10px;
+`;
+
 export const ProfileBox = styledMUI(Box)(() => ({
   display: 'flex',
   gap: '140px',
