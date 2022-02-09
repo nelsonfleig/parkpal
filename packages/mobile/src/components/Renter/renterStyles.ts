@@ -4,7 +4,6 @@ const styles = StyleSheet.create({
   renterInfo: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginLeft: -10,
   },
 
   image: {
@@ -47,7 +46,8 @@ const styles = StyleSheet.create({
 
   location: {
     flexDirection: 'row',
-    marginBottom: 20,
+    marginBottom: 30,
+    marginTop: 10,
   },
 
   addressLine: {
@@ -61,10 +61,10 @@ const styles = StyleSheet.create({
 
   calendar: {
     flexDirection: 'row',
+    marginBottom: 30,
   },
 
   slider: {
-    marginTop: 20,
     flexDirection: 'row',
     alignItems: 'center',
   },
