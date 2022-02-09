@@ -40,7 +40,7 @@ export const LoginScreen = ({ navigation }: WelcomeProps) => {
             }}>
             {({ handleSubmit, isSubmitting, isValid }) => (
               <View>
-                <FormikInput name="email" label="Email" />
+                <FormikInput name="email" label="Email" autoCapitalize="none" type="email" />
                 <FormikInput name="password" label="Password" value="password" secureTextEntry />
                 <CustomButton
                   press={handleSubmit}
