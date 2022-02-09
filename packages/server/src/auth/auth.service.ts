@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserInputError } from 'apollo-server-express';
-import { CookieOptions } from 'express';
 // import argon2 from 'argon2';
 import md5 from 'md5';
 import { Ctx } from 'src/common/types/context.type';
