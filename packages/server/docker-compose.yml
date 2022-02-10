@@ -3,6 +3,7 @@ services:
   backend:
     container_name: backend
     image: index.docker.io/nfleig/parkpal-backend:latest
+    restart: always
     ports:
       - '5000:5000'
     depends_on:
@@ -59,6 +60,7 @@ services:
       - parkpal
   watchtower:
     image: containrrr/watchtower
+    restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - $HOME/.docker/config.json:/config.json
