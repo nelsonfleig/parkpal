@@ -22,6 +22,7 @@ WORKDIR /usr/src/app
 # copy from build image
 COPY --from=BUILD_IMAGE /usr/src/app/dist ./dist
 COPY --from=BUILD_IMAGE /usr/src/app/package.json .
+COPY --from=BUILD_IMAGE /usr/src/app/yarn.lock .
 COPY --from=BUILD_IMAGE /usr/src/app/ormconfig.js .
 
 RUN yarn install --prod
