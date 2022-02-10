@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Image, Keyboard } from 'react-native';
+import { Image } from 'react-native';
 import { Marker } from 'react-native-maps';
 import { useDispatch, useSelector } from 'react-redux';
 import SpotIcon from '../../../assets/images/Spot-icon.png';
@@ -21,7 +21,6 @@ export const ParkingSpots = () => {
   const handlePress = (spot: ParkingSpotDetailsFragment) => {
     setCalendar(spot);
     dispatch(changeCurrentSpace(spot));
-    Keyboard.dismiss();
     panelReference.current?.show(500);
   };
   const [findNearParkingSpots, { data }] = useFindNearParkingSpotsLazyQuery({

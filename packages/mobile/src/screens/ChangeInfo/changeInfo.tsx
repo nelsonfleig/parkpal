@@ -98,7 +98,6 @@ export const ChangeInfo = ({ navigation }: ProfileProps) => {
               onChangeText={handleChange('phone')}
               keyboardType="number-pad"
               returnKeyType="done"
-              maxLength={9}
             />
             <CustomButton
               press={handleSubmit}

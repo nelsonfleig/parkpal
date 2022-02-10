@@ -62,7 +62,8 @@ export const BookingPopup = () => {
         draggableRange={{ top: 500, bottom: 0 }}
         allowDragging={content !== 'start'}
         backdropOpacity={content === 'start' ? 0.3 : 0.5}
-        onBottomReached={onDiscard}>
+        onBottomReached={onDiscard}
+        >
         {changeContent()}
       </SlidingUpPanel>
     </KeyboardAvoidingView>

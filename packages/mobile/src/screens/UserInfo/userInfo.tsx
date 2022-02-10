@@ -6,7 +6,6 @@ import { useTheme } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ProfileProps } from '../../../types/profileStack';
 import { useMeLazyQuery } from '../../graphql/__generated__';
-import { formatNumber } from '../../helpers/formatPhoneNumber';
 import { useAuth } from '../../hooks/useAuth';
 import styles from './userInfoStyles';
 
@@ -66,7 +65,7 @@ export const UserInfo = ({ navigation }: ProfileProps) => {
             </Text>
             {user?.phone && (
               <Text style={styles.userInfo}>
-                <Text style={styles.fieldName}>Phone:</Text> +34 {formatNumber(user.phone)}
+                <Text style={styles.fieldName}>Phone:</Text> {user.phone}
               </Text>
             )}
           </View>
