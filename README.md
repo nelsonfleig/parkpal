@@ -122,7 +122,7 @@ before commiting and standardizing your commit messages.
 
 ## Authors
 
-- Nelson Fleig [Kokopelli84](https://github.com/Kokopelli84)
-- Viktor Hajdu [Vitto44](https://github.com/Vitto44)
-- Guillem Sardà Parreu [guillemsarda](https://github.com/guillemsarda)
-- Brandon Dickson [brandond98](https://github.com/brandond98)
+- Nelson Fleig - [Github](https://github.com/nelsonfleig)
+- Viktor Hajdu - [Github](https://github.com/Vitto44)
+- Guillem Sardà Parreu - [Github](https://github.com/guillemsarda)
+- Brandon Dickson - [Github](https://github.com/brandond98)
