@@ -1,7 +1,5 @@
 # Parkpal
 
-Group thesis project developed as part of Codework's Software Engineering bootcamp.
-
 Parkpal is a smart parking multi-device application that allow users to rent out their parking
 spaces to other drivers.
 
